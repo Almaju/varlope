@@ -11,7 +11,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use crate::diff::Status;
 use crate::helpers::uniffi as api;
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Edit, Findings, Fix, Kind, Rule};
 use crate::source::RustFile;
 use crate::uniffi::{self, ApiItem, ApiKind, MemberKind};
 
@@ -79,7 +79,12 @@ fn report_missing(crates: &BTreeMap<String, Crate>, out: &mut Findings) {
         for (item, text) in after {
             let lines: Vec<&str> = text.lines().collect();
             if !before.contains(&item.name) && !item.has_doc && item.kind != ApiKind::Custom {
-                report(out, &item.path, item.line, &lines, &item.name);
+                let what = if item.kind == ApiKind::Function {
+                    format!("what `{}` does", item.name)
+                } else {
+                    format!("what `{}` is", item.name)
+                };
+                report(out, &item.path, item.line, &lines, &item.name, &what);
             }
             if item.kind == ApiKind::Function {
                 continue; // its one member is the function itself
@@ -98,21 +103,38 @@ fn report_missing(crates: &BTreeMap<String, Crate>, out: &mut Findings) {
                     } else {
                         format!("{}.{}", item.name, m.name)
                     };
-                    report(out, &item.path, m.line, &lines, &name);
+                    report(
+                        out,
+                        &item.path,
+                        m.line,
+                        &lines,
+                        &name,
+                        &member_what(item, m),
+                    );
                 }
                 [first, ..] => {
                     let names: Vec<String> =
                         missing.iter().map(|m| format!("`{}`", m.name)).collect();
-                    out.add(
-                        &item.path,
-                        first.line,
-                        format!(
-                            "`{}` has {} exported methods without a `///` docstring ({}); it is the only documentation Kotlin/Swift/JS callers see",
-                            item.name,
-                            missing.len(),
-                            names.join(", ")
-                        ),
+                    let message = format!(
+                        "`{}` has {} exported methods without a `///` docstring ({}); it is the only documentation Kotlin/Swift/JS callers see",
+                        item.name,
+                        missing.len(),
+                        names.join(", ")
                     );
+                    // One docstring per method, all or none.
+                    let fixes: Option<Vec<Fix>> = missing
+                        .iter()
+                        .map(|m| doc_fix(&item.path, &lines, m.line, &member_what(item, m)))
+                        .collect();
+                    match fixes {
+                        Some(fixes) => {
+                            let mut edits: Vec<Edit> =
+                                fixes.into_iter().flat_map(|f| f.edits).collect();
+                            edits.sort_by_key(|e| e.line);
+                            out.add_fix(&item.path, first.line, message, Fix { edits });
+                        }
+                        None => out.add(&item.path, first.line, message),
+                    }
                 }
             }
         }
@@ -155,13 +177,25 @@ fn member_key(item: &ApiItem, kind: MemberKind, name: &str) -> String {
     format!("{}::{kind:?}::{name}", item.name)
 }
 
-fn report(out: &mut Findings, path: &str, line: usize, lines: &[&str], name: &str) {
+/// What a method's docstring should say: `what `query` does`.
+fn member_what(item: &ApiItem, m: &uniffi::ApiMember) -> String {
+    if m.kind == MemberKind::Constructor {
+        format!("what the `{}` constructor does", item.name)
+    } else {
+        format!("what `{}` does", m.name)
+    }
+}
+
+fn report(out: &mut Findings, path: &str, line: usize, lines: &[&str], name: &str, what: &str) {
     let message = if comment_above(lines, line) {
         format!("the `//` comment on exported `{name}` is dropped from the bindings; make it a `///` docstring")
     } else {
         format!("exported `{name}` has no `///` docstring; it is the only documentation Kotlin/Swift/JS callers see")
     };
-    out.add(path, line, message);
+    match doc_fix(path, lines, line, what) {
+        Some(fix) => out.add_fix(path, line, message, fix),
+        None => out.add(path, line, message),
+    }
 }
 
 /// Whether a plain `//` comment sits right above `line`, past attributes.
@@ -178,6 +212,105 @@ fn comment_above(lines: &[&str], line: usize) -> bool {
         return text.starts_with("//") && !text.starts_with("///") && !text.starts_with("//!");
     }
     false
+}
+
+/// A docstring for the item on `line`: the `//` comment above it turned
+/// into `///` lines when it reads as documentation, else a placeholder line
+/// naming `what` to describe, above the item's attributes and indented like
+/// the item.
+fn doc_fix(path: &str, lines: &[&str], line: usize, what: &str) -> Option<Fix> {
+    let top = attributes_top(lines, line, path.ends_with(".udl"))?;
+    // The comment block right above the attributes.
+    let mut first = top;
+    while first > 1 {
+        let text = lines.get(first - 2)?.trim();
+        if !text.starts_with("//") || text.starts_with("//!") {
+            break;
+        }
+        first -= 1;
+    }
+    let block = &lines[first - 1..top - 1];
+    if block.iter().any(|l| !l.trim().starts_with("///")) && block.iter().all(|l| is_prose(l)) {
+        let docs: Vec<String> = block.iter().map(|l| to_doc(l)).collect();
+        let changed: Vec<usize> = (0..block.len()).filter(|&i| docs[i] != block[i]).collect();
+        let (&a, &b) = (changed.first()?, changed.last()?);
+        return Some(Fix::edit(first + a, b - a + 1, docs[a..=b].to_vec()));
+    }
+    let item = lines.get(line - 1)?;
+    let indent = &item[..item.len() - item.trim_start().len()];
+    Some(Fix::insert_before(
+        top,
+        vec![format!("{indent}/// … {what}.")],
+    ))
+}
+
+/// The first line of the attributes above `line` (`line` itself when there
+/// are none). `None` when an attribute's start can't be found.
+fn attributes_top(lines: &[&str], line: usize, udl: bool) -> Option<usize> {
+    let open = if udl { "[" } else { "#[" };
+    let mut top = line;
+    while top > 1 {
+        let text = lines.get(top - 2)?.trim();
+        if text.starts_with(open) && text.ends_with(']') {
+            top -= 1;
+            continue;
+        }
+        if udl || !text.ends_with(']') || text.starts_with("//") {
+            break;
+        }
+        // The end of an attribute over several lines: find its `#[`.
+        let mut depth = 0i32;
+        let mut l = top - 1;
+        loop {
+            let t = lines.get(l - 1)?.trim();
+            if t.is_empty() || t.starts_with("//") || t.ends_with([';', '{', '}']) {
+                return None;
+            }
+            depth += t.matches(']').count() as i32 - t.matches('[').count() as i32;
+            if t.starts_with("#[") && depth == 0 {
+                break;
+            }
+            if l == 1 || top - l > 20 {
+                return None;
+            }
+            l -= 1;
+        }
+        top = l;
+    }
+    Some(top)
+}
+
+/// Whether a `//` line reads as documentation, not code or a work note.
+fn is_prose(line: &str) -> bool {
+    let text = line.trim().trim_start_matches('/').trim();
+    let code = text.starts_with("#[")
+        || text.ends_with(';')
+        || text.ends_with('{')
+        || text.ends_with('}')
+        || [
+            "let ", "fn ", "pub ", "use ", "impl ", "mod ", "struct ", "enum ",
+        ]
+        .iter()
+        .any(|k| text.starts_with(k));
+    let note = ["TODO", "FIXME", "XXX", "SAFETY", "This Source Code Form"]
+        .iter()
+        .any(|m| text.contains(m));
+    !code && !note
+}
+
+/// `// text` -> `/// text`.
+fn to_doc(line: &str) -> String {
+    let indent = &line[..line.len() - line.trim_start().len()];
+    let text = line.trim_start();
+    if text.starts_with("///") {
+        return line.to_string();
+    }
+    let rest = text.trim_start_matches('/');
+    if rest.is_empty() || rest.starts_with(' ') {
+        format!("{indent}///{rest}")
+    } else {
+        format!("{indent}/// {rest}")
+    }
 }
 
 #[cfg(test)]
@@ -203,6 +336,52 @@ mod tests {
         assert!(found[0].message.contains("`//` comment"));
         assert_eq!(found[1].line, 8);
         assert!(found[1].message.contains("`LocalTabsInfo` has no `///`"));
+        // The comment becomes the docstring; a placeholder names what to document.
+        assert_eq!(
+            edits(&found[0]),
+            vec![(
+                4,
+                1,
+                vec!["    /// Sets the local tabs, with their window and group info.".into()]
+            )]
+        );
+        assert_eq!(
+            edits(&found[1]),
+            vec![(8, 0, vec!["/// … what `LocalTabsInfo` is.".into()])]
+        );
+    }
+
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        f.fix
+            .iter()
+            .flat_map(|fix| &fix.edits)
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn places_docstrings_above_attributes() {
+        let new = "#[derive(\n    Debug,\n    uniffi::Record,\n)]\npub struct Query {\n    pub keyword: String,\n}\n\n// #[non_exhaustive]\n#[derive(Debug, uniffi::Error)]\npub enum QueryError {}\n\n// Builds the query.\n//\n//  `keyword` may be empty.\n#[uniffi::export]\npub fn query(keyword: String) {}\n";
+        let found = check_diff(&RULE, &[(PATH, "")], &[(PATH, new)]);
+        let all: Vec<_> = found.iter().map(edits).collect();
+        assert_eq!(
+            all,
+            vec![
+                vec![(1, 0, vec!["/// … what `Query` is.".into()])],
+                // Commented-out code stays a comment.
+                vec![(10, 0, vec!["/// … what `QueryError` is.".into()])],
+                vec![(
+                    13,
+                    3,
+                    vec![
+                        "/// Builds the query.".into(),
+                        "///".into(),
+                        "///  `keyword` may be empty.".into(),
+                    ]
+                )],
+            ],
+            "{found:#?}"
+        );
     }
 
     #[test]
@@ -226,6 +405,14 @@ mod tests {
         let found = check_diff(&RULE, &[(PATH, "")], &[(PATH, new)]);
         assert_eq!(found.len(), 1, "{found:#?}");
         assert!(found[0].message.contains("2 exported methods"));
+        // One placeholder per method.
+        assert_eq!(
+            edits(&found[0]),
+            vec![
+                (6, 0, vec!["    /// … what `a` does.".into()]),
+                (7, 0, vec!["    /// … what `b` does.".into()]),
+            ]
+        );
     }
 
     #[test]
