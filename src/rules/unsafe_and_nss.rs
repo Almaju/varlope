@@ -171,7 +171,11 @@ fn documented(file: &RustFile, block_line: usize, stmt_line: usize) -> bool {
     while line > 1 {
         line -= 1;
         let text = file.line(line).trim();
-        if text.starts_with("//") || text.starts_with("#[") || text.starts_with('*') || text.starts_with("/*") {
+        if text.starts_with("//")
+            || text.starts_with("#[")
+            || text.starts_with('*')
+            || text.starts_with("/*")
+        {
             if safety(line) {
                 return true;
             }
@@ -268,7 +272,9 @@ fn pkcs11_abi(file: &RustFile, out: &mut Findings) {
                         &file.path,
                         line,
                         column,
-                        format!("PKCS#11 constant typed `{ty}`; use `CK_ULONG` (32-bit on Windows)"),
+                        format!(
+                            "PKCS#11 constant typed `{ty}`; use `CK_ULONG` (32-bit on Windows)"
+                        ),
                     );
                 }
             }
@@ -295,7 +301,9 @@ fn pkcs11_abi(file: &RustFile, out: &mut Findings) {
                             &file.path,
                             line,
                             column,
-                            format!("PKCS#11 field typed `{ty}`; use `CK_ULONG` (32-bit on Windows)"),
+                            format!(
+                                "PKCS#11 field typed `{ty}`; use `CK_ULONG` (32-bit on Windows)"
+                            ),
                         );
                     }
                 }
@@ -306,9 +314,11 @@ fn pkcs11_abi(file: &RustFile, out: &mut Findings) {
 }
 
 fn is_pkcs11_name(name: &str) -> bool {
-    ["CKM_", "CKA_", "CKK_", "CKO_", "CKR_", "CKF_", "CKD_", "CKG_", "CKZ_"]
-        .iter()
-        .any(|p| name.starts_with(p))
+    [
+        "CKM_", "CKA_", "CKK_", "CKO_", "CKR_", "CKF_", "CKD_", "CKG_", "CKZ_",
+    ]
+    .iter()
+    .any(|p| name.starts_with(p))
 }
 
 fn wide_int(ty: &syn::Type) -> Option<String> {
@@ -371,7 +381,10 @@ mod tests {
             #[repr(C)]\npub struct CK_GCM_PARAMS { pub ulIvLen: CK_ULONG }\n";
         let found = check(
             &RULE,
-            &[("components/support/rc_crypto/nss/nss_sys/src/bindings/pkcs11t.rs", src)],
+            &[(
+                "components/support/rc_crypto/nss/nss_sys/src/bindings/pkcs11t.rs",
+                src,
+            )],
         );
         assert_eq!(found.len(), 2, "{found:#?}");
         assert_eq!(found[0].line, 1);

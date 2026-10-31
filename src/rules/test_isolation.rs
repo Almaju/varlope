@@ -33,7 +33,9 @@ const GLOBAL_SETTERS: &[&str] = &[
 
 /// Calendar arithmetic whose result depends on the date the test runs.
 /// (Fixed-length intervals relative to `now()` are fine.)
-const CALENDAR_METHODS: &[&str] = &["weekday", "year", "month", "ordinal", "ordinal0", "iso_week"];
+const CALENDAR_METHODS: &[&str] = &[
+    "weekday", "year", "month", "ordinal", "ordinal0", "iso_week",
+];
 
 fn check(cx: &Context, out: &mut Findings) {
     for file in idioms::rust_files(cx.ws) {

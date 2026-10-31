@@ -73,10 +73,15 @@ fn check(cx: &Context, out: &mut Findings) {
         for (n, line) in file.lines() {
             let code = line.split("//").next().unwrap_or("");
             let hit = if kotlin {
-                ["printStackTrace()", "println(", "System.out.print", "System.err.print"]
-                    .iter()
-                    .find(|p| code.contains(*p))
-                    .copied()
+                [
+                    "printStackTrace()",
+                    "println(",
+                    "System.out.print",
+                    "System.err.print",
+                ]
+                .iter()
+                .find(|p| code.contains(*p))
+                .copied()
             } else {
                 swift_print(code)
             };

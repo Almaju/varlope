@@ -131,8 +131,7 @@ impl HashNames {
                     return None;
                 };
                 let on_self = matches!(&*f.base, syn::Expr::Path(p) if p.path.is_ident("self"));
-                (on_self && self.fields.contains(&name.to_string()))
-                    .then(|| format!("self.{name}"))
+                (on_self && self.fields.contains(&name.to_string())).then(|| format!("self.{name}"))
             }
             _ => None,
         }
@@ -188,17 +187,24 @@ fn builds_hash(expr: &syn::Expr) -> bool {
     match expr {
         syn::Expr::Call(c) => match &*c.func {
             syn::Expr::Path(p) => {
-                let segs: Vec<String> = p.path.segments.iter().map(|s| s.ident.to_string()).collect();
+                let segs: Vec<String> = p
+                    .path
+                    .segments
+                    .iter()
+                    .map(|s| s.ident.to_string())
+                    .collect();
                 segs.len() >= 2 && HASH_TYPES.contains(&segs[segs.len() - 2].as_str())
             }
             _ => false,
         },
-        syn::Expr::MethodCall(m) if m.method == "collect" => m.turbofish.as_ref().is_some_and(|t| {
-            t.args.iter().any(|a| match a {
-                syn::GenericArgument::Type(ty) => is_hash_type(ty),
-                _ => false,
+        syn::Expr::MethodCall(m) if m.method == "collect" => {
+            m.turbofish.as_ref().is_some_and(|t| {
+                t.args.iter().any(|a| match a {
+                    syn::GenericArgument::Type(ty) => is_hash_type(ty),
+                    _ => false,
+                })
             })
-        }),
+        }
         _ => false,
     }
 }
@@ -257,8 +263,7 @@ impl<'a> Visit<'a> for Leaks<'_, 'a> {
             let mut sink = None;
             syntax_method_calls(&l.body, |m| {
                 let method = m.method.to_string();
-                if sink.is_none() && matches!(method.as_str(), "push" | "push_str" | "push_back")
-                {
+                if sink.is_none() && matches!(method.as_str(), "push" | "push_str" | "push_back") {
                     if let syn::Expr::Path(p) = &*m.receiver {
                         if let Some(id) = p.path.get_ident() {
                             sink = Some(id.to_string());
@@ -333,7 +338,10 @@ impl Leaks<'_, '_> {
         if self.sorts(name) {
             return;
         }
-        let (line, column) = (call.method.span().start().line, call.method.span().start().column + 1);
+        let (line, column) = (
+            call.method.span().start().line,
+            call.method.span().start().column + 1,
+        );
         self.hits.push((
             (line, column),
             format!("`{name}` is collected from the hash collection `{what}`, so its order changes from run to run; use a BTreeMap/BTreeSet or sort it"),

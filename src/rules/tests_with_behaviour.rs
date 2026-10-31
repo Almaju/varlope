@@ -56,7 +56,9 @@ fn check(cx: &Context, out: &mut Findings) {
         if path.starts_with("testing/") && !change.added.is_empty() {
             integration_tests = true;
         }
-        let Some(name) = component(path) else { continue };
+        let Some(name) = component(path) else {
+            continue;
+        };
         let entry = components.entry(name.to_string()).or_default();
         if is_test_file(path) {
             entry.tested |= !change.added.is_empty();
@@ -140,7 +142,14 @@ fn finish_fn(current: &mut Option<(String, usize, usize)>, path: &str, entry: &m
 /// The name in a line that starts a function: `pub(crate) async fn name(`.
 fn fn_signature(text: &str) -> Option<String> {
     let mut rest = text.trim_start();
-    for prefix in ["pub(crate) ", "pub(super) ", "pub ", "const ", "async ", "unsafe "] {
+    for prefix in [
+        "pub(crate) ",
+        "pub(super) ",
+        "pub ",
+        "const ",
+        "async ",
+        "unsafe ",
+    ] {
         rest = rest.strip_prefix(prefix).unwrap_or(rest);
     }
     let rest = rest.strip_prefix("fn ")?;
@@ -251,7 +260,10 @@ mod tests {
         );
         assert!(check_diff(&RULE, &[(SRC, old)], &[(SRC, &new)]).is_empty());
         let untested = format!("fn a() {{}}\nfn b() {{\n{}}}\n", body(25, "x"));
-        assert_eq!(check_diff(&RULE, &[(SRC, old)], &[(SRC, &untested)]).len(), 1);
+        assert_eq!(
+            check_diff(&RULE, &[(SRC, old)], &[(SRC, &untested)]).len(),
+            1
+        );
     }
 
     #[test]
@@ -265,7 +277,10 @@ mod tests {
         let wrapper = "pub fn count(&self) -> usize {\n    self.inner.count()\n}\n";
         assert!(check_diff(&RULE, &[(SRC, "")], &[(SRC, wrapper)]).is_empty());
         let other = [
-            (SRC, "fn merge(a: u8) -> u8 {\n    let b = a + 1;\n    let c = b * 2;\n    c - 1\n}\n"),
+            (
+                SRC,
+                "fn merge(a: u8) -> u8 {\n    let b = a + 1;\n    let c = b * 2;\n    c - 1\n}\n",
+            ),
             ("components/places/src/tests.rs", "#[test]\nfn t() {}\n"),
         ];
         assert_eq!(check_diff(&RULE, &[], &other).len(), 1);

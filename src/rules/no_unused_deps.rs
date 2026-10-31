@@ -177,8 +177,8 @@ fn uses(ws: &Workspace, package: &Package, name: &str) -> Uses {
             continue;
         }
         let rel = file.path.strip_prefix(&package.dir).unwrap_or(&file.path);
-        let is_build = rel.strip_prefix('/') == Some(build_script.as_str())
-            || rel.starts_with("/build/");
+        let is_build =
+            rel.strip_prefix('/') == Some(build_script.as_str()) || rel.starts_with("/build/");
         let rust = ws.rust(&file.path);
         for (n, line) in file.lines() {
             if !re.is_match(line) {
@@ -241,13 +241,17 @@ fn in_features(package: &Package, name: &str) -> bool {
     let Some(features) = package.toml.get("features").and_then(|f| f.as_table()) else {
         return false;
     };
-    features.values().filter_map(|v| v.as_array()).flatten().any(|v| {
-        v.as_str().is_some_and(|f| {
-            let f = f.strip_prefix("dep:").unwrap_or(f);
-            let target = f.split('/').next().unwrap_or(f).trim_end_matches('?');
-            target == name
+    features
+        .values()
+        .filter_map(|v| v.as_array())
+        .flatten()
+        .any(|v| {
+            v.as_str().is_some_and(|f| {
+                let f = f.strip_prefix("dep:").unwrap_or(f);
+                let target = f.split('/').next().unwrap_or(f).trim_end_matches('?');
+                target == name
+            })
         })
-    })
 }
 
 /// The manifest discusses the dependency in a comment (`# Note: if set, we
@@ -298,7 +302,9 @@ mod tests {
         let found = check(&RULE, &[(MANIFEST, &toml), LIB]);
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![7, 8], "{found:#?}");
-        assert!(found[0].message.contains("`ffi-support` is in [dependencies]"));
+        assert!(found[0]
+            .message
+            .contains("`ffi-support` is in [dependencies]"));
         assert!(found[1].message.contains("`mockito` is only used by tests"));
     }
 
@@ -335,7 +341,13 @@ mod tests {
         );
         let found = check(
             &RULE,
-            &[(MANIFEST, &toml), ("components/places/src/lib.rs", "uniffi::setup_scaffolding!();\n")],
+            &[
+                (MANIFEST, &toml),
+                (
+                    "components/places/src/lib.rs",
+                    "uniffi::setup_scaffolding!();\n",
+                ),
+            ],
         );
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![6, 9], "{found:#?}");

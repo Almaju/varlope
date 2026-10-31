@@ -75,12 +75,21 @@ fn check(cx: &Context, out: &mut Findings) {
     }
     // The shared helper is the original, the other one the copy.
     for sites in bodies.values_mut().chain(windows.values_mut()) {
-        sites.sort_by_key(|s| (!s.path.starts_with("components/support/"), s.path.clone(), s.line));
+        sites.sort_by_key(|s| {
+            (
+                !s.path.starts_with("components/support/"),
+                s.path.clone(),
+                s.line,
+            )
+        });
     }
     let mut reported: Vec<(String, String)> = Vec::new();
     for sites in bodies.values().filter(|s| s.len() > 1) {
         let first = &sites[0];
-        for dup in sites[1..].iter().filter(|d| !parallel_modules(&first.path, &d.path)) {
+        for dup in sites[1..]
+            .iter()
+            .filter(|d| !parallel_modules(&first.path, &d.path))
+        {
             reported.push((dup.path.clone(), dup.name.clone()));
             out.add(
                 &dup.path,
@@ -131,7 +140,9 @@ fn check(cx: &Context, out: &mut Findings) {
 /// `backends/swift/x.rs`): the same tokens resolve to different types there.
 fn parallel_modules(a: &str, b: &str) -> bool {
     let (a, b): (Vec<&str>, Vec<&str>) = (a.split('/').collect(), b.split('/').collect());
-    a.len() == b.len() && a.iter().zip(&b).filter(|(x, y)| x != y).count() == 1 && a.last() == b.last()
+    a.len() == b.len()
+        && a.iter().zip(&b).filter(|(x, y)| x != y).count() == 1
+        && a.last() == b.last()
 }
 
 /// Schema upgrades are frozen history: they may repeat current code.
@@ -192,18 +203,27 @@ mod tests {
     fn flags_dont() {
         let found = check(
             &RULE,
-            &[HELPER, (PATH, include_str!("../../rules/duplicated-code/dont.rs"))],
+            &[
+                HELPER,
+                (PATH, include_str!("../../rules/duplicated-code/dont.rs")),
+            ],
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!((found[0].path.as_str(), found[0].line), (PATH, 4));
-        assert!(found[0].message.contains("also appear in `vacuum`"), "{found:#?}");
+        assert!(
+            found[0].message.contains("also appear in `vacuum`"),
+            "{found:#?}"
+        );
     }
 
     #[test]
     fn accepts_do() {
         let found = check(
             &RULE,
-            &[HELPER, (PATH, include_str!("../../rules/duplicated-code/do.rs"))],
+            &[
+                HELPER,
+                (PATH, include_str!("../../rules/duplicated-code/do.rs")),
+            ],
         );
         assert!(found.is_empty(), "{found:#?}");
     }
@@ -214,6 +234,8 @@ mod tests {
         let src = format!("fn one(conn: &Conn) -> Result<u32> {body}fn two(conn: &Conn) -> Result<u32> {body}fn upgrade_from_v5(conn: &Conn) -> Result<u32> {body}");
         let found = check(&RULE, &[(PATH, &src)]);
         assert_eq!(found.len(), 1, "{found:#?}");
-        assert!(found[0].message.starts_with("`two` has the same body as `one`"));
+        assert!(found[0]
+            .message
+            .starts_with("`two` has the same body as `one`"));
     }
 }

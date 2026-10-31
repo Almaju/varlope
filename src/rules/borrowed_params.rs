@@ -47,8 +47,12 @@ fn check(cx: &Context, out: &mut Findings) {
                 continue;
             }
             for input in &f.sig.inputs {
-                let syn::FnArg::Typed(arg) = input else { continue };
-                let Some(better) = borrowed_form(&arg.ty) else { continue };
+                let syn::FnArg::Typed(arg) = input else {
+                    continue;
+                };
+                let Some(better) = borrowed_form(&arg.ty) else {
+                    continue;
+                };
                 let (line, column) = file.pos(&arg.ty);
                 out.add_at(
                     &file.path,
@@ -75,7 +79,11 @@ fn exported_signatures(cx: &Context) -> BTreeSet<(String, String)> {
                 }
                 _ => {
                     for m in &item.members {
-                        let name = if m.name == "constructor" { "new" } else { m.name.as_str() };
+                        let name = if m.name == "constructor" {
+                            "new"
+                        } else {
+                            m.name.as_str()
+                        };
                         out.insert((item.name.clone(), name.to_string()));
                     }
                 }
@@ -88,7 +96,9 @@ fn exported_signatures(cx: &Context) -> BTreeSet<(String, String)> {
 /// The parameter type to suggest for `&String`, `&Vec<T>`, `&PathBuf` and
 /// `&Option<T>`.
 fn borrowed_form(ty: &syn::Type) -> Option<String> {
-    let syn::Type::Reference(r) = ty else { return None };
+    let syn::Type::Reference(r) = ty else {
+        return None;
+    };
     if r.mutability.is_some() {
         return None; // `&mut Vec<T>` can push; `&mut Option<T>` can set
     }
@@ -108,7 +118,8 @@ fn borrowed_form(ty: &syn::Type) -> Option<String> {
                     elem: Box::new((*t).clone()),
                 });
                 // `&Option<String>` reads best as `Option<&str>` (`.as_deref()`).
-                let target = borrowed_form(&inner).unwrap_or_else(|| format!("&{}", syntax::type_string(t)));
+                let target =
+                    borrowed_form(&inner).unwrap_or_else(|| format!("&{}", syntax::type_string(t)));
                 format!("Option<{target}>")
             }
         }),
@@ -132,8 +143,13 @@ mod tests {
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![4, 5, 6], "{found:#?}");
         assert!(found[0].message.contains("take `&[GeckoPrefState]`"));
-        assert!(found[1].message.contains("take `Option<&Arc<GeckoPrefStore>>`"));
-        let opt = check(&RULE, &[(PATH, "fn f(a: &Option<String>, b: &Option<Vec<u8>>) {}")]);
+        assert!(found[1]
+            .message
+            .contains("take `Option<&Arc<GeckoPrefStore>>`"));
+        let opt = check(
+            &RULE,
+            &[(PATH, "fn f(a: &Option<String>, b: &Option<Vec<u8>>) {}")],
+        );
         assert!(opt[0].message.contains("take `Option<&str>`"), "{opt:#?}");
         assert!(opt[1].message.contains("take `Option<&[u8]>`"), "{opt:#?}");
         assert!(found[2].message.contains("take `&str`"));

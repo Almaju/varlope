@@ -162,7 +162,9 @@ fn is_expecting_mock(expr: &syn::Expr) -> bool {
     loop {
         match cur {
             syn::Expr::MethodCall(m) => {
-                if (m.method == "expect" || m.method == "expect_at_least" || m.method == "expect_at_most")
+                if (m.method == "expect"
+                    || m.method == "expect_at_least"
+                    || m.method == "expect_at_most")
                     && !matches!(
                         m.args.first(),
                         Some(syn::Expr::Lit(syn::ExprLit {
@@ -215,11 +217,7 @@ fn repeated_messages(file: &RustFile, block: &syn::Block, out: &mut Findings) {
             continue;
         };
         let text = message.value();
-        let checked: BTreeSet<String> = args
-            .iter()
-            .take(index)
-            .flat_map(idioms::idents)
-            .collect();
+        let checked: BTreeSet<String> = args.iter().take(index).flat_map(idioms::idents).collect();
         let line = file.line_of_node(&mac.path);
         let Some((first, earlier)) = seen.get(&text) else {
             seen.insert(text, (line, checked));
@@ -264,7 +262,10 @@ mod tests {
     fn accepts_do() {
         let found = check(
             &RULE,
-            &[(PATH, include_str!("../../rules/meaningful-assertions/do.rs"))],
+            &[(
+                PATH,
+                include_str!("../../rules/meaningful-assertions/do.rs"),
+            )],
         );
         assert!(found.is_empty(), "{found:#?}");
     }
@@ -293,6 +294,8 @@ mod tests {
         }\n";
         let found = check(&RULE, &[(PATH, src)]);
         assert_eq!(found.len(), 3, "{found:#?}");
-        assert!(found[2].message.contains("copied from line 5: it names `kind`"));
+        assert!(found[2]
+            .message
+            .contains("copied from line 5: it names `kind`"));
     }
 }

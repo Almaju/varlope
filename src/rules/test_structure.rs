@@ -22,8 +22,24 @@ const MAX_ASSERTS: usize = 50;
 
 /// Names that say a test exists, not what it checks.
 const VAGUE: &[&str] = &[
-    "", "basic", "basics", "simple", "smoke", "works", "it_works", "misc", "all", "stuff",
-    "everything", "sanity", "general", "example", "things", "various", "other", "tmp",
+    "",
+    "basic",
+    "basics",
+    "simple",
+    "smoke",
+    "works",
+    "it_works",
+    "misc",
+    "all",
+    "stuff",
+    "everything",
+    "sanity",
+    "general",
+    "example",
+    "things",
+    "various",
+    "other",
+    "tmp",
 ];
 
 fn check(cx: &Context, out: &mut Findings) {
@@ -76,8 +92,13 @@ fn is_test_fn(attrs: &[syn::Attribute]) -> bool {
 fn vague(name: &str) -> bool {
     let mut core = name.strip_prefix("test").unwrap_or(name);
     core = core.trim_start_matches('_');
-    core = core.strip_suffix("test").unwrap_or(core).trim_end_matches('_');
-    let core = core.trim_end_matches(|c: char| c.is_ascii_digit()).trim_end_matches('_');
+    core = core
+        .strip_suffix("test")
+        .unwrap_or(core)
+        .trim_end_matches('_');
+    let core = core
+        .trim_end_matches(|c: char| c.is_ascii_digit())
+        .trim_end_matches('_');
     VAGUE.contains(&core)
 }
 
@@ -110,7 +131,9 @@ mod tests {
     #[test]
     fn flags_catch_all_tests() {
         let asserts = "assert_eq!(store.fetch(q), vec![]);\n".repeat(50);
-        let src = format!("#[test]\nfn query_amp_and_wikipedia() {{\n{asserts}}}\n#[cfg(test)]\nfn new() {{}}\n");
+        let src = format!(
+            "#[test]\nfn query_amp_and_wikipedia() {{\n{asserts}}}\n#[cfg(test)]\nfn new() {{}}\n"
+        );
         let found = check(&RULE, &[(PATH, &src)]);
         assert_eq!(found.len(), 1, "{found:#?}");
         assert!(found[0].message.contains("50 assertions"));
@@ -118,10 +141,21 @@ mod tests {
 
     #[test]
     fn names() {
-        for name in ["test", "test_basic", "smoke_test", "test2", "test_simple_1", "basic"] {
+        for name in [
+            "test",
+            "test_basic",
+            "smoke_test",
+            "test2",
+            "test_simple_1",
+            "basic",
+        ] {
             assert!(super::vague(name), "{name}");
         }
-        for name in ["test_basic_query_matches_prefix", "new_tab_is_synced", "testing_mode_off"] {
+        for name in [
+            "test_basic_query_matches_prefix",
+            "new_tab_is_synced",
+            "testing_mode_off",
+        ] {
             assert!(!super::vague(name), "{name}");
         }
     }

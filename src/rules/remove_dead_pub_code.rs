@@ -16,7 +16,10 @@ pub static RULE: Rule = Rule {
     area: Area::DeadCode,
     title: "Remove unused pub items, error variants and columns that rustc can't see",
     kind: Kind::Code,
-    clippy: &["clippy::used_underscore_binding", "clippy::used_underscore_items"],
+    clippy: &[
+        "clippy::used_underscore_binding",
+        "clippy::used_underscore_items",
+    ],
     in_tests: false,
     check,
 };
@@ -123,7 +126,10 @@ mod tests {
     fn flags_dont() {
         let found = check(
             &RULE,
-            &[(PATH, include_str!("../../rules/remove-dead-pub-code/dont.rs"))],
+            &[(
+                PATH,
+                include_str!("../../rules/remove-dead-pub-code/dont.rs"),
+            )],
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 6);
@@ -165,7 +171,10 @@ mod tests {
             &RULE,
             &[
                 (PATH, src),
-                ("components/ads-client/Cargo.toml", "[package]\nname = \"ads-client\"\n"),
+                (
+                    "components/ads-client/Cargo.toml",
+                    "[package]\nname = \"ads-client\"\n",
+                ),
             ],
         );
         assert!(found.is_empty(), "{found:#?}");

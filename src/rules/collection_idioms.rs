@@ -72,7 +72,9 @@ impl<'a> Visit<'a> for PushLoops<'a> {
 
 /// `let mut name = Vec::new();` (or `vec![]`, `Vec::with_capacity(n)`).
 fn new_vec(stmt: &syn::Stmt) -> Option<String> {
-    let syn::Stmt::Local(local) = stmt else { return None };
+    let syn::Stmt::Local(local) = stmt else {
+        return None;
+    };
     let pat = match &local.pat {
         syn::Pat::Type(t) => &*t.pat,
         p => p,
@@ -117,7 +119,9 @@ fn for_loop(stmt: &syn::Stmt) -> Option<&syn::ExprForLoop> {
 
 /// The argument of the loop body's only statement, `name.push(arg);`.
 fn only_push<'a>(body: &'a syn::Block, name: &str) -> Option<&'a syn::Expr> {
-    let [stmt] = body.stmts.as_slice() else { return None };
+    let [stmt] = body.stmts.as_slice() else {
+        return None;
+    };
     let syn::Stmt::Expr(syn::Expr::MethodCall(m), _) = stmt else {
         return None;
     };

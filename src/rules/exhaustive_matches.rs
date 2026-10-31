@@ -53,9 +53,15 @@ fn check(cx: &Context, out: &mut Findings) {
                 continue;
             }
             for input in &f.sig.inputs {
-                let syn::FnArg::Typed(arg) = input else { continue };
-                let syn::Pat::Ident(param) = &*arg.pat else { continue };
-                let Some(mut ty) = syntax::type_ident(&arg.ty) else { continue };
+                let syn::FnArg::Typed(arg) = input else {
+                    continue;
+                };
+                let syn::Pat::Ident(param) = &*arg.pat else {
+                    continue;
+                };
+                let Some(mut ty) = syntax::type_ident(&arg.ty) else {
+                    continue;
+                };
                 if ty == "Self" {
                     match &f.self_ty {
                         Some(s) => ty = s.clone(),
@@ -75,8 +81,10 @@ fn check(cx: &Context, out: &mut Findings) {
                 if reads.whole {
                     continue;
                 }
-                let missing: Vec<&String> =
-                    fields.iter().filter(|f| !reads.fields.contains(*f)).collect();
+                let missing: Vec<&String> = fields
+                    .iter()
+                    .filter(|f| !reads.fields.contains(*f))
+                    .collect();
                 // Only partial merges: one that reads nothing is not field-by-field.
                 if missing.is_empty() || reads.fields.is_empty() {
                     continue;
@@ -186,11 +194,17 @@ mod tests {
     fn flags_dont() {
         let found = check(
             &RULE,
-            &[TYPES, (PATH, include_str!("../../rules/exhaustive-matches/dont.rs"))],
+            &[
+                TYPES,
+                (PATH, include_str!("../../rules/exhaustive-matches/dont.rs")),
+            ],
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 2);
-        assert!(found[0].message.contains("never reads `is_new_until`"), "{found:#?}");
+        assert!(
+            found[0].message.contains("never reads `is_new_until`"),
+            "{found:#?}"
+        );
         assert!(found[0].message.contains("`is_new_until: _`"), "{found:#?}");
     }
 
@@ -198,7 +212,10 @@ mod tests {
     fn accepts_do() {
         let found = check(
             &RULE,
-            &[TYPES, (PATH, include_str!("../../rules/exhaustive-matches/do.rs"))],
+            &[
+                TYPES,
+                (PATH, include_str!("../../rules/exhaustive-matches/do.rs")),
+            ],
         );
         assert!(found.is_empty(), "{found:#?}");
     }

@@ -38,7 +38,10 @@ fn check(cx: &Context, out: &mut Findings) {
 fn commented_out_blocks(file: &RustFile) -> Vec<(usize, usize)> {
     let mut out = Vec::new();
     for run in comment_runs(file) {
-        let texts: Vec<&str> = run.iter().map(|c| strip_trailing_comment(&c.text)).collect();
+        let texts: Vec<&str> = run
+            .iter()
+            .map(|c| strip_trailing_comment(&c.text))
+            .collect();
         let code = code_lines(&texts);
         let mut i = 0;
         while i < code.len() {
@@ -264,7 +267,10 @@ mod tests {
     fn accepts_do() {
         let found = check(
             &RULE,
-            &[(PATH, include_str!("../../rules/no-commented-out-code/do.rs"))],
+            &[(
+                PATH,
+                include_str!("../../rules/no-commented-out-code/do.rs"),
+            )],
         );
         assert!(found.is_empty(), "{found:#?}");
     }
