@@ -5,7 +5,7 @@
 use regex::Regex;
 
 use crate::helpers::idioms;
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Edit, Findings, Fix, Kind, Rule};
 use crate::workspace::{is_test_path, DepKind, Dependency, Package, Workspace};
 
 pub static RULE: Rule = Rule {
@@ -74,26 +74,41 @@ fn check(cx: &Context, out: &mut Findings) {
             if dep.kind == DepKind::Normal && enables_features && !uses.any() {
                 continue;
             }
-            let message = match dep.kind {
-                DepKind::Normal if !uses.any() => format!(
-                    "`{}` is in [dependencies] but no Rust code in the crate uses it; remove it",
-                    dep.name
+            let (message, to_dev) = match dep.kind {
+                DepKind::Normal if !uses.any() => (
+                    format!(
+                        "`{}` is in [dependencies] but no Rust code in the crate uses it; remove it",
+                        dep.name
+                    ),
+                    false,
                 ),
-                DepKind::Normal if !uses.shipped && !uses.build => format!(
-                    "`{}` is only used by tests; move it to [dev-dependencies]",
-                    dep.name
+                DepKind::Normal if !uses.shipped && !uses.build => (
+                    format!(
+                        "`{}` is only used by tests; move it to [dev-dependencies]",
+                        dep.name
+                    ),
+                    true,
                 ),
-                DepKind::Build if !uses.build => format!(
-                    "`{}` is in [build-dependencies] but build.rs does not use it; remove it",
-                    dep.name
+                DepKind::Build if !uses.build => (
+                    format!(
+                        "`{}` is in [build-dependencies] but build.rs does not use it; remove it",
+                        dep.name
+                    ),
+                    false,
                 ),
-                DepKind::Dev if !uses.any() => format!(
-                    "`{}` is in [dev-dependencies] but no test, bench or example uses it; remove it",
-                    dep.name
+                DepKind::Dev if !uses.any() => (
+                    format!(
+                        "`{}` is in [dev-dependencies] but no test, bench or example uses it; remove it",
+                        dep.name
+                    ),
+                    false,
                 ),
                 _ => continue,
             };
-            out.add(&package.manifest, line, message);
+            match removal(&manifest.text, line, &dep.name, to_dev) {
+                Some(fix) => out.add_fix(&package.manifest, line, message, fix),
+                None => out.add(&package.manifest, line, message),
+            }
         }
     }
 }
@@ -225,6 +240,103 @@ fn declaration_line(text: &str, dep: &Dependency) -> Option<usize> {
     None
 }
 
+/// Delete the declaration at `line`; to move it, also add it at the end of
+/// [dev-dependencies] (a new table after [dependencies] when there is none,
+/// and nothing when it is already there).
+fn removal(text: &str, line: usize, name: &str, to_dev: bool) -> Option<Fix> {
+    let lines: Vec<&str> = text.lines().collect();
+    let count = declaration_len(&lines, line)?;
+    let mut edits = vec![Edit {
+        line,
+        remove: count,
+        insert: Vec::new(),
+    }];
+    if to_dev {
+        let declaration: Vec<String> = lines[line - 1..line - 1 + count]
+            .iter()
+            .map(|l| l.to_string())
+            .collect();
+        match table_end(&lines, "[dev-dependencies]", name) {
+            Some((_, true)) => {}
+            Some((end, false)) => edits.push(Edit {
+                line: end + 1,
+                remove: 0,
+                insert: declaration,
+            }),
+            // `[dev-dependencies.x]` tables: where it goes is less obvious.
+            None if lines
+                .iter()
+                .any(|l| l.trim_start().starts_with("[dev-dependencies.")) =>
+            {
+                return None
+            }
+            None => {
+                let (end, _) = table_end(&lines, "[dependencies]", name)?;
+                let mut insert = vec![String::new(), "[dev-dependencies]".to_string()];
+                insert.extend(declaration);
+                edits.push(Edit {
+                    line: end + 1,
+                    remove: 0,
+                    insert,
+                });
+            }
+        }
+    }
+    edits.sort_by_key(|e| e.line);
+    Some(Fix { edits })
+}
+
+/// How many lines the declaration starting at `line` takes (`x = { …,\n
+/// features = [\n …\n] }`).
+fn declaration_len(lines: &[&str], line: usize) -> Option<usize> {
+    let mut depth = 0i32;
+    for (i, text) in lines.iter().enumerate().skip(line.checked_sub(1)?) {
+        let mut quote = None;
+        for c in text.chars() {
+            match quote {
+                Some(q) if c == q => quote = None,
+                Some(_) => {}
+                None => match c {
+                    '"' | '\'' => quote = Some(c),
+                    '#' => break,
+                    '[' | '{' => depth += 1,
+                    ']' | '}' => depth -= 1,
+                    _ => {}
+                },
+            }
+        }
+        if depth <= 0 {
+            return Some(i + 2 - line);
+        }
+    }
+    None
+}
+
+/// The last line of `header`'s table that holds a key (or the header line
+/// itself), and whether one of its keys is `name`.
+fn table_end(lines: &[&str], header: &str, name: &str) -> Option<(usize, bool)> {
+    let start = lines.iter().position(|l| {
+        l.trim()
+            .strip_prefix(header)
+            .is_some_and(|rest| rest.is_empty() || rest.trim_start().starts_with('#'))
+    })?;
+    let mut end = start;
+    let mut has = false;
+    for (i, text) in lines.iter().enumerate().skip(start + 1) {
+        let t = text.trim();
+        if t.starts_with('[') {
+            break;
+        }
+        if t.is_empty() || t.starts_with('#') {
+            continue;
+        }
+        end = i;
+        let key = t.split('=').next().unwrap_or("").trim().trim_matches('"');
+        has |= key.split('.').next() == Some(name);
+    }
+    Some((end + 1, has))
+}
+
 /// A comment line right above the declaration says why it is there
 /// (`# Needed so that rusqlite builds with the bundled SQLite.`).
 fn documented(text: &str, line: usize) -> bool {
@@ -306,6 +418,55 @@ mod tests {
             .message
             .contains("`ffi-support` is in [dependencies]"));
         assert!(found[1].message.contains("`mockito` is only used by tests"));
+    }
+
+    /// `(line, remove, insert)` of each edit of a finding's fix.
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        let fix = f.fix.as_ref().expect("a fix");
+        fix.edits
+            .iter()
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn fixes_dont() {
+        let toml = manifest(include_str!("../../rules/no-unused-deps/dont.toml"));
+        let found = check(&RULE, &[(MANIFEST, &toml), LIB]);
+        // Unused: delete the line.
+        assert_eq!(edits(&found[0]), vec![(7, 1, vec![])]);
+        // Test-only: move it to the end of [dev-dependencies], as in do.toml.
+        assert_eq!(
+            edits(&found[1]),
+            vec![
+                (8, 1, vec![]),
+                (14, 0, vec!["mockito = \"0.31\"".to_string()])
+            ]
+        );
+    }
+
+    #[test]
+    fn fix_moves_multi_line_declarations_into_a_new_table() {
+        let toml = manifest(
+            "[dependencies]\nmockito = { version = \"0.31\", features = [\n    \"a\",\n] }\nurl = \"2.1\"\n\n[build-dependencies]\nuniffi = \"0.29\"\n",
+        );
+        let found = check(
+            &RULE,
+            &[
+                (MANIFEST, &toml),
+                LIB,
+                ("components/places/build.rs", "fn main() { uniffi::x(); }\n"),
+            ],
+        );
+        assert_eq!(found.len(), 1, "{found:#?}");
+        let declaration = vec![
+            "mockito = { version = \"0.31\", features = [".to_string(),
+            "    \"a\",".to_string(),
+            "] }".to_string(),
+        ];
+        let mut table = vec![String::new(), "[dev-dependencies]".to_string()];
+        table.extend(declaration);
+        assert_eq!(edits(&found[0]), vec![(6, 3, vec![]), (10, 0, table)]);
     }
 
     #[test]

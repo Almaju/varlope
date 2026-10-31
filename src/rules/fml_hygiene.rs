@@ -4,7 +4,7 @@
 
 use regex::Regex;
 
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::source::TextFile;
 
 pub static RULE: Rule = Rule {
@@ -62,13 +62,28 @@ fn restated_defaults(file: &TextFile, out: &mut Findings) {
                 continue;
             };
             if value.trim().trim_matches('"') == *default {
-                out.add(
+                out.add_fix(
                     &file.path,
                     n,
                     format!("`{key}: {default}` restates the default; delete the line"),
+                    delete_line(file, n),
                 );
             }
         }
+    }
+}
+
+/// Delete line `n`, with a blank line next to it that would otherwise be
+/// doubled or end the file.
+fn delete_line(file: &TextFile, n: usize) -> Fix {
+    let lines: Vec<&str> = file.text.lines().collect();
+    let blank = |i: usize| i >= 1 && lines.get(i - 1).is_some_and(|l| l.trim().is_empty());
+    if blank(n - 1) && blank(n + 1) {
+        Fix::delete(n, 2)
+    } else if blank(n - 1) && n == lines.len() {
+        Fix::delete(n - 1, 2)
+    } else {
+        Fix::delete(n, 1)
     }
 }
 
@@ -104,11 +119,17 @@ fn unused_template_bindings(file: &TextFile, out: &mut Findings) {
             .any(|(j, (_, other))| j != i && (is_import || j > i) && usage.is_match(other));
         if !used {
             let kind = if is_import { "import" } else { "let" };
-            out.add(
-                &file.path,
-                file.line_of(*start),
-                format!("`{{% {kind} {name} %}}` is never used in this template; delete it"),
-            );
+            let line = file.line_of(*start);
+            let message =
+                format!("`{{% {kind} {name} %}}` is never used in this template; delete it");
+            // Delete the tag's line when it holds nothing else and does not
+            // trim the whitespace after it (`-%}`), so the generated code only
+            // loses an empty line.
+            if file.line(line).trim() == *text && !text.ends_with("-%}") {
+                out.add_fix(&file.path, line, message, delete_line(file, line));
+            } else {
+                out.add(&file.path, line, message);
+            }
         }
     }
 }
@@ -129,6 +150,37 @@ mod tests {
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 4);
+    }
+
+    /// `(line, remove, insert)` of each edit of a finding's fix.
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        let fix = f.fix.as_ref().expect("a fix");
+        fix.edits
+            .iter()
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn fixes_dont() {
+        let found = check(
+            &RULE,
+            &[(PATH, include_str!("../../rules/fml-hygiene/dont.yaml"))],
+        );
+        assert_eq!(edits(&found[0]), vec![(4, 1, vec![])]);
+    }
+
+    #[test]
+    fn fix_deletes_unused_bindings_alone_on_their_line() {
+        let template = "{%- let unused = 1 %}\n{%- let trims = 2 -%}\nclass A {}\n\n{% import \"macros.kt\" as kt %}\n";
+        let path = "components/support/nimbus-fml/src/backends/kotlin/templates/A.kt";
+        let found = check(&RULE, &[(path, template)]);
+        assert_eq!(found.len(), 3, "{found:#?}");
+        assert_eq!(edits(&found[0]), vec![(1, 1, vec![])]);
+        // `-%}` trims what follows: deleting it would change the output.
+        assert!(found[1].fix.is_none());
+        // The last line, with the blank line that would end the file.
+        assert_eq!(edits(&found[2]), vec![(4, 2, vec![])]);
     }
 
     #[test]

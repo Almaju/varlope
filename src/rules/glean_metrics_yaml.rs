@@ -4,7 +4,7 @@
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::source::TextFile;
 
 pub static RULE: Rule = Rule {
@@ -31,25 +31,107 @@ fn check(cx: &Context, out: &mut Findings) {
         if file.file_name() != "metrics.yaml" || crate::workspace::is_test_path(&file.path) {
             continue;
         }
-        for metric in parse_metrics(file) {
-            check_metric(file, &metric, today, major, out);
+        let metrics = parse_metrics(file);
+        // The team alias the file's other metrics notify, when there is one.
+        let mut aliases: Vec<&str> = metrics
+            .iter()
+            .filter_map(|m| m.get("notification_emails"))
+            .flat_map(|p| p.items.iter().map(|(_, e)| e.as_str()))
+            .filter(|e| is_team_alias(e))
+            .collect();
+        aliases.sort_unstable();
+        aliases.dedup();
+        let alias = match aliases.as_slice() {
+            [one] => Some(*one),
+            _ => None,
+        };
+        for metric in &metrics {
+            check_metric(file, metric, today, major, alias, out);
         }
     }
 }
 
-fn check_metric(file: &TextFile, m: &Metric, today: i64, major: Option<u64>, out: &mut Findings) {
+/// What a missing link is replaced with: still flagged until filled in.
+const PLACEHOLDER: &str = "https://bugzilla.mozilla.org/show_bug.cgi?id=TODO";
+
+/// The keys a metric lists its links and owners under, in their usual order.
+const ORDER: &[&str] = &["bugs", "data_reviews", "notification_emails", "expires"];
+
+fn add(out: &mut Findings, path: &str, line: usize, message: String, fix: Option<Fix>) {
+    match fix {
+        Some(fix) => out.add_fix(path, line, message, fix),
+        None => out.add(path, line, message),
+    }
+}
+
+/// The indentation of list items in this file (`      - `).
+fn item_indent(file: &TextFile) -> String {
+    file.lines()
+        .find_map(|(_, l)| {
+            let rest = l.trim_start();
+            let indent = l.len() - rest.len();
+            (rest.starts_with("- ") && indent > 4).then(|| l[..indent].to_string())
+        })
+        .unwrap_or_else(|| " ".repeat(6))
+}
+
+/// `key:` with a placeholder link, before the next of [`ORDER`]'s keys.
+fn missing_links(file: &TextFile, m: &Metric, key: &str) -> Option<Fix> {
+    let after = ORDER.iter().position(|k| *k == key)? + 1;
+    let next = ORDER[after..].iter().find_map(|k| m.get(k))?;
+    let text = file.line(next.line);
+    let indent = &text[..text.len() - text.trim_start().len()];
+    Some(Fix::insert_before(
+        next.line,
+        vec![
+            format!("{indent}{key}:"),
+            format!("{}- {PLACEHOLDER}", item_indent(file)),
+        ],
+    ))
+}
+
+/// `key: []` -> `key:` with a placeholder link.
+fn empty_links(file: &TextFile, p: &Prop) -> Option<Fix> {
+    let line = file.line(p.line);
+    let (key, value) = line.split_once(':')?;
+    let value = strip_comment(value).trim();
+    if !matches!(value, "" | "[]" | "\"\"" | "''") {
+        return None;
+    }
+    Some(Fix::edit(
+        p.line,
+        1,
+        vec![
+            format!("{key}:"),
+            format!("{}- {PLACEHOLDER}", item_indent(file)),
+        ],
+    ))
+}
+
+fn check_metric(
+    file: &TextFile,
+    m: &Metric,
+    today: i64,
+    major: Option<u64>,
+    alias: Option<&str>,
+    out: &mut Findings,
+) {
     let id = format!("{}.{}", m.category, m.name);
     for key in ["bugs", "data_reviews"] {
         match m.get(key) {
-            None => out.add(
+            None => add(
+                out,
                 &file.path,
                 m.line,
                 format!("`{id}` has no `{key}`; link the Bugzilla bug or GitHub issue"),
+                missing_links(file, m, key),
             ),
-            Some(p) if p.items.is_empty() && p.value.is_empty() => out.add(
+            Some(p) if p.items.is_empty() && p.value.is_empty() => add(
+                out,
                 &file.path,
                 p.line,
                 format!("`{id}` has an empty `{key}`; link the Bugzilla bug or GitHub issue"),
+                empty_links(file, p),
             ),
             Some(p) => {
                 for (line, item) in &p.items {
@@ -68,19 +150,31 @@ fn check_metric(file: &TextFile, m: &Metric, today: i64, major: Option<u64>, out
     }
     if let Some(p) = m.get("notification_emails") {
         if !p.items.is_empty() && !p.items.iter().any(|(_, e)| is_team_alias(e)) {
-            out.add(
+            // The alias the rest of the file uses, after the last address.
+            let fix = alias.and_then(|alias| {
+                let (last, _) = p.items.last()?;
+                let text = file.line(*last);
+                let dash = text.find("- ")?;
+                (*last != p.line).then(|| {
+                    Fix::insert_before(last + 1, vec![format!("{}- {alias}", &text[..dash])])
+                })
+            });
+            add(
+                out,
                 &file.path,
                 p.line,
                 format!("`{id}` only notifies individuals; add a team alias so expiry and alert emails outlive team changes"),
+                fix,
             );
         }
     }
     if let Some(p) = m.get("disabled") {
         if p.value == "false" {
-            out.add(
+            out.add_fix(
                 &file.path,
                 p.line,
                 format!("`disabled: false` on `{id}` is the default and reads as if the metric were off; delete the line"),
+                Fix::delete(p.line, 1),
             );
         }
     }
@@ -286,6 +380,66 @@ mod tests {
         );
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![6, 8, 9, 11, 12], "{found:#?}");
+    }
+
+    /// `(line, remove, insert)` of each edit of a finding's fix.
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        let fix = f.fix.as_ref().expect("a fix");
+        fix.edits
+            .iter()
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn fixes_dont() {
+        let found = check(
+            &RULE,
+            &[(
+                PATH,
+                include_str!("../../rules/glean-metrics-yaml/dont.yaml"),
+            )],
+        );
+        // An empty `bugs`: a placeholder that stays flagged until filled in.
+        assert_eq!(
+            edits(&found[0]),
+            vec![(
+                6,
+                1,
+                vec![
+                    "    bugs:".to_string(),
+                    "      - https://bugzilla.mozilla.org/show_bug.cgi?id=TODO".to_string()
+                ]
+            )]
+        );
+        // `disabled: false` goes.
+        assert_eq!(edits(&found[3]), vec![(11, 1, vec![])]);
+        // No link, alias or expiry to make up.
+        for i in [1, 2, 4] {
+            assert!(found[i].fix.is_none(), "{:#?}", found[i]);
+        }
+    }
+
+    #[test]
+    fn fix_adds_missing_links_and_the_files_team_alias() {
+        let yaml = "x:\n  a:\n    type: counter\n    bugs:\n      - 1234567\n    data_reviews:\n      - 1234567\n    notification_emails:\n      - sync-team@mozilla.com\n    expires: never\n  b:\n    type: counter\n    bugs:\n      - 1234567\n    notification_emails:\n      - someone@example.com\n    expires: never\n";
+        let found = check(&RULE, &[(PATH, yaml)]);
+        assert_eq!(found.len(), 2, "{found:#?}");
+        assert_eq!(
+            edits(&found[0]),
+            vec![(
+                15,
+                0,
+                vec![
+                    "    data_reviews:".to_string(),
+                    "      - https://bugzilla.mozilla.org/show_bug.cgi?id=TODO".to_string()
+                ]
+            )]
+        );
+        assert_eq!(
+            edits(&found[1]),
+            vec![(17, 0, vec!["      - sync-team@mozilla.com".to_string()])]
+        );
     }
 
     #[test]
