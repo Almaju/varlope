@@ -15,7 +15,8 @@ use std::collections::{BTreeMap, BTreeSet};
 use syn::visit::Visit;
 
 use crate::helpers::errors::{self, text, TestSupport};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
+use crate::source::RustFile;
 use crate::syntax;
 
 pub static RULE: Rule = Rule {
@@ -62,6 +63,7 @@ fn check(cx: &Context, out: &mut Findings) {
                 calls: BTreeSet::new(),
                 guards: Vec::new(),
                 hits: Vec::new(),
+                prefix_checks: BTreeMap::new(),
             };
             v.visit_block(f.block);
             for hit in &v.hits {
@@ -79,6 +81,13 @@ fn check(cx: &Context, out: &mut Findings) {
                     ),
                 };
                 out.add_at(&file.path, hit.line, hit.column, message);
+                let check = v.prefix_checks.get(&(hit.line, hit.column));
+                if let (Some(fix), Some(last)) = (
+                    check.and_then(|c| starts_with_fix(file, c)),
+                    out.items.last_mut(),
+                ) {
+                    last.fix = Some(fix);
+                }
             }
         }
     }
@@ -133,6 +142,38 @@ fn makes_string(expr: &syn::Expr) -> bool {
     }
 }
 
+/// `&s[..8] != "default/"`: a prefix test written as a slice, which
+/// `s.starts_with("default/")` does without panicking.
+struct PrefixCheck {
+    /// The whole comparison.
+    comparison: proc_macro2::Span,
+    /// The string sliced, and the literal.
+    string: proc_macro2::Span,
+    literal: proc_macro2::Span,
+    negated: bool,
+}
+
+/// The comparison rewritten with `starts_with`, when it is on one line.
+fn starts_with_fix(file: &RustFile, check: &PrefixCheck) -> Option<Fix> {
+    let range = file.range(check.comparison);
+    let (start, end) = (check.comparison.start(), check.comparison.end());
+    if start.line != end.line {
+        return None;
+    }
+    let text = file.line(start.line);
+    let line_start = file.text[..range.start].rfind('\n').map_or(0, |i| i + 1);
+    let (from, to) = (range.start - line_start, range.end - line_start);
+    let not = if check.negated { "!" } else { "" };
+    let rewritten = format!(
+        "{}{not}{}.starts_with({}){}",
+        text.get(..from)?,
+        file.text[file.range(check.string)].trim(),
+        &file.text[file.range(check.literal)],
+        text.get(to..)?
+    );
+    (rewritten.chars().count() <= 100).then(|| Fix::replace_line(start.line, rewritten))
+}
+
 enum What {
     Truncate(String),
     Slice(String),
@@ -160,6 +201,9 @@ struct Body<'f> {
     /// Conditions and scrutinees, as text.
     guards: Vec<String>,
     hits: Vec<Hit>,
+    /// Slices compared with a literal of their length, by the position of
+    /// the slice's range (where its hit is).
+    prefix_checks: BTreeMap<(usize, usize), PrefixCheck>,
 }
 
 impl Body<'_> {
@@ -350,6 +394,61 @@ impl<'ast> Visit<'ast> for Body<'_> {
         }
         syn::visit::visit_expr_method_call(self, m);
     }
+    fn visit_expr_binary(&mut self, b: &'ast syn::ExprBinary) {
+        let negated = match b.op {
+            syn::BinOp::Eq(_) => false,
+            syn::BinOp::Ne(_) => true,
+            _ => return syn::visit::visit_expr_binary(self, b),
+        };
+        let pair = match (peel(&b.left), peel(&b.right)) {
+            (syn::Expr::Index(i), syn::Expr::Lit(l)) | (syn::Expr::Lit(l), syn::Expr::Index(i)) => {
+                Some((i, l))
+            }
+            _ => None,
+        };
+        if let Some((
+            index,
+            syn::ExprLit {
+                lit: syn::Lit::Str(lit),
+                ..
+            },
+        )) = pair
+        {
+            // `s[..N]`, `N` the literal's length, on a string named plainly.
+            let prefix = match &*index.index {
+                syn::Expr::Range(syn::ExprRange {
+                    start: None,
+                    limits: syn::RangeLimits::HalfOpen(_),
+                    end: Some(end),
+                    ..
+                }) => match &**end {
+                    syn::Expr::Lit(syn::ExprLit {
+                        lit: syn::Lit::Int(n),
+                        ..
+                    }) => n.base10_parse::<usize>().ok() == Some(lit.value().len()),
+                    _ => false,
+                },
+                _ => false,
+            };
+            let plain = matches!(
+                &*index.expr,
+                syn::Expr::Path(_) | syn::Expr::Field(_) | syn::Expr::MethodCall(_)
+            );
+            if prefix && plain && self.is_string(&index.expr).is_some() {
+                let start = syn::spanned::Spanned::span(&index.index).start();
+                self.prefix_checks.insert(
+                    (start.line, start.column + 1),
+                    PrefixCheck {
+                        comparison: syn::spanned::Spanned::span(b),
+                        string: syn::spanned::Spanned::span(&index.expr),
+                        literal: lit.span(),
+                        negated,
+                    },
+                );
+            }
+        }
+        syn::visit::visit_expr_binary(self, b);
+    }
     fn visit_expr_index(&mut self, e: &'ast syn::ExprIndex) {
         if let (Some(string), syn::Expr::Range(range)) = (self.is_string(&e.expr), &*e.index) {
             let offsets: Vec<syn::Expr> = [&range.start, &range.end]
@@ -401,8 +500,26 @@ mod tests {
     #[test]
     fn flags_slices_at_byte_limits() {
         let src = "fn f(spec: &str) -> &str {\n    let n = spec.len().min(MAX_BYTES);\n    &spec[..n]\n}\nfn g(name: String) -> bool {\n    &name[..8] == \"default/\"\n}\n";
-        let lines: Vec<usize> = run(src).iter().map(|f| f.line).collect();
+        let found = run(src);
+        let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![3, 6]);
+        // Where to cut `spec` is the reader's call; a prefix test is not.
+        assert!(found[0].fix.is_none());
+        let edit = &found[1].fix.as_ref().expect("a fix").edits[0];
+        assert_eq!((edit.line, edit.remove), (6, 1));
+        assert_eq!(edit.insert, vec!["    name.starts_with(\"default/\")"]);
+    }
+
+    #[test]
+    fn fixes_prefix_tests_only() {
+        let src = "fn g(name: String) {\n    if &name[..8] != \"default/\" || \"ab\" == &name[..3] { }\n}\n";
+        let found = run(src);
+        assert_eq!(found.len(), 2, "{found:#?}");
+        let edit = &found[0].fix.as_ref().expect("a fix").edits[0];
+        let fixed = "    if !name.starts_with(\"default/\") || \"ab\" == &name[..3] { }";
+        assert_eq!(edit.insert, vec![fixed]);
+        // `"ab"` is 2 bytes: the slice of 3 never equals it.
+        assert!(found[1].fix.is_none());
     }
 
     #[test]
