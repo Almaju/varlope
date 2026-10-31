@@ -1,1 +1,1 @@
-Tests sharing static mocks, the global logger/max level or named shared-cache in-memory DBs raced when cargo ran them in parallel.
+cargo runs tests in parallel threads of one process, so anything global leaks between them: tests raced on the global logger and max log level (#5385, #5403), and tests sharing a named in-memory database saw each other's rows. Tests that read the real clock only pass on some days: a week-interval test only passed on Mondays (#5449).
