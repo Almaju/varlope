@@ -1,0 +1,12 @@
+--- a/components/suggest/Cargo.toml
++++ b/components/suggest/Cargo.toml
+ [package]
+ name = "suggest"
+ 
+ [dependencies]
+ regex = "1.9"
++serde = { version = "1", features = ["derive"] }
+ 
+ [dev-dependencies]
+ tempfile = "3"
++env_logger = "0.11"
