@@ -62,6 +62,70 @@ pub fn files_from_diff(diff: &str) -> Vec<(String, String)> {
     files
 }
 
+/// The old side (context and removed lines) and the new side (context and
+/// added lines) of every file in a hand-written diff that starts at line 1.
+/// A file only on one side (`--- /dev/null`, `+++ /dev/null`) is left out of
+/// the other.
+pub fn old_and_new_from_diff(diff: &str) -> (Vec<(String, String)>, Vec<(String, String)>) {
+    // (path, old text, new text, exists before, exists after)
+    let mut files: Vec<(String, String, String, bool, bool)> = Vec::new();
+    let lines: Vec<&str> = diff.lines().collect();
+    let mut i = 0;
+    while i < lines.len() {
+        let line = lines[i];
+        if let (Some(minus), Some(plus)) = (
+            line.strip_prefix("--- "),
+            lines.get(i + 1).and_then(|n| n.strip_prefix("+++ ")),
+        ) {
+            let before = !minus.starts_with("/dev/null");
+            let after = !plus.starts_with("/dev/null");
+            let path = if after { plus } else { minus };
+            let path = path
+                .strip_prefix("b/")
+                .or_else(|| path.strip_prefix("a/"))
+                .unwrap_or(path);
+            files.push((
+                path.to_string(),
+                String::new(),
+                String::new(),
+                before,
+                after,
+            ));
+            i += 2;
+            continue;
+        }
+        if let Some((_, old, new, _, _)) = files.last_mut() {
+            if line.starts_with("@@") {
+                // hunk headers carry no content
+            } else if let Some(added) = line.strip_prefix('+') {
+                new.push_str(added);
+                new.push('\n');
+            } else if let Some(removed) = line.strip_prefix('-') {
+                old.push_str(removed);
+                old.push('\n');
+            } else {
+                let context = line.strip_prefix(' ').unwrap_or(line);
+                for side in [old, new] {
+                    side.push_str(context);
+                    side.push('\n');
+                }
+            }
+        }
+        i += 1;
+    }
+    let old = files
+        .iter()
+        .filter(|f| f.3)
+        .map(|f| (f.0.clone(), f.1.clone()))
+        .collect();
+    let new = files
+        .iter()
+        .filter(|f| f.4)
+        .map(|f| (f.0.clone(), f.2.clone()))
+        .collect();
+    (old, new)
+}
+
 /// How a file type writes comments.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CommentStyle {
@@ -174,7 +238,7 @@ pub fn hash_comment_start(line: &str) -> Option<usize> {
     None
 }
 
-/// The first 1-based line at or after `from` whose text matches `pred`.
+/// The first 1-based line whose text matches `pred`.
 pub fn find_line(text: &str, pred: impl Fn(&str) -> bool) -> Option<usize> {
     text.lines().position(pred).map(|i| i + 1)
 }
