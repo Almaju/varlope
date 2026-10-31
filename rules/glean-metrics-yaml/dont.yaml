@@ -7,7 +7,7 @@ suggest:
     data_reviews:
       - TODO  # flagged: not a data-review link
     notification_emails:  # flagged: no team alias
-      - jdoe@mozilla.com
+      - someone@example.com
     disabled: false  # flagged: the default, yet reads as "off"
     expires: 2025-06-30  # flagged: expired (or expiring within two releases)
     data_sensitivity:
