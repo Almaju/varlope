@@ -494,6 +494,16 @@ pub fn is_network_call(m: &syn::ExprMethodCall) -> bool {
         )
 }
 
+/// Whether a nearby comment explains why a lock is released and taken again.
+pub fn comment_explains_relock(file: &RustFile, line: usize) -> bool {
+    let text = nearby_comments(file, line, line);
+    [
+        "lock", "release", "callback", "deadlock", "drop", "again", "reentr", "re-entr",
+    ]
+    .iter()
+    .any(|w| text.contains(w))
+}
+
 /// Visit the expressions inside a `format!`-style macro (`format!`, `warn!`,
 /// `vec!`, `assert!`...), which `syn` leaves as tokens.
 /// The visitor must not borrow from the tree (`for<'a> Visit<'a>`).

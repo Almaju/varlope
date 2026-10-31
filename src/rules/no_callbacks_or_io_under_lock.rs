@@ -207,8 +207,9 @@ impl<'ast> Visit<'ast> for UnderLock<'_> {
                     &m.method,
                     format!("`.{}()` does network I/O while `{held_name}` is locked; drop the guard first", m.method),
                 );
-            } else if let Some(again) =
-                errors::lock_call(&syn::Expr::MethodCall(m.clone()), self.guard_fns)
+            } else if let Some(again) = (!matches!(m.method.to_string().as_str(), "unwrap" | "expect"))
+                .then(|| errors::lock_call(&syn::Expr::MethodCall(m.clone()), self.guard_fns))
+                .flatten()
             {
                 let both_shared = held_shared && again.shared;
                 if again.key == held_key && !both_shared {
