@@ -1,1 +1,1 @@
-Reviewers keep asking for a link to the GitHub issue/Jira ticket on temporary branches ('this branch should die', iOS-migration-only APIs, deprecated rc_log, serde workarounds) and push back on bare `XXX` question comments left in code.
+A `TODO` with no bug is work nobody tracks: years later no one knows whether it still applies or who owns it. Reviewers here keep asking "can we link the ticket for this?", and the repo already uses the `TODO(bug NNNNNNN): …` form, so only newly added markers are checked.

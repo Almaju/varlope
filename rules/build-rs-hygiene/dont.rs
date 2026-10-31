@@ -1,9 +1,11 @@
-use std::process::Command;
+use std::{env, fs, process::Command};
 
 fn main() {
-    let status = Command::new("uniffi-bindgen") // flagged: shells out from build.rs
-        .args(["scaffolding", "src/notes.udl", "--out-dir", "src"]) // flagged: src/
-        .status()
-        .unwrap(); // flagged: no message if the tool is missing
-    assert!(status.success());
+    // Generate the Glean metrics with the Python glean_parser.
+    let python = Command::new("python3") // flagged: depends on PATH and platform
+        .args(["-m", "glean_parser", "translate", "metrics.yaml", "-f", "rust"])
+        .output()
+        .expect("Error running glean_parser");
+    fs::write("src/metrics.rs", python.stdout).unwrap(); // flagged: writes into src/
+    println!("cargo:rustc-link-search={}", env::var("NSS_DIR").unwrap()); // flagged
 }

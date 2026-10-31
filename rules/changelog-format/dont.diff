@@ -1,9 +1,18 @@
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
  # v161.0 (In progress)
-
+ 
  ## ✨ What's Changed ✨
-
-+- Nimbus: disabled rollouts submit an event. <!-- flagged: no heading, no link -->
-@@ -96,3 +97,4 @@ # v160.0 (_2026-10-22_)
+ 
++- Disabled rollouts now submit an event. <!-- flagged: no `### Nimbus` heading -->
++
  ### Search
-
-+- Fixed a crash on an empty engine list. <!-- flagged: edits released v160.0 -->
+ 
+ - Added `SearchEngineSelector` APIs for search-config-v3.
+ 
+ # v160.0 (_2026-10-22_)
+ 
+ ### Search
+ 
+-- Fixed a crash on an empty engine list.
++- Fixed a crash on an empty engine list (#7701). <!-- flagged: v160.0 is released -->

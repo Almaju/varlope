@@ -1,5 +1,6 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
+ [[package]]
  name = "glean-sym"
 -version = "70.0.0"
-+version = "71.0.0" # flagged: libs.versions.toml, Package.resolved still 70.0.0
++version = "71.0.0" # flagged: libs.versions.toml and Package.resolved still say 70.0.0

@@ -1,5 +1,0 @@
-# components/suggest/Cargo.toml
-[dependencies]
-regex = "1.10.5" # flagged: mozilla-central vendors regex 1.9.x
-serde = { workspace = true } # flagged: m-c can't vendor workspace-inherited deps
-unicode-segmentation = "1.12" # flagged: no cargo-vet audit (safe-to-deploy)

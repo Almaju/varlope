@@ -1,0 +1,6 @@
+--- a/components/places/src/storage/bookmarks.rs
++++ b/components/places/src/storage/bookmarks.rs
+@@ -40,2 +40,3 @@ pub fn sort_titles(titles: &mut [String]) {
+ pub fn sort_titles(titles: &mut [String]) {
++    // TODO: switch to the icu4x collator. // flagged: no bug to track it
+     titles.sort_by_key(|t| t.to_lowercase());

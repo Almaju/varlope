@@ -1,0 +1,12 @@
+tasks:
+  pr:
+    attributes:
+      run-on-pr-type: all
+    run-on-tasks-for: [github-pull-request, github-issue-comment, cron]
+    description: Build and test (Android - linux-x86-64)
+    worker-type: b-linux
+    run:
+      using: gradlew
+      gradlew:
+        - 'assembleDebug'
+        - 'testDebug'

@@ -1,10 +1,15 @@
 impl Client {
-    pub fn set_pref_store(
+    pub(crate) fn set_pref_store( // flagged: its only caller is stateful-only
         &self,
-        #[cfg(feature = "stateful")] prefs: Arc<GeckoPrefStore>, // flagged
+        #[cfg(feature = "stateful")] prefs: Arc<GeckoPrefStore>,
     ) -> Result<()> {
-        #[cfg(feature = "stateful")] // flagged: gate the whole fn instead
+        #[cfg(feature = "stateful")]
         self.pref_store.replace(prefs);
         Ok(())
     }
+}
+
+#[cfg(feature = "stateful")]
+pub fn init_prefs(client: &Client, prefs: Arc<GeckoPrefStore>) -> Result<()> {
+    client.set_pref_store(prefs)
 }

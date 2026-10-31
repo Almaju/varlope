@@ -2,7 +2,9 @@
 /// on the Remote Settings server.
 const REFRESH_INTERVAL: Duration = Duration::from_secs(24 * 60 * 60);
 
-fn needs_refresh(&self, now: SystemTime) -> bool {
-    let age = now.duration_since(self.last_fetch).unwrap_or_default();
-    age > REFRESH_INTERVAL
+impl Store {
+    fn needs_refresh(&self, now: SystemTime) -> bool {
+        let age = now.duration_since(self.last_fetch).unwrap_or_default();
+        age > REFRESH_INTERVAL
+    }
 }
