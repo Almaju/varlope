@@ -1,1 +1,1 @@
-A whole PR (and follow-ups) was spent re-indenting SELECT statements in suggest/db.rs; reviewers keep nitpicking AND alignment, left edges and parenthesized BETWEEN by hand.
+Reviewers spend whole rounds re-indenting queries in `suggest/db.rs` and pointing out a stray lowercase `from` or a `WHERE` tucked onto the `FROM` line. Uppercase keywords and one clause per line make long queries scannable and keep diffs to the line that changed.

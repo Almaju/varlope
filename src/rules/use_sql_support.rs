@@ -139,11 +139,10 @@ impl<'ast> Visit<'ast> for WriteSql {
     fn visit_lit_str(&mut self, s: &'ast syn::LitStr) {
         let value = s.value();
         let first = sql::lex(&value);
-        if first.first().is_some_and(|t| {
-            ["INSERT", "UPDATE", "DELETE", "REPLACE"]
-                .iter()
-                .any(|w| t.text == *w)
-        }) && sql::looks_like_sql(&value, false)
+        if first
+            .first()
+            .is_some_and(|t| ["INSERT", "UPDATE", "DELETE", "REPLACE"].contains(&t.text))
+            && sql::looks_like_sql(&value, false)
         {
             self.0 = true;
         }
