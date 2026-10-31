@@ -1,1 +1,1 @@
-Yelp stored its URL template in `static URL_TEMPLATE: Mutex<String>` updated during ingestion, so queries before an ingestion (most of the time, after restart) used an empty template.
+Yelp kept its URL template in a `static Mutex<String>` filled during ingestion, so every query after a restart, before the next ingestion, used an empty template (#5951). Global state also outlives and is shared by every store in the process; keep it in the store struct or the database (`put_meta`/`get_meta`), or make it a `const` if it never changes.
