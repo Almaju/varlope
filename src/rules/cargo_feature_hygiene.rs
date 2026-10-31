@@ -246,11 +246,12 @@ fn cfg_if_modules(tokens: TokenStream, out: &mut Vec<(String, String)>) {
                     }
                 }
             }
-            TokenTree::Ident(id) if id == "else" => {
-                // An `else` branch is the opposite of the feature.
-                if !matches!(trees.get(i + 1), Some(TokenTree::Ident(n)) if n == "if") {
-                    feature = None;
-                }
+            // A plain `else` branch is the opposite of the feature.
+            TokenTree::Ident(id)
+                if id == "else"
+                    && !matches!(trees.get(i + 1), Some(TokenTree::Ident(n)) if n == "if") =>
+            {
+                feature = None;
             }
             _ => {}
         }
