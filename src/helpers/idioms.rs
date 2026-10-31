@@ -199,6 +199,21 @@ pub fn idents<T: quote::ToTokens>(node: &T) -> BTreeSet<String> {
     out
 }
 
+/// How many times the identifier `name` occurs in a node (macros included).
+pub fn count_ident<T: quote::ToTokens>(node: &T, name: &str) -> usize {
+    fn walk(stream: proc_macro2::TokenStream, name: &str) -> usize {
+        stream
+            .into_iter()
+            .map(|tt| match tt {
+                proc_macro2::TokenTree::Group(g) => walk(g.stream(), name),
+                proc_macro2::TokenTree::Ident(i) => usize::from(i == name),
+                _ => 0,
+            })
+            .sum()
+    }
+    walk(node.to_token_stream(), name)
+}
+
 fn collect_idents(stream: proc_macro2::TokenStream, out: &mut BTreeSet<String>) {
     for tt in stream {
         match tt {
