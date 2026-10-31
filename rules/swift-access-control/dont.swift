@@ -1,8 +1,12 @@
-class FxNimbus: FeatureManifestInterface { // flagged: implicit internal
-    static let shared = FxNimbus() // flagged: implicit internal
-    var api: FeaturesInterface? // flagged: implicit internal
+public class FxNimbus: FeatureManifestInterface {
+    static let shared = FxNimbus() // flagged: implicitly internal, the app can't reach it
+    public var api: FeaturesInterface?
 
     func initialize(with getSdk: @escaping () -> FeaturesInterface?) { // flagged
-        // …
+        self.getSdk = getSdk
     }
+}
+
+extension FxNimbus { // flagged: every member defaults to internal
+    func invalidateCachedValues() { /* … */ }
 }

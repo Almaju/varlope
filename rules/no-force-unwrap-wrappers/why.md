@@ -1,1 +1,4 @@
-Reviewers flagged Kotlin `!!` (throws on null) and Swift force-unwrap/`try!` (crashes the app), and rejected the lint-driven fix of `?? ""` + `print` that silently returns invalid JSON with different semantics. Errors should be thrown/handled or asserted explicitly.
+Kotlin `!!` and Swift `!`, `as!` and `try!` turn an unexpected null or error into an app crash, and
+these wrappers (plus the Swift and Kotlin that nimbus-fml generates) run inside Firefox for Android and iOS.
+Reviewers ask for a local `val`, `?.let`/`?:` or `guard let`, or an explicit `requireNotNull(x) { "why" }`
+when crashing really is intended, and rejected the opposite extreme of quietly returning `""` instead.
