@@ -8,7 +8,7 @@ use std::sync::LazyLock;
 use regex::Regex;
 
 use crate::diff::{FileChange, Status};
-use crate::helpers::docs_deps::{comment_lines, is_generated};
+use crate::helpers::docs_deps::{comment_lines, is_out_of_scope};
 use crate::rule::{Area, Context, Findings, Kind, Rule};
 
 pub static RULE: Rule = Rule {
@@ -44,7 +44,7 @@ static BUG_REF: LazyLock<Regex> = LazyLock::new(|| {
 fn check(cx: &Context, out: &mut Findings) {
     let Some(diff) = cx.diff else { return };
     for change in &diff.files {
-        if change.status == Status::Deleted || is_generated(&change.path) {
+        if change.status == Status::Deleted || is_out_of_scope(&change.path) {
             continue;
         }
         for (line, marker) in untracked_markers(change) {
