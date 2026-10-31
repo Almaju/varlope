@@ -15,7 +15,7 @@ pub static RULE: Rule = Rule {
     id: "todo-needs-bug",
     area: Area::Docs,
     title: "TODO/FIXME/XXX must reference a bug",
-    kind: Kind::Diff,
+    kind: Kind::Code,
     clippy: &["clippy::todo"],
     in_tests: true,
     check,
@@ -42,20 +42,41 @@ static BUG_REF: LazyLock<Regex> = LazyLock::new(|| {
 });
 
 fn check(cx: &Context, out: &mut Findings) {
-    let Some(diff) = cx.diff else { return };
+    let Some(diff) = cx.diff else {
+        // The code as it is: every line of every file counts.
+        for file in cx.ws.files() {
+            // Test fixtures (frozen schemas, recorded data) are not edited.
+            if is_out_of_scope(&file.path) || crate::workspace::is_test_path(&file.path) {
+                continue;
+            }
+            let whole = FileChange {
+                path: file.path.clone(),
+                old_path: None,
+                status: Status::Modified,
+                added: file.lines().map(|(n, l)| (n, l.to_string())).collect(),
+                removed: Vec::new(),
+                old_text: None,
+                new_text: Some(file.text.clone()),
+            };
+            report(&whole, out);
+        }
+        return;
+    };
     for change in &diff.files {
         if change.status == Status::Deleted || is_out_of_scope(&change.path) {
             continue;
         }
-        for (line, marker) in untracked_markers(change) {
-            out.add(
-                &change.path,
-                line,
-                format!(
-                    "`{marker}` without a bug reference: file a bug and write `{marker}(bug NNNNNNN): …`"
-                ),
-            );
-        }
+        report(change, out);
+    }
+}
+
+fn report(change: &FileChange, out: &mut Findings) {
+    for (line, marker) in untracked_markers(change) {
+        out.add(
+            &change.path,
+            line,
+            format!("`{marker}` without a bug reference: file a bug and write `{marker}(bug NNNNNNN): …`"),
+        );
     }
 }
 
