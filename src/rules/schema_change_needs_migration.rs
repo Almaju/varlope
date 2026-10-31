@@ -393,10 +393,14 @@ fn pattern_versions(pat: &syn::Pat, out: &mut Vec<(u64, u64)>) -> bool {
             out.push((lo, hi.unwrap_or(u64::MAX)));
             false
         }
-        syn::Pat::Or(o) => o
-            .cases
-            .iter()
-            .fold(false, |acc, p| pattern_versions(p, out) || acc),
+        syn::Pat::Or(o) => {
+            // Visit every case: each one adds its versions.
+            let mut fallback = false;
+            for p in &o.cases {
+                fallback |= pattern_versions(p, out);
+            }
+            fallback
+        }
         syn::Pat::Paren(p) => pattern_versions(&p.pat, out),
         _ => false,
     }
