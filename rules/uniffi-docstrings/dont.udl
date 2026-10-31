@@ -1,9 +1,0 @@
-interface TabsStore {
-    /// Opens (or creates) the tabs database at `path`.
-    constructor(string path);
-
-    // Set local tabs, with window and group info.
-    void set_local_tabs_info(LocalTabsInfo info); // flagged: `//` is not a docstring
-
-    sequence<ClientRemoteTabs> get_all(); // flagged: no `///` docstring
-};
