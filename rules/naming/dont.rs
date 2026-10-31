@@ -1,12 +1,8 @@
-fn record_visit(
-    conn: &Connection,
-    u: &Url, // flagged: min_ident_chars
-    th: VisitType, // flagged: disallowed name `th`
-) -> Result<()> {
-    let nm = u.as_str(); // flagged: disallowed name `nm`
-    conn.execute_cached(
-        "INSERT INTO visits (url, visit_type) VALUES (?1, ?2)",
-        rusqlite::params![nm, th as u8],
-    )?;
-    Ok(())
+fn validate_feature(&self, feature_def: &FeatureDef) -> Result<()> {
+    for prop in feature_def.props() {
+        let nm = prop.name(); // flagged: "`nm` is not at all clear"
+        self.validate_prop(&nm, &prop.typ())?;
+    }
+    let ta = self.targeting_attributes(); // flagged: "not a readable variable name"
+    self.check_targeting(&ta)
 }
