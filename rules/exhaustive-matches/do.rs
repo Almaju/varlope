@@ -1,6 +1,7 @@
 impl SearchEngineUrl {
     fn merge(&mut self, preferred: &JSONEngineUrl) {
-        let JSONEngineUrl { base, params, is_new_until } = preferred; // no `..`
+        // No `..`: adding a field to JSONEngineUrl fails to compile here.
+        let JSONEngineUrl { base, params, is_new_until } = preferred;
         if let Some(base) = base {
             self.base = base.clone();
         }
