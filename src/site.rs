@@ -588,16 +588,23 @@ const STYLE: &str = r#":root {
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #141619; --fg: #e3e5e8; --muted: #9aa1a9; --line: #2b2f34; --code: #1d2024;
     --link: #8ab4f8; --bad: #f28b82; --bad-bg: #2c1b1a; --good: #81c995; --good-bg: #17271d;
     color-scheme: dark;
   }
 }
+:root[data-theme="dark"] {
+  --bg: #141619; --fg: #e3e5e8; --muted: #9aa1a9; --line: #2b2f34; --code: #1d2024;
+  --link: #8ab4f8; --bad: #f28b82; --bad-bg: #2c1b1a; --good: #81c995; --good-bg: #17271d;
+  color-scheme: dark;
+}
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg);
   font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-main { max-width: 880px; margin: 0 auto; padding: 40px 20px 80px; }
+main { max-width: 880px; margin: 0 auto; padding-block: 40px 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 a { color: var(--link); text-decoration: none; }
 a:hover { text-decoration: underline; }
 h1 { font-size: 1.7rem; line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.01em; }
