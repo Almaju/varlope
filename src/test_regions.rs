@@ -127,8 +127,10 @@ pub fn is_test_gated(attrs: &[syn::Attribute]) -> bool {
             .map(|segment| segment.ident.to_string());
         match last.as_deref() {
             Some("cfg") => attr.meta.require_list().is_ok_and(|list| {
-                list.tokens
-                    .to_string()
+                // `cfg(not(test))` is production code: drop negated `test`s.
+                let tokens = list.tokens.to_string().replace(' ', "");
+                tokens
+                    .replace("not(test)", "")
                     .split(|c: char| !c.is_alphanumeric() && c != '_')
                     .any(|word| word == "test")
             }),
@@ -170,8 +172,7 @@ mod tests {
         let regions =
             regions("#[cfg(feature = \"testing\")]\nfn a() {}\n#[cfg(not(test))]\nfn b() {}");
         assert!(!regions.contains(30));
-        // `cfg(not(test))` mentions `test`, and is treated as test-related too:
-        // a conservative reading that never silences production code by
-        // accident is preferred over parsing cfg logic.
+        // `cfg(not(test))` is production code.
+        assert!(!regions.contains(55));
     }
 }

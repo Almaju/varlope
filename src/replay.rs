@@ -49,7 +49,15 @@ pub fn replay(
         let Ok(diff) = Diff::from_git(root, &format!("{sha}^"), Some(sha)) else {
             continue; // the first commit of a shallow clone has no parent
         };
-        for mut f in crate::run::run(ws, Some(&diff), &diff_rules) {
+        // Filter with the changed files as they were at this commit, so test
+        // regions and allow comments line up with the findings.
+        let at_commit: Vec<(&str, &str)> = diff
+            .files
+            .iter()
+            .filter_map(|c| Some((c.path.as_str(), c.new_text.as_deref()?)))
+            .collect();
+        let filter = Workspace::from_files(&at_commit);
+        for mut f in crate::run::run_with(ws, &filter, Some(&diff), &diff_rules) {
             f.commit = Some(sha.to_string());
             findings.push(f);
         }

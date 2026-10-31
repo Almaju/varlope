@@ -8,6 +8,18 @@ use crate::workspace::{is_test_path, Workspace};
 /// comment or sitting in test code (unless the rule asks for tests).
 /// Diff rules only run when there is a diff.
 pub fn run(ws: &Workspace, diff: Option<&Diff>, rules: &[&'static Rule]) -> Vec<Finding> {
+    run_with(ws, ws, diff, rules)
+}
+
+/// Like [`run`], but rules see `ws` while findings are filtered (test code,
+/// allow comments) against `filter`: for a past commit, the files as they
+/// were at that commit.
+pub fn run_with(
+    ws: &Workspace,
+    filter: &Workspace,
+    diff: Option<&Diff>,
+    rules: &[&'static Rule],
+) -> Vec<Finding> {
     let cx = Context { ws, diff };
     let mut all = Vec::new();
     for rule in rules {
@@ -16,7 +28,7 @@ pub fn run(ws: &Workspace, diff: Option<&Diff>, rules: &[&'static Rule]) -> Vec<
         }
         let mut out = Findings::new(rule.id);
         (rule.check)(&cx, &mut out);
-        all.extend(out.into_vec().into_iter().filter(|f| keep(ws, rule, f)));
+        all.extend(out.into_vec().into_iter().filter(|f| keep(filter, rule, f)));
     }
     sort(&mut all);
     all
