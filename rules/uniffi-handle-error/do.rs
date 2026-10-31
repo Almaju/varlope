@@ -9,5 +9,8 @@ impl Store {
 
 impl GetErrorHandling for Error {
     type ExternalError = StoreApiError;
-    fn get_error_handling(&self) -> ErrorHandling<StoreApiError> { /* … */ }
+    fn get_error_handling(&self) -> ErrorHandling<StoreApiError> {
+        ErrorHandling::convert(StoreApiError::Unexpected { reason: self.to_string() })
+            .report_error("store-unexpected")
+    }
 }
