@@ -4,13 +4,9 @@ pub enum Error {
     RequestError(#[from] viaduct::ViaductError),
 }
 
-impl GetErrorHandling for Error {
-    type ExternalError = ApiError;
-
-    fn get_error_handling(&self) -> ErrorHandling<ApiError> {
-        let reason = self.to_string();
-        match self {
-            Self::RequestError(_) => ErrorHandling::convert(ApiError::Network { reason }),
-        }
+fn to_api_error(error: &Error) -> ApiError {
+    let reason = error.to_string();
+    match error {
+        Error::RequestError(_) => ApiError::Network { reason },
     }
 }
