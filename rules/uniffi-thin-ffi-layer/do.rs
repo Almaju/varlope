@@ -1,13 +1,7 @@
 #[derive(uniffi::Object)]
 pub struct MozAdsClient {
-    inner: Arc<Mutex<AdsClient>>, // the core type owns the worker
+    inner: Mutex<AdsClient>, // the core type owns the worker and telemetry
 }
 
-// src/worker.rs (core)
-use crate::error::Result;
-
-impl BackgroundWorker {
-    pub fn run(&self, client: Arc<Mutex<AdsClient>>) -> Result<()> {
-        // …
-    }
-}
+// src/worker.rs, a core module, only knows core types:
+// use crate::error::Result;
