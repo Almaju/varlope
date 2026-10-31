@@ -1,7 +1,9 @@
-fn record_impression(&self, ad: &Ad) -> Result<()> {
-    let Some(url) = &ad.callbacks.impression else {
-        return Ok(());
-    };
-    let attempts = self.config.retries.map_or(1, |retries| retries + 1);
-    self.send_with_retries(url, attempts)
+impl PlacesApi {
+    fn parse_url(&self, val: &str) -> ApiResult<Url> {
+        Url::parse(val).map_err(|e| PlacesApiError::UrlParseFailed { reason: e.to_string() })
+    }
+
+    fn visit_limit(&self) -> u32 {
+        self.config.max_visits.map_or(DEFAULT_VISITS, |n| n.min(MAX_VISITS))
+    }
 }
