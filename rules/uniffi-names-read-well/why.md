@@ -1,1 +1,4 @@
-Reviewers caught `mimetype` (becomes `mimetype` in Kotlin/Swift, looks like a typo), `finish()` instead of the Java/Kotlin `build()`, `run_blocking` meaning the opposite of Kotlin's `runBlocking`, and inconsistent field names across suggestion variants (`subject_exact_match` vs `is_top_pick`).
+Kotlin and Swift developers only see the name after UniFFI camel-cases it, so it has to say what
+the call does: a `verify_*` that deletes logins invites someone to call it "to check", a
+`run_blocking` means the opposite of Kotlin's `runBlocking`, `Rust` in a type name tells callers
+nothing, and `mimetype` next to `mime_type` reads like a typo. Renaming later is a breaking change.
