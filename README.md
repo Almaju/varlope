@@ -15,6 +15,7 @@ cd application-services
 varlope check                      # rules that read the code
 varlope check --base origin/main   # plus the PR rules: CHANGELOG, API breaks, migrations…
 varlope check --clippy             # plus the rules clippy implements (builds the workspace)
+varlope check --path components/ads-client --fix   # apply the suggested fixes there
 varlope rules                      # list the rules
 ```
 
