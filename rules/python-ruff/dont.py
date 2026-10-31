@@ -1,8 +1,13 @@
+import sys
+
+
 def main():
     args = parse_args()
-    ok = upload_symbols(args.zip_file, args.token_file)
-    return 0 if ok else 2
+    if not upload_symbols(args.zip_file, args.token_file):
+        print("Symbol upload failed", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()  # flagged: exit status dropped; the task passes if the upload fails
+    main()  # flagged: the status is dropped, so the task passes anyway
