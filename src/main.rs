@@ -37,6 +37,12 @@ enum Command {
         /// Also run the rules clippy implements (`cargo clippy`; slow).
         #[arg(long)]
         clippy: bool,
+        /// Only report files under these paths (repeatable).
+        #[arg(long = "path")]
+        paths: Vec<String>,
+        /// Apply the suggested fixes, then report what is left.
+        #[arg(long)]
+        fix: bool,
         #[arg(long, value_enum, default_value_t = Format::Text)]
         format: Format,
     },
@@ -101,6 +107,8 @@ fn run() -> Result<ExitCode> {
             base,
             head,
             clippy,
+            paths,
+            fix,
             format,
         } => {
             let selected = select(&rules)?;
@@ -117,6 +125,26 @@ fn run() -> Result<ExitCode> {
                     varlope::rule(f.rule).is_some_and(|r| varlope::run::keep(&ws, r, f))
                 }));
                 varlope::run::sort(&mut findings);
+            }
+            if !paths.is_empty() {
+                findings.retain(|f| {
+                    paths
+                        .iter()
+                        .any(|p| f.path.starts_with(p.trim_start_matches("./")))
+                });
+            }
+            if fix {
+                let applied = varlope::fix::apply(&cli.root, &findings)?;
+                eprintln!(
+                    "fixed {}{}",
+                    applied.fixed,
+                    if applied.skipped > 0 {
+                        format!(", {} overlapped another fix: run again", applied.skipped)
+                    } else {
+                        String::new()
+                    }
+                );
+                findings.retain(|f| f.fix.is_none());
             }
             print(&findings, format)?;
             Ok(if findings.is_empty() {
