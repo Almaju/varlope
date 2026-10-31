@@ -1,13 +1,14 @@
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, uniffi::Error)]
 pub enum StoreApiError {
-    #[error("No record with that id: {reason}")]
-    NoSuchRecord { reason: String },
     #[error("Unexpected error: {reason}")]
     Unexpected { reason: String },
 }
 
-// in get_error_handling():
-Error::Json(e) => ErrorHandling::convert(StoreApiError::Unexpected {
-    reason: e.to_string(),
-})
-.report_error("store-json-parse"),
+impl GetErrorHandling for Error {
+    type ExternalError = StoreApiError;
+
+    fn get_error_handling(&self) -> ErrorHandling<StoreApiError> {
+        ErrorHandling::convert(StoreApiError::Unexpected { reason: self.to_string() })
+            .report_error("store-unexpected")
+    }
+}

@@ -565,8 +565,10 @@ pub fn udl_slots(path: &str, text: &str) -> Vec<Slot> {
     let mut out = Vec::new();
     let docs = udl_docs(text);
     for item in crate::udl::parse(text) {
-        for m in &item.members {
-            let doc = docs.get(&m.line).cloned();
+        for member in &item.members {
+            let doc = docs.get(&member.line).cloned();
+            let mut m = member.clone();
+            m.line = udl_name_line(text, member.line, &member.name);
             match item.kind {
                 UdlKind::Dictionary => {
                     if let Some(ty) = m.field_type() {
@@ -672,6 +674,28 @@ fn split_top_commas(text: &str) -> Vec<&str> {
         out.push(&text[start..]);
     }
     out
+}
+
+/// The line, at or after `from`, where `name` appears as a word: UDL member
+/// lines point at their first attribute, this points at the name.
+pub fn udl_name_line(text: &str, from: usize, name: &str) -> usize {
+    let lines: Vec<&str> = text.lines().collect();
+    (from..from + 6)
+        .find(|&l| {
+            lines
+                .get(l.wrapping_sub(1))
+                .is_some_and(|t| has_word(t, name))
+        })
+        .unwrap_or(from)
+}
+
+/// Whether `word` occurs in `text` with no identifier character around it.
+pub fn has_word(text: &str, word: &str) -> bool {
+    let ident = |c: char| c.is_alphanumeric() || c == '_';
+    text.match_indices(word).any(|(i, _)| {
+        !text[..i].chars().next_back().is_some_and(ident)
+            && !text[i + word.len()..].chars().next().is_some_and(ident)
+    })
 }
 
 /// For each line of a UDL file, the `///` doc block right above it (skipping
