@@ -4,4 +4,4 @@ namespace logins {
 };
 
 [External = "db_crypto"]
-typedef interface EncryptorDecryptor; // flagged: Rust declares it with_foreign
+typedef interface EncryptorDecryptor; // flagged: db_crypto exports a with_foreign trait

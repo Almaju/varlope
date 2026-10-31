@@ -14,6 +14,6 @@ pub static RULE: Rule = Rule {
     check,
 };
 
-fn check(cx: &Context, out: &mut Findings) {
-    let _ = (cx, out); // TODO: not implemented yet
+fn check(_cx: &Context, _out: &mut Findings) {
+    // rustc's `unreachable_pub` lint implements this rule (`varlope check --clippy`).
 }

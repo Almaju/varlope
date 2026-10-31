@@ -1,1 +1,5 @@
-Fields like `dismissed_at: i64`, `batch_interval_ms: Option<u64>`, a channel `buffer_size = 10000` and date strings left consumers guessing the unit; reviewers asked for `Duration`, the `ByteSize` struct or unit-bearing names (`time_` prefix convention), but not redundant names like `batch_interval_duration: Duration`.
+An integer timeout or TTL keeps its unit in a name or a comment, and those drift:
+`HISTORY_TTL: u32 = 5_184_000; // 60 days in milliseconds` actually holds seconds, and consumers
+passed `Date.now()` into fields they weren't sure were milliseconds. `std::time::Duration` and
+`SystemTime` carry their unit and cross UniFFI. Falling back to "now" when a server time doesn't
+parse hides corrupt data; return an error or skip the record instead.

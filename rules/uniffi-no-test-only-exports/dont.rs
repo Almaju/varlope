@@ -1,7 +1,7 @@
 #[uniffi::export]
-impl Store {
-    /// Wipes all data and resets the schema. Only for tests.
-    pub fn reset_for_tests(&self) { // flagged: test-only helper exported over FFI
-        self.db.lock().wipe_all();
+impl RemoteCommandStore {
+    /// Adds a command with an explicit timestamp. Primarily used by tests.
+    pub fn add_remote_command_at(&self, device_id: &str, when: Timestamp) -> bool { // flagged
+        self.add_at(device_id, when)
     }
 }

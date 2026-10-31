@@ -1,12 +1,15 @@
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, uniffi::Error)]
 pub enum StoreApiError {
-    #[error("No record with that id: {reason}")]
-    NoSuchRecord { reason: String },
-    #[error("JSON parse error")]
-    JsonParseError, // flagged: callers can't act on this
+    #[error("JSON error: {reason}")]
+    Json { reason: String }, // flagged: nothing ever returns it
     #[error("Unexpected error")]
     Unexpected, // flagged: catch-all without a reason
 }
 
-// in get_error_handling():
-_ => ErrorHandling::convert(StoreApiError::Unexpected), // flagged: wildcard arm
+impl GetErrorHandling for Error {
+    type ExternalError = StoreApiError;
+
+    fn get_error_handling(&self) -> ErrorHandling<StoreApiError> {
+        ErrorHandling::convert(StoreApiError::Unexpected) // flagged: never reported
+    }
+}

@@ -1,11 +1,8 @@
-fn record_visit(
-    conn: &Connection,
-    url: &Url,
-    visit_type: VisitType,
-) -> Result<()> {
-    conn.execute_cached(
-        "INSERT INTO visits (url, visit_type) VALUES (?1, ?2)",
-        rusqlite::params![url.as_str(), visit_type as u8],
-    )?;
-    Ok(())
+fn validate_feature(&self, feature_def: &FeatureDef) -> Result<()> {
+    for prop in feature_def.props() {
+        let name = prop.name();
+        self.validate_prop(&name, &prop.typ())?;
+    }
+    let targeting_attributes = self.targeting_attributes();
+    self.check_targeting(&targeting_attributes)
 }
