@@ -1,1 +1,1 @@
-Ingestion loaded and rewrote the unparsable-records meta JSON for every record, and enrollment telemetry crossed the FFI once per enrollment; reviewers asked to load once / pass the list.
+`execute`, `prepare` and `exists` parse and plan their SQL again on every call, so in a loop over records they redo the same work per item; `execute_cached` or a statement prepared before the loop does it once. Reviewers also ask ingestion loops that write to call `err_if_interrupted()` per item, so shutdown does not wait for the whole batch.
