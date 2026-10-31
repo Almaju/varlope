@@ -1,1 +1,1 @@
-NimbusClient::new read the RKV event store eagerly (request-changes over possible main-thread blocking), and Kotlin recordEvent called into Rust I/O directly instead of launching on dbScope.
+Apps construct component objects early and often on the main thread, so a constructor that opens a database or reads RKV can stall startup; reviewers requested changes when `NimbusClient::new` started reading the event store eagerly (#5206) and prefer constructors without hidden I/O (#5423). Open lazily (`sql_support::LazyDb`) or in a method the app calls in the background.

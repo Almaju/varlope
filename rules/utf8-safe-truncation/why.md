@@ -1,1 +1,1 @@
-Tab-title trimming used `title.truncate(MAX - 3)` + ASCII '...', which panics when the offset lands inside a multi-byte char (emoji/CJK titles) and crashes sync; follow-ups mixed char counts with byte counts and mis-sized the U+2026 ellipsis.
+`String::truncate(n)` and `&s[..n]` count bytes and panic when byte `n` falls inside a multi-byte character. Tab titles were trimmed that way, so a long emoji or CJK title crashed sync (#5411); cut at a char boundary with a helper such as `places::util::slice_up_to`.

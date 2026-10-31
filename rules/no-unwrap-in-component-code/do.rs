@@ -1,5 +1,8 @@
-uniffi::custom_type!(JsonValue, String, {
-    remote,
-    try_lift: |val| Ok(serde_json::from_str(val.as_str())?),
-    lower: |obj| obj.to_string(),
-});
+impl TabsStorage {
+    fn remote_clients(&self) -> Result<HashMap<String, RemoteClient>> {
+        Ok(match self.get_meta::<String>(REMOTE_CLIENTS_KEY)? {
+            None => HashMap::default(),
+            Some(json) => serde_json::from_str(&json)?, // a `Json` error the app can handle
+        })
+    }
+}

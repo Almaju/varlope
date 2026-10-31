@@ -1,11 +1,11 @@
 #[derive(Debug, Deserialize)]
 pub struct EngineRecord {
     pub identifier: String,
-    pub is_new_until: Option<String>,
-    pub channel: UpdateChannel,
+    pub channels: Vec<UpdateChannel>,
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum UpdateChannel {
     Release,
     Nightly,
