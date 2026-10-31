@@ -5,9 +5,9 @@ pub enum YelpSubjectType {
 }
 
 #[derive(uniffi::Record)]
-pub struct YelpResult {
+pub struct YelpSuggestion {
     pub title: String,
-    pub url: Url,
+    pub url: SuggestUrl,
     pub subject_type: YelpSubjectType,
     pub details: YelpDetails, // a uniffi::Record
 }
