@@ -1,4 +1,4 @@
-use std::sync::{Arc, Mutex}; // flagged: disallowed type std::sync::Mutex
+use std::sync::{Arc, Mutex}; // flagged: std mutex
 
 pub struct Store {
     config: Mutex<Option<Arc<Config>>>,
