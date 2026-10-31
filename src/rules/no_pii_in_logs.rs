@@ -57,7 +57,15 @@ const BROWSING_DATA: &[&str] = &[
 
 /// Methods that reduce a value to something that is not user data.
 const REDUCERS: &[&str] = &[
-    "len", "is_empty", "is_some", "is_none", "scheme", "count", "id", "guid", "redact_url",
+    "len",
+    "is_empty",
+    "is_some",
+    "is_none",
+    "scheme",
+    "count",
+    "id",
+    "guid",
+    "redact_url",
 ];
 
 fn check(cx: &Context, out: &mut Findings) {
@@ -163,7 +171,13 @@ impl Logs {
     /// Check a format-style argument list: `"fmt", args..`.
     fn check_format(&mut self, mac: &syn::Macro, args: &[syn::Expr], what: &str) {
         let Some(fmt_index) = args.iter().position(|a| {
-            matches!(a, syn::Expr::Lit(syn::ExprLit { lit: syn::Lit::Str(_), .. }))
+            matches!(
+                a,
+                syn::Expr::Lit(syn::ExprLit {
+                    lit: syn::Lit::Str(_),
+                    ..
+                })
+            )
         }) else {
             return;
         };
@@ -232,7 +246,11 @@ impl<'ast> Visit<'ast> for Logs {
                         if syntax::macro_name(&m.mac) == "format" {
                             if let Some(args) = errors::macro_args(&m.mac) {
                                 let variant = text(&p.path);
-                                self.check_format(&m.mac, &args, &format!("the message of `{variant}`"));
+                                self.check_format(
+                                    &m.mac,
+                                    &args,
+                                    &format!("the message of `{variant}`"),
+                                );
                             }
                         }
                     }
@@ -269,7 +287,10 @@ mod tests {
     #[test]
     fn flags_urls_titles_and_error_messages() {
         let src = "fn f(url: &Url, login: &Login) -> Error {\n    trace!(\"visit {} {}\", url, 3);\n    warn!(\"bad login {}\", login.username);\n    Error::InvalidLogin(format!(\"bad origin {}\", login.origin))\n}\n";
-        let lines: Vec<usize> = run("components/logins/src/db.rs", src).iter().map(|f| f.line).collect();
+        let lines: Vec<usize> = run("components/logins/src/db.rs", src)
+            .iter()
+            .map(|f| f.line)
+            .collect();
         assert_eq!(lines, vec![2, 3, 4]);
     }
 

@@ -46,7 +46,10 @@ fn check(cx: &Context, out: &mut Findings) {
             .map(|i| i.name)
             .collect();
         for file in cx.ws.package_files(package) {
-            let Some(rust) = cx.ws.rust(&file.path).filter(|r| errors::is_shipped(&r.path))
+            let Some(rust) = cx
+                .ws
+                .rust(&file.path)
+                .filter(|r| errors::is_shipped(&r.path))
             else {
                 continue;
             };
@@ -89,8 +92,7 @@ impl Conversions<'_> {
         let internal = !self.exported.contains(&enum_name)
             && !enum_name.ends_with("ApiError")
             && enum_name != "Self";
-        (internal && args.iter().any(|a| is_stringified(a, var)))
-            .then(|| syntax::path_string(path))
+        (internal && args.iter().any(|a| is_stringified(a, var))).then(|| syntax::path_string(path))
     }
 }
 
@@ -114,9 +116,8 @@ fn is_stringified(expr: &syn::Expr, var: &str) -> bool {
             };
             let fmt = fmt.value();
             let inline = [format!("{{{var}}}"), format!("{{{var}:?}}")];
-            let positional = args.len() == 2
-                && text(&args[1]) == var
-                && (fmt == "{}" || fmt == "{:?}");
+            let positional =
+                args.len() == 2 && text(&args[1]) == var && (fmt == "{}" || fmt == "{:?}");
             positional || inline.contains(&fmt)
         }
         syn::Expr::Paren(p) => is_stringified(&p.expr, var),
@@ -169,9 +170,7 @@ impl<'ast> Visit<'ast> for Conversions<'_> {
         let target = syntax::type_ident(&i.self_ty).unwrap_or_default();
         let errors_on_both_sides =
             source.is_some_and(|s| s.contains("Error")) && target.contains("Error");
-        if errors_on_both_sides
-            && !self.exported.contains(&target)
-            && !target.ends_with("ApiError")
+        if errors_on_both_sides && !self.exported.contains(&target) && !target.ends_with("ApiError")
         {
             for item in &i.items {
                 let syn::ImplItem::Fn(f) = item else { continue };
@@ -192,7 +191,9 @@ impl<'ast> Visit<'ast> for Conversions<'_> {
                 let stringified = named
                     && match body {
                         syn::Expr::Call(c) => c.args.iter().any(|a| is_stringified(a, &var)),
-                        syn::Expr::Struct(s) => s.fields.iter().any(|f| is_stringified(&f.expr, &var)),
+                        syn::Expr::Struct(s) => {
+                            s.fields.iter().any(|f| is_stringified(&f.expr, &var))
+                        }
                         _ => false,
                     };
                 if stringified {
@@ -239,7 +240,16 @@ mod tests {
     const PATH: &str = "components/ads-client/src/http_cache/store.rs";
 
     fn run(src: &str) -> Vec<crate::Finding> {
-        check(&RULE, &[("components/ads-client/Cargo.toml", "[package]\nname = \"ads-client\"\n"), (PATH, src)])
+        check(
+            &RULE,
+            &[
+                (
+                    "components/ads-client/Cargo.toml",
+                    "[package]\nname = \"ads-client\"\n",
+                ),
+                (PATH, src),
+            ],
+        )
     }
 
     #[test]

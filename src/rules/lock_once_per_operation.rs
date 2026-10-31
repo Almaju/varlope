@@ -50,7 +50,14 @@ fn check(cx: &Context, out: &mut Findings) {
 }
 
 /// Iterator adapters whose closure runs once per item.
-const PER_ITEM: &[&str] = &["map", "for_each", "filter_map", "flat_map", "filter", "try_for_each"];
+const PER_ITEM: &[&str] = &[
+    "map",
+    "for_each",
+    "filter_map",
+    "flat_map",
+    "filter",
+    "try_for_each",
+];
 
 struct Locks<'a> {
     guard_fns: &'a GuardFns,
@@ -87,7 +94,10 @@ impl<'ast> Visit<'ast> for Locks<'_> {
             self.hits.push((
                 start.line,
                 start.column + 1,
-                format!("`{}` is locked once per iteration; look at taking it once around the loop", lock.key),
+                format!(
+                    "`{}` is locked once per iteration; look at taking it once around the loop",
+                    lock.key
+                ),
             ));
         } else if let Some(first) = self.seen.get(&lock.key) {
             if *first != start.line && !self.dropped.contains(&lock.key) {

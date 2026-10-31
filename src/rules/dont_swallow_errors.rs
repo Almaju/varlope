@@ -120,7 +120,11 @@ impl<'ast> Visit<'ast> for Swallows<'_> {
     fn visit_stmt(&mut self, s: &'ast syn::Stmt) {
         self.logged.push(errors::logs_something(s));
         if let syn::Stmt::Expr(syn::Expr::MethodCall(m), Some(_)) = s {
-            if m.method == "ok" && m.args.is_empty() && !is_conversion(&m.receiver) && !is_benign(&m.receiver) {
+            if m.method == "ok"
+                && m.args.is_empty()
+                && !is_conversion(&m.receiver)
+                && !is_benign(&m.receiver)
+            {
                 self.hit(
                     &m.method,
                     s,
@@ -208,10 +212,7 @@ impl<'ast> Visit<'ast> for Swallows<'_> {
                         | "{continue}"
                         | "{return}"
                 );
-                if err_wild
-                    && nothing
-                    && arm.attrs.is_empty()
-                    && !errors::logs_something(&arm.body)
+                if err_wild && nothing && arm.attrs.is_empty() && !errors::logs_something(&arm.body)
                 {
                     self.hit(
                         &arm.pat,

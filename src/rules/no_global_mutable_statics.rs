@@ -87,9 +87,7 @@ impl<'ast> Visit<'ast> for Statics {
             let tokens: Vec<proc_macro2::TokenTree> = m.tokens.clone().into_iter().collect();
             let mut i = 0;
             while i < tokens.len() {
-                let is = |k: usize, word: &str| {
-                    matches!(tokens.get(k), Some(proc_macro2::TokenTree::Ident(id)) if id == word)
-                };
+                let is = |k: usize, word: &str| matches!(tokens.get(k), Some(proc_macro2::TokenTree::Ident(id)) if id == word);
                 if is(i, "static") && is(i + 1, "ref") {
                     if let Some(proc_macro2::TokenTree::Ident(name)) = tokens.get(i + 2) {
                         let ty: proc_macro2::TokenStream = tokens[i + 4..]
@@ -125,7 +123,9 @@ mod tests {
 
     #[test]
     fn flags_dont() {
-        let found = run(include_str!("../../rules/no-global-mutable-statics/dont.rs"));
+        let found = run(include_str!(
+            "../../rules/no-global-mutable-statics/dont.rs"
+        ));
         assert_eq!(found.len(), 1);
         assert_eq!(found[0].line, 1);
     }

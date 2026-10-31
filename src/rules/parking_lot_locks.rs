@@ -35,7 +35,10 @@ fn check(cx: &Context, out: &mut Findings) {
         for (line, column, names) in v.hits {
             if !support.contains(line) {
                 let std: Vec<String> = names.iter().map(|n| format!("`std::sync::{n}`")).collect();
-                let pl: Vec<String> = names.iter().map(|n| format!("`parking_lot::{n}`")).collect();
+                let pl: Vec<String> = names
+                    .iter()
+                    .map(|n| format!("`parking_lot::{n}`"))
+                    .collect();
                 out.add_at(
                     &file.path,
                     line,
@@ -98,11 +101,17 @@ impl<'ast> Visit<'ast> for StdLocks {
         syn::visit::visit_macro(self, m);
     }
     fn visit_type_path(&mut self, t: &'ast syn::TypePath) {
-        let segs: Vec<String> = t.path.segments.iter().map(|s| s.ident.to_string()).collect();
+        let segs: Vec<String> = t
+            .path
+            .segments
+            .iter()
+            .map(|s| s.ident.to_string())
+            .collect();
         if let [.., a, b, c] = segs.as_slice() {
             if a == "std" && b == "sync" && STD_LOCKS.contains(&c.as_str()) {
                 let start = syn::spanned::Spanned::span(t).start();
-                self.hits.push((start.line, start.column + 1, vec![c.clone()]));
+                self.hits
+                    .push((start.line, start.column + 1, vec![c.clone()]));
             }
         }
         syn::visit::visit_type_path(self, t);

@@ -71,7 +71,7 @@ pub fn test_support_lines(file: &RustFile) -> Vec<std::ops::Range<usize>> {
             .iter()
             .any(|m| file.path.contains(&format!("/{m}/")))
     {
-        return vec![1..usize::MAX];
+        return std::iter::once(1..usize::MAX).collect();
     }
     struct V(Vec<std::ops::Range<usize>>);
     impl V {

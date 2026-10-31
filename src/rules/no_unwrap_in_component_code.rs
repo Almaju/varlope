@@ -140,8 +140,10 @@ fn parses_outside_data(expr: &syn::Expr) -> Option<String> {
         }
         syn::Expr::MethodCall(m) => {
             let name = m.method.to_string();
-            (PARSE_METHODS.contains(&name.as_str()) && m.args.is_empty() && !is_constant(&m.receiver))
-                .then(|| format!(".{name}"))
+            (PARSE_METHODS.contains(&name.as_str())
+                && m.args.is_empty()
+                && !is_constant(&m.receiver))
+            .then(|| format!(".{name}"))
         }
         syn::Expr::Paren(p) => parses_outside_data(&p.expr),
         _ => None,
@@ -191,7 +193,10 @@ mod tests {
 
     #[test]
     fn accepts_do() {
-        assert!(run(include_str!("../../rules/no-unwrap-in-component-code/do.rs")).is_empty());
+        assert!(run(include_str!(
+            "../../rules/no-unwrap-in-component-code/do.rs"
+        ))
+        .is_empty());
     }
 
     #[test]

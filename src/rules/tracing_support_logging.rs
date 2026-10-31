@@ -86,9 +86,16 @@ impl<'ast> Visit<'ast> for Macros {
         walk(&u.tree, &mut Vec::new(), &mut self.imported);
     }
     fn visit_macro(&mut self, m: &'ast syn::Macro) {
-        let segs: Vec<String> = m.path.segments.iter().map(|s| s.ident.to_string()).collect();
+        let segs: Vec<String> = m
+            .path
+            .segments
+            .iter()
+            .map(|s| s.ident.to_string())
+            .collect();
         let hit = match segs.as_slice() {
-            [krate, name] if BYPASS.contains(&krate.as_str()) && LEVELS.contains(&name.as_str()) => {
+            [krate, name]
+                if BYPASS.contains(&krate.as_str()) && LEVELS.contains(&name.as_str()) =>
+            {
                 Some((krate.clone(), name.clone()))
             }
             [name] => self.imported.get(name).map(|k| (k.clone(), name.clone())),

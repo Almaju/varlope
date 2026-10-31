@@ -34,7 +34,11 @@ fn check(cx: &Context, out: &mut Findings) {
         }
         // `(type, fn name)` of each UDL constructor.
         let mut udl_ctors: BTreeSet<(String, String)> = BTreeSet::new();
-        for file in cx.ws.package_files(package).filter(|f| f.extension() == "udl") {
+        for file in cx
+            .ws
+            .package_files(package)
+            .filter(|f| f.extension() == "udl")
+        {
             for item in udl::parse(&file.text) {
                 for m in item.members.iter().filter(|m| m.name == "constructor") {
                     let name = m
@@ -69,8 +73,7 @@ fn check(cx: &Context, out: &mut Findings) {
             for f in errors::functions(&file.ast) {
                 let name = f.sig.ident.to_string();
                 let is_ctor = syntax::has_attr(f.attrs, "uniffi::constructor")
-                    || f
-                        .self_ty
+                    || f.self_ty
                         .as_ref()
                         .is_some_and(|t| udl_ctors.contains(&(t.clone(), name.clone())));
                 if !is_ctor {
@@ -154,8 +157,12 @@ fn helper_io(helper: &str, bodies: &BTreeMap<String, Vec<&syn::Block>>) -> Optio
                 }
                 if let syn::Expr::Call(c) = e {
                     if let syn::Expr::Path(p) = &*c.func {
-                        let segs: Vec<String> =
-                            p.path.segments.iter().map(|s| s.ident.to_string()).collect();
+                        let segs: Vec<String> = p
+                            .path
+                            .segments
+                            .iter()
+                            .map(|s| s.ident.to_string())
+                            .collect();
                         if let [first, name] = segs.as_slice() {
                             if first == "Self" {
                                 self.1.push(name.clone());
@@ -205,8 +212,12 @@ fn io_calls(
                 let callee = match e {
                     syn::Expr::Call(c) => match &*c.func {
                         syn::Expr::Path(p) => {
-                            let segs: Vec<String> =
-                                p.path.segments.iter().map(|s| s.ident.to_string()).collect();
+                            let segs: Vec<String> = p
+                                .path
+                                .segments
+                                .iter()
+                                .map(|s| s.ident.to_string())
+                                .collect();
                             Some(segs[segs.len().saturating_sub(2)..].join("::"))
                         }
                         _ => None,
@@ -246,7 +257,10 @@ mod tests {
     use super::RULE;
     use crate::testing::check;
 
-    const MANIFEST: (&str, &str) = ("components/store/Cargo.toml", "[package]\nname = \"store\"\n");
+    const MANIFEST: (&str, &str) = (
+        "components/store/Cargo.toml",
+        "[package]\nname = \"store\"\n",
+    );
     const PATH: &str = "components/store/src/store.rs";
 
     fn run(files: &[(&str, &str)]) -> Vec<crate::Finding> {
@@ -257,19 +271,29 @@ mod tests {
 
     #[test]
     fn flags_dont() {
-        let found = run(&[(PATH, include_str!("../../rules/no-blocking-io-in-constructors/dont.rs"))]);
+        let found = run(&[(
+            PATH,
+            include_str!("../../rules/no-blocking-io-in-constructors/dont.rs"),
+        )]);
         assert_eq!(found.len(), 1);
         assert_eq!(found[0].line, 6);
     }
 
     #[test]
     fn accepts_do() {
-        assert!(run(&[(PATH, include_str!("../../rules/no-blocking-io-in-constructors/do.rs"))]).is_empty());
+        assert!(run(&[(
+            PATH,
+            include_str!("../../rules/no-blocking-io-in-constructors/do.rs")
+        )])
+        .is_empty());
     }
 
     #[test]
     fn follows_udl_constructors_and_db_helpers() {
-        let udl = ("components/store/src/store.udl", "interface Store {\n    constructor(string path);\n};\n");
+        let udl = (
+            "components/store/src/store.udl",
+            "interface Store {\n    constructor(string path);\n};\n",
+        );
         let src = "impl Store {\n    pub fn new(path: String) -> Result<Self> {\n        Ok(Self { db: StoreDb::new(path)? })\n    }\n}\nimpl StoreDb {\n    pub fn new(path: String) -> Result<Self> {\n        Self::open_named(path)\n    }\n    fn open_named(path: String) -> Result<Self> {\n        Ok(Self(open_database_with_flags(path, FLAGS)?))\n    }\n}\n";
         let found = run(&[udl, (PATH, src)]);
         assert_eq!(found.len(), 1);

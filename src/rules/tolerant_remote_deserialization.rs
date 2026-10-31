@@ -45,13 +45,17 @@ fn check(cx: &Context, out: &mut Findings) {
     // Type names that appear in a field of a `Deserialize` type, per crate.
     let mut nested: BTreeSet<(String, String)> = BTreeSet::new();
     for file in &files {
-        let krate = errors::component_of(&file.path).unwrap_or_default().to_string();
+        let krate = errors::component_of(&file.path)
+            .unwrap_or_default()
+            .to_string();
         for name in deserialized_field_types(&file.ast) {
             nested.insert((krate.clone(), name));
         }
     }
     for file in files {
-        let krate = errors::component_of(&file.path).unwrap_or_default().to_string();
+        let krate = errors::component_of(&file.path)
+            .unwrap_or_default()
+            .to_string();
         let support = TestSupport::of(file);
         let added: BTreeSet<usize> = cx
             .diff
@@ -152,7 +156,11 @@ fn check_file(
                         || has_serde(&field.attrs, "default")
                         || has_serde(&field.attrs, "flatten");
                     if added.contains(&line) && !optional && !defaulted {
-                        let fname = field.ident.as_ref().map(|i| i.to_string()).unwrap_or_default();
+                        let fname = field
+                            .ident
+                            .as_ref()
+                            .map(|i| i.to_string())
+                            .unwrap_or_default();
                         hits.push((line, 1, format!("new field `{name}::{fname}` is required: records and servers without it fail to parse; make it `Option<_>` or `#[serde(default)]`")));
                     }
                 }
@@ -205,9 +213,13 @@ fn untagged_shadowing(e: &syn::ItemEnum, hits: &mut Vec<(usize, usize, String)>)
     };
     let variants: Vec<_> = e.variants.iter().collect();
     for (i, early) in variants.iter().enumerate() {
-        let Some(early_fields) = fields_of(early) else { continue };
+        let Some(early_fields) = fields_of(early) else {
+            continue;
+        };
         for late in &variants[i + 1..] {
-            let Some(late_fields) = fields_of(late) else { continue };
+            let Some(late_fields) = fields_of(late) else {
+                continue;
+            };
             if early_fields.is_subset(&late_fields) {
                 let start = late.ident.span().start();
                 hits.push((start.line, start.column + 1, format!("untagged `{}::{}` never matches: `{}` comes first and needs only a subset of its fields; put the more specific variant first", e.ident, late.ident, early.ident)));
@@ -243,14 +255,19 @@ mod tests {
 
     #[test]
     fn flags_dont() {
-        let found = run(include_str!("../../rules/tolerant-remote-deserialization/dont.rs"));
+        let found = run(include_str!(
+            "../../rules/tolerant-remote-deserialization/dont.rs"
+        ));
         assert_eq!(found.len(), 1);
         assert_eq!(found[0].line, 9);
     }
 
     #[test]
     fn accepts_do() {
-        assert!(run(include_str!("../../rules/tolerant-remote-deserialization/do.rs")).is_empty());
+        assert!(run(include_str!(
+            "../../rules/tolerant-remote-deserialization/do.rs"
+        ))
+        .is_empty());
     }
 
     #[test]

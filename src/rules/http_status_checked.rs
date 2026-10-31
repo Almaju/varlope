@@ -31,10 +31,14 @@ pub static RULE: Rule = Rule {
 const SENDS: &[&str] = &["send", "send_sync", "send_with_policy", "send_ohttp"];
 
 /// Words in a helper's name that say it looks at the status.
-const CHECKS: &[&str] = &["check", "success", "status", "error", "ensure", "verify", "require"];
+const CHECKS: &[&str] = &[
+    "check", "success", "status", "error", "ensure", "verify", "require",
+];
 
 /// Words in a call's name that say it keeps the response.
-const STORES: &[&str] = &["store", "cache", "insert", "put", "write", "save", "persist"];
+const STORES: &[&str] = &[
+    "store", "cache", "insert", "put", "write", "save", "persist",
+];
 
 fn check(cx: &Context, out: &mut Findings) {
     for file in errors::shipped_files(cx.ws) {
@@ -60,10 +64,7 @@ fn check(cx: &Context, out: &mut Findings) {
                     } else {
                         format!("the body of `{name}` is used before its HTTP status is checked")
                     };
-                    hits.push((
-                        e.pos,
-                        format!("{what}; call `require_success()?` first"),
-                    ));
+                    hits.push((e.pos, format!("{what}; call `require_success()?` first")));
                 }
             }
             hits.extend(v.ranges);

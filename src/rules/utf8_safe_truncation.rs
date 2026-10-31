@@ -187,7 +187,9 @@ impl Body<'_> {
         {
             return true;
         }
-        hit.offsets.iter().all(|o| self.offset_is_boundary(&hit.string, o))
+        hit.offsets
+            .iter()
+            .all(|o| self.offset_is_boundary(&hit.string, o))
     }
 
     /// Whether an offset into `string` is safe, or at least not a byte limit:
@@ -237,8 +239,9 @@ impl Body<'_> {
 /// prefix length, not a position found in the string.
 fn is_byte_limit(expr: &syn::Expr) -> bool {
     let mut found = false;
-    errors::scan_tokens(quote::ToTokens::to_token_stream(expr), &mut |tokens, i| {
-        match &tokens[i] {
+    errors::scan_tokens(
+        quote::ToTokens::to_token_stream(expr),
+        &mut |tokens, i| match &tokens[i] {
             proc_macro2::TokenTree::Literal(l) => {
                 let l = l.to_string();
                 if l.chars().all(|c| c.is_ascii_digit() || c == '_') && l != "0" && l != "1" {
@@ -248,14 +251,16 @@ fn is_byte_limit(expr: &syn::Expr) -> bool {
             proc_macro2::TokenTree::Ident(id) => {
                 let id = id.to_string();
                 if id.len() > 1
-                    && id.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || c == '_')
+                    && id
+                        .chars()
+                        .all(|c| c.is_ascii_uppercase() || c.is_ascii_digit() || c == '_')
                 {
                     found = true;
                 }
             }
             _ => {}
-        }
-    });
+        },
+    );
     found
 }
 

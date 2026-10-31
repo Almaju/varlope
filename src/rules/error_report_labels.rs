@@ -39,8 +39,22 @@ const PREFIX_ALIASES: &[(&str, &str)] = &[
 
 /// Words in a loop's iterable that mean "once per record".
 const PER_RECORD: &[&str] = &[
-    "record", "row", "incoming", "inbound", "bso", "item", "entr", "visit", "change",
-    "collision", "experiment", "enrollment", "login", "message", "payload", "guid",
+    "record",
+    "row",
+    "incoming",
+    "inbound",
+    "bso",
+    "item",
+    "entr",
+    "visit",
+    "change",
+    "collision",
+    "experiment",
+    "enrollment",
+    "login",
+    "message",
+    "payload",
+    "guid",
 ];
 
 /// Iterator adapters whose closure runs once per item.
@@ -150,9 +164,12 @@ fn check(cx: &Context, out: &mut Findings) {
 
 fn is_kebab(label: &str) -> bool {
     !label.is_empty()
-        && label
-            .split('-')
-            .all(|part| !part.is_empty() && part.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit()))
+        && label.split('-').all(|part| {
+            !part.is_empty()
+                && part
+                    .chars()
+                    .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit())
+        })
 }
 
 struct Reports<'p> {

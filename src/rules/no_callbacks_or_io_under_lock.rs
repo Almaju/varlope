@@ -65,7 +65,9 @@ fn foreign_traits(cx: &Context) -> BTreeSet<String> {
             if let syn::Item::Trait(t) = item {
                 let foreign = syntax::find_attr(&t.attrs, "uniffi::export")
                     .map(syntax::attr_args)
-                    .is_some_and(|a| a.contains("callback_interface") || a.contains("with_foreign"));
+                    .is_some_and(|a| {
+                        a.contains("callback_interface") || a.contains("with_foreign")
+                    });
                 if foreign {
                     out.insert(t.ident.to_string());
                 }
@@ -128,7 +130,11 @@ struct UnderLock<'a> {
 impl UnderLock<'_> {
     fn hit<T: syn::spanned::Spanned>(&mut self, node: &T, message: String) {
         let start = node.span().start();
-        if !self.hits.iter().any(|(l, c, _)| (*l, *c) == (start.line, start.column + 1)) {
+        if !self
+            .hits
+            .iter()
+            .any(|(l, c, _)| (*l, *c) == (start.line, start.column + 1))
+        {
             self.hits.push((start.line, start.column + 1, message));
         }
     }
@@ -143,11 +149,16 @@ impl UnderLock<'_> {
             .next()
             .unwrap_or("");
         if let Some(g) = self.guards.iter().find(|g| g.name == root) {
-            return self.fields.contains(&g.lock.target).then(|| g.lock.target.clone());
+            return self
+                .fields
+                .contains(&g.lock.target)
+                .then(|| g.lock.target.clone());
         }
         self.fields
             .iter()
-            .find(|f| t == **f || t.starts_with(&format!("{f}.")) || t.starts_with(&format!("{f}(")))
+            .find(|f| {
+                t == **f || t.starts_with(&format!("{f}.")) || t.starts_with(&format!("{f}("))
+            })
             .cloned()
     }
 
@@ -165,7 +176,9 @@ impl<'ast> Visit<'ast> for UnderLock<'_> {
     fn visit_local(&mut self, l: &'ast syn::Local) {
         syn::visit::visit_local(self, l);
         let Some(init) = &l.init else { return };
-        let syn::Pat::Ident(name) = &l.pat else { return };
+        let syn::Pat::Ident(name) = &l.pat else {
+            return;
+        };
         if let Some(lock) = errors::lock_call(&init.expr, self.guard_fns) {
             self.guards.push(Guard {
                 name: name.ident.to_string(),
@@ -207,9 +220,10 @@ impl<'ast> Visit<'ast> for UnderLock<'_> {
                     &m.method,
                     format!("`.{}()` does network I/O while `{held_name}` is locked; drop the guard first", m.method),
                 );
-            } else if let Some(again) = (!matches!(m.method.to_string().as_str(), "unwrap" | "expect"))
-                .then(|| errors::lock_call(&syn::Expr::MethodCall(m.clone()), self.guard_fns))
-                .flatten()
+            } else if let Some(again) =
+                (!matches!(m.method.to_string().as_str(), "unwrap" | "expect"))
+                    .then(|| errors::lock_call(&syn::Expr::MethodCall(m.clone()), self.guard_fns))
+                    .flatten()
             {
                 let both_shared = held_shared && again.shared;
                 if again.key == held_key && !both_shared {
@@ -270,14 +284,19 @@ mod tests {
 
     #[test]
     fn flags_dont() {
-        let found = run(include_str!("../../rules/no-callbacks-or-io-under-lock/dont.rs"));
+        let found = run(include_str!(
+            "../../rules/no-callbacks-or-io-under-lock/dont.rs"
+        ));
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![10, 11]);
     }
 
     #[test]
     fn accepts_do() {
-        assert!(run(include_str!("../../rules/no-callbacks-or-io-under-lock/do.rs")).is_empty());
+        assert!(run(include_str!(
+            "../../rules/no-callbacks-or-io-under-lock/do.rs"
+        ))
+        .is_empty());
     }
 
     const HEADER: &str = "#[uniffi::export(callback_interface)]\npub trait Cb: Send + Sync { fn changed(&self); }\npub struct S { db: Mutex<Db>, cb: RwLock<Box<dyn Cb>> }\n";

@@ -40,8 +40,7 @@ fn check(cx: &Context, out: &mut Findings) {
             for (line, col, sliced, other) in v.hits {
                 // The bound was checked, or the sliced value was built from it.
                 let guarded = v.guards.iter().any(|g| g.contains(&other))
-                    || v
-                        .lets
+                    || v.lets
                         .iter()
                         .any(|(name, init)| *name == sliced && init.contains(&other));
                 if support.contains(line) || guarded {
@@ -134,7 +133,10 @@ fn base(expr: &syn::Expr) -> String {
         syn::Expr::Paren(p) => base(&p.expr),
         syn::Expr::MethodCall(m)
             if m.args.is_empty()
-                && matches!(m.method.to_string().as_str(), "as_bytes" | "as_str" | "as_slice") =>
+                && matches!(
+                    m.method.to_string().as_str(),
+                    "as_bytes" | "as_str" | "as_slice"
+                ) =>
         {
             base(&m.receiver)
         }
@@ -171,14 +173,19 @@ mod tests {
 
     #[test]
     fn flags_dont() {
-        let found = run(include_str!("../../rules/no-panicking-index-or-arith/dont.rs"));
+        let found = run(include_str!(
+            "../../rules/no-panicking-index-or-arith/dont.rs"
+        ));
         assert_eq!(found.len(), 1);
         assert_eq!(found[0].line, 3);
     }
 
     #[test]
     fn accepts_do() {
-        assert!(run(include_str!("../../rules/no-panicking-index-or-arith/do.rs")).is_empty());
+        assert!(run(include_str!(
+            "../../rules/no-panicking-index-or-arith/do.rs"
+        ))
+        .is_empty());
     }
 
     #[test]
