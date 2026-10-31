@@ -1,1 +1,1 @@
-After `allow-coenrollment` defaulted to false, fixtures still spelled it out; inline JSON-ish dict literals were used in YAML; a top-level manifest with an `about` block lacked the `.fml.yaml` suffix.
+Feature manifests and their fixtures double as documentation, and the Askama templates generate Kotlin and Swift that every app ships. Spelling out `allow-coenrollment: false` after it became the default, or leaving `{% let %}`/`{% import %}` bindings that nothing uses, is noise reviewers keep asking to delete.

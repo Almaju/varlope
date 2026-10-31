@@ -1,0 +1,8 @@
+features:
+  app-menu:
+    description: The menu
+    variables:
+      order:
+        description: The order of menu items
+        type: List<String>
+        default: []
