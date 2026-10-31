@@ -4,6 +4,10 @@ impl SuggestDao<'_> {
             "INSERT OR IGNORE INTO dismissed_suggestions(url) VALUES(:url)",
             named_params! { ":url": key },
         )?;
+        self.conn.execute_cached(
+            "UPDATE meta SET value = value + 1 WHERE key = 'dismissal_count'",
+            [],
+        )?;
         Ok(())
     }
 }

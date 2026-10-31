@@ -1,0 +1,9 @@
+features:
+  app-menu:
+    description: The menu
+    allow-coenrollment: false  # flagged: restates the default
+    variables:
+      order:
+        description: The order of menu items
+        type: List<String>
+        default: []

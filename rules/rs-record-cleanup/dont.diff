@@ -1,6 +1,0 @@
-@@ pub const SQL: &str = " @@
-+CREATE TABLE yelp_modifiers( -- flagged: filled from an RS record, no record_id
-+    type INTEGER NOT NULL,
-+    keyword TEXT NOT NULL,
-+    PRIMARY KEY (type, keyword)
-+) WITHOUT ROWID;

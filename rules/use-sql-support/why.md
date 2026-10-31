@@ -1,1 +1,1 @@
-Ingestion and fetch paths used `conn.execute`/`query_row_and_then` in hot loops (no prepared-statement cache), hand-rolled `query_rows..pop()` instead of `try_query_row`, and `last_insert_rowid()` instead of `RETURNING id`.
+`execute` runs only the first statement of its SQL: a Suggest migration passed two statements to `execute()` and left upgraded databases without a table (#6189); `execute_batch` runs them all. DAO methods that write take `&mut self`, a convention reviewers ask for so that a `read()` callback, which only gets `&SuggestDao`, cannot write.

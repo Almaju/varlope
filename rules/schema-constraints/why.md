@@ -1,1 +1,1 @@
-New tables were written with nullable columns and a missing PRIMARY KEY on the 1:1 detail table; reviewers had to add NOT NULL/PRIMARY KEY column by column, and conversely asked to make provider-specific columns nullable instead of fake values.
+A foreign key without `ON DELETE` makes deleting the parent fail while child rows exist: re-ingesting Suggest data broke on `prefix_keywords.suggestion_id` until #6016 added `ON DELETE CASCADE`. And when the child column has no index, every delete from the parent table scans the whole child table.

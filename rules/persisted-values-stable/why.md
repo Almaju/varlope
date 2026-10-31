@@ -1,1 +1,1 @@
-Dismissed-suggestion URLs were stored as `DefaultHasher` digests (algorithm may change between Rust releases, silently invalidating stored rows), then switched to MD5, which Firefox security is removing.
+Values written to disk must mean the same thing after the next release. An enum stored through `as u8` takes its numbers from the order of its variants, so inserting or removing one silently relabels every stored row; and `DefaultHasher`'s algorithm may change between Rust releases, which is why Suggest stopped storing dismissed URLs as `DefaultHasher` digests.
