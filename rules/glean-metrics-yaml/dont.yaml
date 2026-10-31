@@ -2,9 +2,13 @@ suggest:
   ingest_time:
     type: labeled_timing_distribution
     description: Time for ingestion (excluding download time), labelled by record type
-    # labels, notification_emails, data_sensitivity: …
+    time_unit: microsecond
     bugs: []  # flagged: no bug
     data_reviews:
       - TODO  # flagged: not a data-review link
-    disabled: false  # flagged: no-op
-    expires: 2026-11-15  # flagged: expires within two releases
+    notification_emails:  # flagged: no team alias
+      - jdoe@mozilla.com
+    disabled: false  # flagged: the default, yet reads as "off"
+    expires: 2025-06-30  # flagged: expired (or expiring within two releases)
+    data_sensitivity:
+      - technical

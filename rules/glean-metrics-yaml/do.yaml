@@ -2,9 +2,13 @@ suggest:
   ingest_time:
     type: labeled_timing_distribution
     description: Time for ingestion (excluding download time), labelled by record type
-    # labels, notification_emails, data_sensitivity: …
+    time_unit: microsecond
     bugs:
       - https://bugzilla.mozilla.org/show_bug.cgi?id=1908397
     data_reviews:
       - https://bugzilla.mozilla.org/show_bug.cgi?id=1911664
+    notification_emails:
+      - disco-team@mozilla.com
     expires: never
+    data_sensitivity:
+      - technical
