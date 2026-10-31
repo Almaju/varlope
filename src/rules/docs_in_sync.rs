@@ -432,9 +432,17 @@ fn markdown_links(cx: &Context, ignored: &Gitignore, out: &mut Findings) {
     }
 }
 
-/// History that is meant to stay as written.
+/// History that is meant to stay as written (the CHANGELOG, the decision
+/// records but not their index), and templates full of placeholders.
 fn skip_doc(path: &str) -> bool {
-    path == "CHANGELOG.md" || path.starts_with("docs/adr/") || path.ends_with("DEPENDENCIES.md")
+    let adr_record = path
+        .strip_prefix("docs/adr/")
+        .is_some_and(|name| name.starts_with(|c: char| c.is_ascii_digit()));
+    let template = path
+        .rsplit('/')
+        .next()
+        .is_some_and(|n| n.starts_with("template"));
+    path == "CHANGELOG.md" || adr_record || template || path.ends_with("DEPENDENCIES.md")
 }
 
 /// Markdown lines outside fenced code blocks.
