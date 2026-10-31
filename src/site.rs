@@ -250,6 +250,37 @@ fn rule_page(
             _ => format!("Nothing found at <code>{short}</code>."),
         };
         let _ = write!(b, "<p class=\"meta\">{note}</p>");
+    } else if findings.iter().all(|f| f.commit.is_some()) {
+        // PR findings: one entry per commit, its findings below it.
+        let mut groups: Vec<(&str, Vec<&ReportFinding>)> = Vec::new();
+        for f in findings {
+            let sha = f.commit.as_deref().unwrap_or("");
+            match groups.last_mut() {
+                Some((last, list)) if *last == sha => list.push(f),
+                _ => groups.push((sha, vec![f])),
+            }
+        }
+        let _ = write!(
+            b,
+            "<p class=\"meta\">{} findings in {} of the last {} merged commits</p><ul class=\"found\">",
+            findings.len(),
+            groups.len(),
+            report.commits.len()
+        );
+        for (i, (sha, list)) in groups.iter().enumerate() {
+            if i == SHOWN_FINDINGS {
+                let _ = write!(
+                    b,
+                    "</ul><details><summary>{} more commits</summary><ul class=\"found\">",
+                    groups.len() - SHOWN_FINDINGS
+                );
+            }
+            b.push_str(&commit_group(sha, list, report, commits));
+        }
+        b.push_str("</ul>");
+        if groups.len() > SHOWN_FINDINGS {
+            b.push_str("</details>");
+        }
     } else {
         let what = if rule.kind == Kind::Diff {
             format!(
@@ -348,6 +379,47 @@ fn rule_page(
     }
     b.push_str("</nav>");
     Ok(page(&strip_ticks(rule.title), &b))
+}
+
+/// One replayed commit and what the rule found in it.
+fn commit_group(
+    sha: &str,
+    list: &[&ReportFinding],
+    report: &Report,
+    commits: &BTreeMap<&str, &ReportCommit>,
+) -> String {
+    const SHOWN: usize = 4;
+    let repo = esc(&report.repo);
+    let c = commits.get(sha);
+    let pr = c
+        .and_then(|c| c.pr)
+        .map(|n| format!(r#"<a href="https://github.com/{repo}/pull/{n}">#{n}</a> "#))
+        .unwrap_or_default();
+    let subject = c
+        .map(|c| esc(strip_pr_suffix(&c.subject)))
+        .unwrap_or_default();
+    let mut out = format!(
+        r#"<li>{pr}<a href="https://github.com/{repo}/commit/{sha}"><code>{short}</code></a> {subject}<ul class="sub">"#,
+        sha = esc(sha),
+        short = esc(&sha[..sha.len().min(8)]),
+    );
+    for f in list.iter().take(SHOWN) {
+        let _ = write!(
+            out,
+            r#"<li class="msg">{}: {}</li>"#,
+            esc(&f.path),
+            inline(&f.message)
+        );
+    }
+    if list.len() > SHOWN {
+        let _ = write!(
+            out,
+            r#"<li class="msg">and {} more</li>"#,
+            list.len() - SHOWN
+        );
+    }
+    out.push_str("</ul></li>");
+    out
 }
 
 fn finding_item(
@@ -557,6 +629,8 @@ ul { padding-left: 0; list-style: none; margin: 0; }
 .rules .src { color: var(--muted); }
 .found li { padding: 4px 0; font-size: 0.92rem; }
 .found .msg { color: var(--muted); }
+.found .sub { margin: 2px 0 6px 14px; }
+.found .sub li { padding: 1px 0; font-size: 0.88rem; }
 .tag { font-size: 0.75rem; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
 .quotes li { margin: 0 0 14px; font-size: 0.9rem; color: var(--muted); }
 .quotes blockquote { margin: 0 0 2px; color: var(--fg); border-left: 3px solid var(--line); padding-left: 12px;
