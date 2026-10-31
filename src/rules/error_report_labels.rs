@@ -17,7 +17,8 @@ use std::collections::BTreeSet;
 use syn::visit::Visit;
 
 use crate::helpers::errors::{self, TestSupport};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
+use crate::source::RustFile;
 use crate::syntax;
 
 pub static RULE: Rule = Rule {
@@ -134,32 +135,85 @@ fn check(cx: &Context, out: &mut Findings) {
         let has_own_prefix = own_prefixes
             .iter()
             .any(|p| l.text.starts_with(&format!("{p}-")));
-        let message = if !is_kebab(&l.text) {
-            Some(format!(
-                "report label `{}` is not kebab-case; use a short `{component}-…` label and put details in the message",
-                l.text
-            ))
+        let own = |label: &str| {
+            own_prefixes
+                .iter()
+                .any(|p| label.starts_with(&format!("{p}-")))
+        };
+        // The message, and the label to suggest when it is mechanical.
+        let (message, renamed) = if !is_kebab(&l.text) {
+            // `tabs-get_unsent` -> `tabs-get-unsent`; a label without the
+            // component's prefix needs a name chosen.
+            let kebab = kebab(&l.text);
+            (
+                Some(format!(
+                    "report label `{}` is not kebab-case; use a short `{component}-…` label and put details in the message",
+                    l.text
+                )),
+                Some(kebab).filter(|k| is_kebab(k) && own(k)),
+            )
         } else if let Some(other) = components
             .iter()
             .filter(|c| **c != component && l.text.starts_with(&format!("{c}-")))
             .find(|_| !has_own_prefix)
         {
-            Some(format!(
-                "report label `{}` names the `{other}` component but is reported from `{component}`; use a `{component}-…` label",
-                l.text
-            ))
+            (
+                Some(format!(
+                    "report label `{}` names the `{other}` component but is reported from `{component}`; use a `{component}-…` label",
+                    l.text
+                )),
+                Some(format!("{component}-{}", &l.text[other.len() + 1..])),
+            )
         } else if !has_own_prefix && added.contains(&(l.path.as_str(), l.line)) {
-            Some(format!(
-                "start report label `{}` with `{component}-` so Sentry shows where it comes from",
-                l.text
-            ))
+            (
+                Some(format!(
+                    "start report label `{}` with `{component}-` so Sentry shows where it comes from",
+                    l.text
+                )),
+                Some(format!("{component}-{}", l.text)),
+            )
         } else {
-            None
+            (None, None)
         };
         if let Some(message) = message {
             out.add_at(&l.path, l.line, l.column, message);
+            let fix = renamed
+                .filter(|_| !component.is_empty())
+                .and_then(|r| cx.ws.rust(&l.path).and_then(|f| rename(f, l, &r)));
+            if let (Some(fix), Some(last)) = (fix, out.items.last_mut()) {
+                last.fix = Some(fix);
+            }
         }
     }
+}
+
+/// `Get_Unsent records` -> `get-unsent-records`.
+fn kebab(label: &str) -> String {
+    let lower = label.to_lowercase();
+    let words: Vec<&str> = lower
+        .split(|c: char| !c.is_ascii_alphanumeric())
+        .filter(|w| !w.is_empty())
+        .collect();
+    words.join("-")
+}
+
+/// Replace the label's string literal, when it is written plainly.
+fn rename(file: &RustFile, label: &Label, renamed: &str) -> Option<Fix> {
+    let text = file.line(label.line);
+    let start = text.char_indices().nth(label.column - 1)?.0;
+    let old = format!("\"{}\"", label.text);
+    if !text[start..].starts_with(&old) {
+        return None; // escapes or a raw string
+    }
+    let line = format!(
+        "{}\"{renamed}\"{}",
+        &text[..start],
+        &text[start + old.len()..]
+    );
+    if line.chars().count() > 100 {
+        return None; // rustfmt would wrap the call
+    }
+    Some(Fix::replace_line(label.line, line))
 }
 
 fn is_kebab(label: &str) -> bool {
@@ -288,6 +342,21 @@ mod tests {
         let found = run(include_str!("../../rules/error-report-labels/dont.rs"));
         assert_eq!(found.len(), 1);
         assert_eq!(found[0].line, 6);
+        // The label takes the crate's own prefix.
+        assert_eq!(
+            fixed(&found[0]),
+            Some((
+                6,
+                "                .report_error(\"remote-settings-backoff\") // flagged: copied from the suggest crate".into()
+            ))
+        );
+    }
+
+    /// The line a fix replaces, and its new text.
+    fn fixed(f: &crate::Finding) -> Option<(usize, String)> {
+        let edit = &f.fix.as_ref()?.edits[0];
+        assert_eq!((edit.remove, edit.insert.len()), (1, 1));
+        Some((edit.line, edit.insert[0].clone()))
     }
 
     #[test]
@@ -298,7 +367,12 @@ mod tests {
     #[test]
     fn flags_labels_that_are_not_kebab_case() {
         let src = "fn f() {\n    report_error!(\"remote-settings-get_records\", \"x\");\n    report_error!(\"Failed to read the database\", \"x\");\n}\n";
-        assert_eq!(run(src).len(), 2);
+        let found = run(src);
+        assert_eq!(found.len(), 2);
+        let kebab = "    report_error!(\"remote-settings-get-records\", \"x\");";
+        assert_eq!(fixed(&found[0]), Some((2, kebab.into())));
+        // A short label needs a name chosen.
+        assert_eq!(fixed(&found[1]), None);
     }
 
     #[test]
@@ -319,6 +393,9 @@ mod tests {
         let src = "fn a() {\n    report_error!(\"invalid-record\", \"x\");\n}\n";
         assert!(run(src).is_empty());
         let diff = "--- a/components/remote_settings/src/error.rs\n+++ b/components/remote_settings/src/error.rs\n@@ -2,0 +2 @@\n+    report_error!(\"invalid-record\", \"x\");\n";
-        assert_eq!(check_unified(&RULE, &[OTHER, (PATH, src)], diff).len(), 1);
+        let found = check_unified(&RULE, &[OTHER, (PATH, src)], diff);
+        assert_eq!(found.len(), 1);
+        let prefixed = "    report_error!(\"remote-settings-invalid-record\", \"x\");";
+        assert_eq!(fixed(&found[0]), Some((2, prefixed.into())));
     }
 }
