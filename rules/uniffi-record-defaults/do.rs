@@ -2,6 +2,7 @@
 #[derive(Clone, Debug, Default, uniffi::Record)]
 pub struct SuggestionQuery {
     pub keyword: String,
+    #[uniffi(default)]
     pub providers: Vec<SuggestionProvider>,
     #[uniffi(default)]
     pub limit: Option<i32>,

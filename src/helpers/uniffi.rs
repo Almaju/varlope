@@ -483,10 +483,10 @@ fn rust_item(file: &RustFile, item: &syn::Item) -> Option<Item> {
                         kind: MemberKind::Field,
                         name: ident.to_string(),
                         path: file.path.clone(),
-                        line: file.line_of_node(f),
+                        line: ident.span().start().line,
                         shape: Shape::Field(Field {
                             name: ident.to_string(),
-                            line: file.line_of_node(f),
+                            line: ident.span().start().line,
                             ty: rust_type(&f.ty),
                             default: field_default(&effective_attrs(&f.attrs)),
                         }),
@@ -515,7 +515,11 @@ fn rust_item(file: &RustFile, item: &syn::Item) -> Option<Item> {
                         .iter()
                         .enumerate()
                         .map(|(i, f)| Field {
-                            line: file.line_of_node(f),
+                            line: f
+                                .ident
+                                .as_ref()
+                                .map(|id| id.span().start().line)
+                                .unwrap_or_else(|| file.line_of_node(f)),
                             name: f
                                 .ident
                                 .as_ref()
@@ -529,7 +533,7 @@ fn rust_item(file: &RustFile, item: &syn::Item) -> Option<Item> {
                         kind: MemberKind::Variant,
                         name: v.ident.to_string(),
                         path: file.path.clone(),
-                        line: file.line_of_node(v),
+                        line: v.ident.span().start().line,
                         shape: Shape::Variant(fields),
                     });
                 }
