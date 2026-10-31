@@ -1,13 +1,13 @@
-+++ b/megazords/full/src/lib.rs
+--- a/megazords/ios-rust/focus/Cargo.toml
++++ b/megazords/ios-rust/focus/Cargo.toml
+ logins = { path = "../../../components/logins" }
++notes = { path = "../../../components/notes" }
+--- a/megazords/ios-rust/focus/src/lib.rs
++++ b/megazords/ios-rust/focus/src/lib.rs
+ pub use logins;
 +pub use notes;
-+++ b/megazords/ios-rust/src/lib.rs
-+pub use notes;
-+++ b/megazords/ios-rust/MozillaRustComponents.h
-+#import "notesFFI.h"
+--- /dev/null
 +++ b/components/notes/uniffi.toml
-+[bindings.kotlin]
-+package_name = "mozilla.appservices.notes"
-+omit_checksums = true
 +[bindings.swift]
 +ffi_module_name = "MozillaRustComponents"
 +ffi_module_filename = "notesFFI"

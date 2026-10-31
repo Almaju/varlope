@@ -1,6 +1,9 @@
-+++ b/megazords/full/src/lib.rs
-+pub use notes; // flagged: not in megazords/ios-rust lib.rs or its FFI header
+--- a/megazords/ios-rust/focus/Cargo.toml
++++ b/megazords/ios-rust/focus/Cargo.toml
+ logins = { path = "../../../components/logins" }
++notes = { path = "../../../components/notes" } # flagged: lib.rs has no `pub use notes;`
+--- /dev/null
 +++ b/components/notes/uniffi.toml
-+[bindings.kotlin]
-+package_name = "mozilla.appservices.notes" # flagged: no omit_checksums = true
-+# flagged: no [bindings.swift] ffi_module_name / ffi_module_filename
++[bindings.swift]
++ffi_module_name = "MozillaRustComponents"
++ffi_module_filename = "notesFFI"
