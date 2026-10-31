@@ -5,6 +5,6 @@ fn get_error_handling(&self) -> ErrorHandling<RemoteSettingsError> {
             ErrorHandling::convert(RemoteSettingsError::Backoff { seconds: *seconds })
                 .report_error("remote-settings-backoff")
         }
-        // …
+        _ => ErrorHandling::convert(RemoteSettingsError::Other { reason: self.to_string() }),
     }
 }
