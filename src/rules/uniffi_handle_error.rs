@@ -127,6 +127,8 @@ fn udl_throwing(cx: &Context, dir: &str) -> BTreeSet<(String, String)> {
 /// public error type.
 fn foreign_impl_callees(cx: &Context, dir: &str, files: &[&RustFile]) -> BTreeSet<String> {
     let mut foreign: BTreeSet<String> = BTreeSet::new();
+    let typedef = regex::Regex::new(r"typedef\s+(?:trait_with_foreign|callback)\s+(\w+)")
+        .expect("valid regex");
     for file in cx.ws.files_with_ext(&["udl"]) {
         if api::crate_dir(&file.path) != dir {
             continue;
@@ -136,9 +138,7 @@ fn foreign_impl_callees(cx: &Context, dir: &str, files: &[&RustFile]) -> BTreeSe
                 foreign.insert(item.name.clone());
             }
         }
-        let re = regex::Regex::new(r"typedef\s+(?:trait_with_foreign|callback)\s+(\w+)")
-            .expect("valid regex");
-        for c in re.captures_iter(&file.text) {
+        for c in typedef.captures_iter(&file.text) {
             foreign.insert(c[1].to_string());
         }
     }

@@ -27,13 +27,14 @@ pub static RULE: Rule = Rule {
 
 fn check(cx: &Context, out: &mut Findings) {
     let Some(diff) = cx.diff else { return };
-    // crate -> (names before, items after)
-    let mut crates: BTreeMap<String, (BTreeSet<String>, Vec<(ApiItem, String)>)> = BTreeMap::new();
+    let mut crates: BTreeMap<String, Crate> = BTreeMap::new();
     for change in &diff.files {
         let old_path = change.old_path.as_deref().unwrap_or(&change.path);
         if change.status != Status::Added && api::is_shipped_api_file(old_path) {
             if let Some(text) = &change.old_text {
-                let entry = crates.entry(api::crate_dir(old_path).to_string()).or_default();
+                let entry = crates
+                    .entry(api::crate_dir(old_path).to_string())
+                    .or_default();
                 for item in items(old_path, text) {
                     entry.0.insert(item.name.clone());
                     for m in &item.members {
@@ -96,6 +97,10 @@ fn check(cx: &Context, out: &mut Findings) {
         }
     }
 }
+
+/// Item and member names before the change, and items (with their file's
+/// text) after it.
+type Crate = (BTreeSet<String>, Vec<(ApiItem, String)>);
 
 /// The exported items of a file, per the `crate::uniffi` model, minus test
 /// code.
@@ -204,7 +209,10 @@ mod tests {
 
     #[test]
     fn udl_constructor_is_the_proc_macro_new() {
-        let udl = ("components/tabs/src/tabs.udl", "interface Store {\n    constructor();\n};\n");
+        let udl = (
+            "components/tabs/src/tabs.udl",
+            "interface Store {\n    constructor();\n};\n",
+        );
         let rs = "/// A store.\n#[derive(uniffi::Object)]\npub struct Store;\n#[uniffi::export]\nimpl Store {\n    #[uniffi::constructor]\n    pub fn new() -> Self { Store }\n}\n";
         let found = check_diff(&RULE, &[udl, (PATH, "")], &[(PATH, rs)]);
         assert!(found.is_empty(), "{found:#?}");
