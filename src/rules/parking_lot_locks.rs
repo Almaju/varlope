@@ -116,10 +116,13 @@ fn path_fix(file: &RustFile, first: usize, last: usize) -> Option<Fix> {
             );
         }
     }
-    // Only the lines that change.
+    // Only the lines that change, if rustfmt keeps them as they are.
     let changed: Vec<usize> = (0..lines.len())
         .filter(|&i| lines[i] != original[i])
         .collect();
+    if changed.iter().any(|&i| lines[i].chars().count() > 100) {
+        return None;
+    }
     let (&a, &b) = (changed.first()?, changed.last()?);
     Some(Fix::edit(first + a, b - a + 1, lines[a..=b].to_vec()))
 }

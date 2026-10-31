@@ -118,10 +118,9 @@ fn fix(file: &RustFile, hit: &Hit, sink: &str, sink_imports: &BTreeSet<String>) 
     } else {
         format!("{sink}::")
     };
-    Some(Fix::replace_line(
-        hit.line,
-        format!("{}{path}{rest}", &text[..start]),
-    ))
+    let line = format!("{}{path}{rest}", &text[..start]);
+    // Longer than rustfmt's `max_width`, the call would be rewrapped.
+    (line.chars().count() <= 100).then(|| Fix::replace_line(hit.line, line))
 }
 
 /// `use log::{debug, warn};` becomes `use error_support::{debug, warn};`.
@@ -186,14 +185,12 @@ fn import_fix(file: &RustFile, krate: &str, name: &str, sink: &str) -> Option<Fi
     let text = file.line(line);
     let from = format!("use {krate}::");
     let start = text.find(&from)?;
-    Some(Fix::replace_line(
-        line,
-        format!(
-            "{}use {sink}::{}",
-            &text[..start],
-            &text[start + from.len()..]
-        ),
-    ))
+    let renamed = format!(
+        "{}use {sink}::{}",
+        &text[..start],
+        &text[start + from.len()..]
+    );
+    (renamed.chars().count() <= 100).then(|| Fix::replace_line(line, renamed))
 }
 
 /// The first segment of a `use` path, for ordering (`crate`, `self` and

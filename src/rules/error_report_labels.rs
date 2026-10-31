@@ -210,10 +210,41 @@ fn rename(file: &RustFile, label: &Label, renamed: &str) -> Option<Fix> {
         &text[..start],
         &text[start + old.len()..]
     );
-    if line.chars().count() > 100 {
-        return None; // rustfmt would wrap the call
+    // rustfmt rewraps a call past `max_width`, or one whose arguments grow
+    // past `fn_call_width` (60).
+    let grows_past = call_args(text, start).is_some_and(|args| {
+        args <= 60 && args + renamed.chars().count() - label.text.chars().count() > 60
+    });
+    if line.chars().count() > 100 || grows_past {
+        return None;
     }
     Some(Fix::replace_line(label.line, line))
+}
+
+/// The width of the arguments of the call whose parentheses, on this line,
+/// hold the byte offset `at`.
+fn call_args(text: &str, at: usize) -> Option<usize> {
+    let mut depth = 0;
+    let open = text[..at].char_indices().rev().find(|&(_, c)| {
+        match c {
+            ')' => depth += 1,
+            '(' if depth == 0 => return true,
+            '(' => depth -= 1,
+            _ => {}
+        }
+        false
+    })?;
+    let mut depth = 0;
+    let close = text[open.0 + 1..].char_indices().find(|&(_, c)| {
+        match c {
+            '(' => depth += 1,
+            ')' if depth == 0 => return true,
+            ')' => depth -= 1,
+            _ => {}
+        }
+        false
+    })?;
+    Some(text[open.0 + 1..open.0 + 1 + close.0].chars().count())
 }
 
 fn is_kebab(label: &str) -> bool {
