@@ -74,6 +74,21 @@ impl<'ast> Visit<'ast> for Collector<'_> {
         syn::visit::visit_impl_item(self, node);
     }
 
+    fn visit_trait_item(&mut self, node: &'ast syn::TraitItem) {
+        let attrs = match node {
+            syn::TraitItem::Const(item) => &item.attrs,
+            syn::TraitItem::Fn(item) => &item.attrs,
+            syn::TraitItem::Type(item) => &item.attrs,
+            syn::TraitItem::Macro(item) => &item.attrs,
+            _ => return,
+        };
+        if is_test_gated(attrs) {
+            self.record(node);
+            return;
+        }
+        syn::visit::visit_trait_item(self, node);
+    }
+
     fn visit_item(&mut self, node: &'ast syn::Item) {
         let attrs = match node {
             syn::Item::Const(item) => &item.attrs,

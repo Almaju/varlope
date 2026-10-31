@@ -142,18 +142,22 @@ pub fn parse(text: &str) -> Vec<UdlItem> {
                     let Some(mfirst) = first_non_space(&code_chars, ms, me) else {
                         continue;
                     };
-                    let mline = line_of[mfirst];
-                    let (mattrs, mrest) = take_attrs(text.trim());
+                    // Docs sit above the attributes; the member is named after them.
+                    let attr_line = line_of[mfirst];
+                    let trimmed = text.trim();
+                    let (mattrs, mrest) = take_attrs(trimmed);
                     let sig = normalize(mrest);
                     if sig.is_empty() {
                         continue;
                     }
+                    let lead = text.len() - text.trim_start().len() + trimmed.len() - mrest.len();
+                    let name_line = line_of[ms + text[..lead].chars().count()];
                     members.push(UdlMember {
                         name: member_name(&sig),
                         signature: sig,
                         attrs: mattrs,
-                        line: mline,
-                        has_doc: has_doc(mline),
+                        line: name_line,
+                        has_doc: has_doc(attr_line),
                     });
                 }
             }
@@ -387,6 +391,6 @@ interface PlacesConnection {
         assert_eq!(conn.members[0].name, "constructor");
         assert_eq!(conn.members[1].name, "delete_everything");
         assert!(!conn.members[1].has_doc);
-        assert_eq!(conn.members[1].line, 25);
+        assert_eq!(conn.members[1].line, 26);
     }
 }

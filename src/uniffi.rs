@@ -133,9 +133,15 @@ pub fn from_rust(file: &RustFile) -> Vec<ApiItem> {
                 } else {
                     continue;
                 };
-                let members = s
-                    .fields
-                    .iter()
+                // An Object's fields are private state, not API.
+                let fields = if kind == ApiKind::Object {
+                    None
+                } else {
+                    Some(&s.fields)
+                };
+                let members = fields
+                    .into_iter()
+                    .flatten()
                     .filter_map(|f| {
                         let name = f.ident.as_ref()?.to_string();
                         let default = syntax::find_attr(&f.attrs, "uniffi")
