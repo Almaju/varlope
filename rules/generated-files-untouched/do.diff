@@ -1,9 +1,15 @@
 --- a/components/places/Cargo.toml
 +++ b/components/places/Cargo.toml
- [dev-dependencies]
-+mockall = "0.12"
+@@ -24 +24 @@
+-url = "2.5"
++url = "2.6"
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ name = "places"
-+ "mockall",
-# tokio stays at 1.38.0: the unrelated `cargo update` churn is reverted
+@@ -4210 +4210 @@ name = "url"
+-version = "2.5.4"
++version = "2.6.0"
+--- a/DEPENDENCIES.md
++++ b/DEPENDENCIES.md
+@@ -1102 +1102 @@
+-* [Apache License 2.0: url 2.5.4](#apache-license-20)
++* [Apache License 2.0: url 2.6.0](#apache-license-20)
