@@ -212,9 +212,9 @@ fn read_rust(file: &RustFile, s: &mut Surface) {
                 }
                 let kinds = if syntax::has_derive(&st.attrs, "uniffi::Record") {
                     RECORD
-                } else if syntax::has_derive(&st.attrs, "uniffi::Object") {
-                    OBJECT
-                } else if syntax::has_derive(&st.attrs, "uniffi::Error") {
+                } else if syntax::has_derive(&st.attrs, "uniffi::Object")
+                    || syntax::has_derive(&st.attrs, "uniffi::Error")
+                {
                     OBJECT
                 } else {
                     continue;

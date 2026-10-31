@@ -630,9 +630,12 @@ pub fn udl_slots(path: &str, text: &str) -> Vec<Slot> {
     out
 }
 
+/// A UDL signature: return type, name, and `(type, name)` arguments.
+pub type UdlSignature = (String, String, Vec<(String, String)>);
+
 /// `[Throws=E] sequence<Foo>? get_all(string a, optional i64 b = 1)` ->
 /// `("sequence<Foo>?", "get_all", [("string", "a"), ("i64", "b")])`.
-pub fn udl_signature(sig: &str) -> Option<(String, String, Vec<(String, String)>)> {
+pub fn udl_signature(sig: &str) -> Option<UdlSignature> {
     let open = sig.find('(')?;
     let close = sig.rfind(')')?;
     let head = sig[..open].trim();
