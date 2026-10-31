@@ -404,6 +404,96 @@ pub fn comment_explains_error(file: &RustFile, start: usize, end: usize) -> bool
     .any(|w| text.contains(w))
 }
 
+/// A call that takes a lock and returns its guard.
+#[derive(Clone, Debug)]
+pub struct LockCall {
+    /// What is locked, as text: `self.db` for `self.db.lock()`,
+    /// `self.lock_db` for `self.lock_db()?`.
+    pub key: String,
+    /// `read()` of an `RwLock`: other readers may hold it too.
+    pub shared: bool,
+    /// The locked expression (`self.callback` for `self.callback.read()`).
+    pub target: String,
+}
+
+/// Methods that lock and return a guard.
+const LOCK_METHODS: &[&str] = &["lock", "read", "write", "lock_db", "try_lock"];
+
+/// The functions of a file that return a lock guard
+/// (`fn data(&self) -> MutexGuard<'_, Data> { self.data.lock() }`): calling
+/// one takes a lock. Maps the name to what it locks (`self.data`), when its
+/// body says.
+pub type GuardFns = std::collections::BTreeMap<String, Option<String>>;
+
+pub fn guard_fns(file: &syn::File) -> GuardFns {
+    let none = GuardFns::new();
+    functions(file)
+        .iter()
+        .filter(|f| match &f.sig.output {
+            syn::ReturnType::Type(_, ty) => {
+                let t = syntax::type_string(ty);
+                t.contains("Guard<") && !t.contains("Option<")
+            }
+            syn::ReturnType::Default => false,
+        })
+        .map(|f| {
+            let target = match f.block.stmts.last() {
+                Some(syn::Stmt::Expr(e, None)) => lock_call(e, &none).map(|l| l.target),
+                _ => None,
+            };
+            (f.sig.ident.to_string(), target)
+        })
+        .collect()
+}
+
+/// When `expr` takes a lock and yields the guard itself (not a value read
+/// through it), what it locks. `?`, `.unwrap()` and `.expect(..)` after the
+/// lock call are seen through.
+pub fn lock_call(expr: &syn::Expr, guard_fns: &GuardFns) -> Option<LockCall> {
+    match expr {
+        syn::Expr::Try(t) => lock_call(&t.expr, guard_fns),
+        syn::Expr::Paren(p) => lock_call(&p.expr, guard_fns),
+        syn::Expr::MethodCall(m) => {
+            let name = m.method.to_string();
+            if matches!(name.as_str(), "unwrap" | "expect") {
+                return lock_call(&m.receiver, guard_fns);
+            }
+            let zero_arg_lock = m.args.is_empty()
+                && (LOCK_METHODS.contains(&name.as_str()) || guard_fns.contains_key(&name));
+            if !zero_arg_lock {
+                return None;
+            }
+            // `self.callback()` locks what its body locks: `self.callback`.
+            let target = match guard_fns.get(&name) {
+                Some(Some(locked)) if text(&m.receiver) == "self" => locked.clone(),
+                _ => text(&m.receiver),
+            };
+            let key = if matches!(name.as_str(), "lock" | "read" | "write" | "try_lock") {
+                target.clone()
+            } else {
+                format!("{target}.{name}")
+            };
+            Some(LockCall {
+                key,
+                shared: name == "read",
+                target,
+            })
+        }
+        _ => None,
+    }
+}
+
+/// Whether an expression sends an HTTP request (viaduct `send()`,
+/// `send_sync(..)`, a backend's `send_request(..)`).
+pub fn is_network_call(m: &syn::ExprMethodCall) -> bool {
+    let name = m.method.to_string();
+    (name == "send" && m.args.is_empty())
+        || matches!(
+            name.as_str(),
+            "send_sync" | "send_with_policy" | "send_ohttp" | "send_request"
+        )
+}
+
 /// Visit the expressions inside a `format!`-style macro (`format!`, `warn!`,
 /// `vec!`, `assert!`...), which `syn` leaves as tokens.
 /// The visitor must not borrow from the tree (`for<'a> Visit<'a>`).
