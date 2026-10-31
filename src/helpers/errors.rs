@@ -542,6 +542,48 @@ mod tests {
         );
     }
 
+    /// The docs examples of the errors rules are shown as Rust: they must parse.
+    #[test]
+    fn examples_parse() {
+        let examples = [
+            include_str!("../../rules/no-unwrap-in-component-code/dont.rs"),
+            include_str!("../../rules/no-unwrap-in-component-code/do.rs"),
+            include_str!("../../rules/no-panicking-index-or-arith/dont.rs"),
+            include_str!("../../rules/no-panicking-index-or-arith/do.rs"),
+            include_str!("../../rules/utf8-safe-truncation/dont.rs"),
+            include_str!("../../rules/utf8-safe-truncation/do.rs"),
+            include_str!("../../rules/dont-swallow-errors/dont.rs"),
+            include_str!("../../rules/dont-swallow-errors/do.rs"),
+            include_str!("../../rules/preserve-error-sources/dont.rs"),
+            include_str!("../../rules/preserve-error-sources/do.rs"),
+            include_str!("../../rules/error-report-labels/dont.rs"),
+            include_str!("../../rules/error-report-labels/do.rs"),
+            include_str!("../../rules/http-status-checked/dont.rs"),
+            include_str!("../../rules/http-status-checked/do.rs"),
+            include_str!("../../rules/no-callbacks-or-io-under-lock/dont.rs"),
+            include_str!("../../rules/no-callbacks-or-io-under-lock/do.rs"),
+            include_str!("../../rules/lock-once-per-operation/dont.rs"),
+            include_str!("../../rules/lock-once-per-operation/do.rs"),
+            include_str!("../../rules/parking-lot-locks/dont.rs"),
+            include_str!("../../rules/parking-lot-locks/do.rs"),
+            include_str!("../../rules/no-blocking-io-in-constructors/dont.rs"),
+            include_str!("../../rules/no-blocking-io-in-constructors/do.rs"),
+            include_str!("../../rules/no-global-mutable-statics/dont.rs"),
+            include_str!("../../rules/no-global-mutable-statics/do.rs"),
+            include_str!("../../rules/no-pii-in-logs/dont.rs"),
+            include_str!("../../rules/no-pii-in-logs/do.rs"),
+            include_str!("../../rules/tracing-support-logging/dont.rs"),
+            include_str!("../../rules/tracing-support-logging/do.rs"),
+            include_str!("../../rules/tolerant-remote-deserialization/dont.rs"),
+            include_str!("../../rules/tolerant-remote-deserialization/do.rs"),
+            include_str!("../../rules/sync-payload-compat/dont.rs"),
+            include_str!("../../rules/sync-payload-compat/do.rs"),
+        ];
+        for (i, text) in examples.iter().enumerate() {
+            assert!(syn::parse_file(text).is_ok(), "example {i} does not parse");
+        }
+    }
+
     #[test]
     fn finds_logging() {
         let e: syn::Expr = syn::parse_quote!(r.inspect_err(|e| warn!("x {e}")).ok());
