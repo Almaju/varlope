@@ -142,12 +142,13 @@ fn fix(file: &RustFile, hit: &Hit) -> Option<Fix> {
     } else {
         ""
     };
-    let lints = hit.lints.join(", ");
-    let attr = format!("#{bang}[{level}({lints}, reason = \"{reason}\")]");
+    let args = format!("{}, reason = \"{reason}\"", hit.lints.join(", "));
+    let attr = format!("#{bang}[{level}({args})]");
     // The comment moved into the attribute.
     let after = if comment.is_some() { "" } else { after };
     let replaced = format!("{before}{attr}{after}");
-    if replaced.chars().count() <= 100 {
+    // rustfmt's `max_width` and `attr_fn_like_width`.
+    if replaced.chars().count() <= 100 && args.chars().count() <= 70 {
         return Some(Fix::replace_line(line, replaced));
     }
     // rustfmt puts a long attribute's arguments on lines of their own.
@@ -250,6 +251,23 @@ mod tests {
                 (12, None),
             ],
             "{found:#?}"
+        );
+    }
+
+    #[test]
+    fn wraps_a_long_attribute_like_rustfmt() {
+        let src = "mod m {\n    #[allow(dead_code)] // read by the sync engine once the v2 schema ships everywhere\n    fn f() {}\n}\n";
+        let found = check(&RULE, &[(PATH, src)]);
+        let edit = &found[0].fix.as_ref().expect("a fix").edits[0];
+        assert_eq!((edit.line, edit.remove), (2, 1));
+        assert_eq!(
+            edit.insert,
+            vec![
+                "    #[expect(",
+                "        dead_code,",
+                "        reason = \"read by the sync engine once the v2 schema ships everywhere\"",
+                "    )]",
+            ]
         );
     }
 
