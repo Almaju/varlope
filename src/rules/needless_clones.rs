@@ -41,7 +41,7 @@ fn check(cx: &Context, out: &mut Findings) {
                 &file.path,
                 line,
                 column,
-                format!("`{made_by}` already returns a new `String`; drop the `.{}()`", m.method),
+                format!("`{made_by}` already returns an owned value; drop the `.{}()`", m.method),
             );
         }
     }
