@@ -4,4 +4,6 @@ use rusqlite::Row;
 
 pub(crate) fn guid(row: &Row<'_>) -> rusqlite::Result<String> {
     row.get("guid")
-} // flagged: file does not end with a newline
+} // flagged: the two blank lines below end the file
+
+

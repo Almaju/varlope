@@ -1,1 +1,1 @@
-New files lacked the header, a header was placed after `#![cfg(...)]`, and a refactor rewrote headers changing https->http.
+application-services is vendored into mozilla-central, whose `license` and `file-whitespace` linters reject a source file without the MPL-2.0 header or with trailing whitespace, CRLF endings or a missing final newline (#6514 and #6515 fixed dozens at once). Reviewers ask for the header on every new file; adding it when the file is created is cheaper than a clean-up PR later.

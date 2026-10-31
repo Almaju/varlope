@@ -20,6 +20,12 @@ pub fn is_generated(path: &str) -> bool {
         )
 }
 
+/// Files no rule reports on: generated and vendored code, and the
+/// `tools/review-insights/` research notes, which are not part of the product.
+pub fn is_out_of_scope(path: &str) -> bool {
+    is_generated(path) || path.starts_with("tools/review-insights/")
+}
+
 /// A file's text: from the workspace, or from disk under the workspace root
 /// for files the workspace does not load (`Package.resolved`, `Dockerfile`).
 pub fn text_of(ws: &Workspace, path: &str) -> Option<String> {
