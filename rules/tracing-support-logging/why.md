@@ -1,1 +1,1 @@
-Calls to log::*! or raw tracing::event! bypass the tracing_support event sink, so logs and error reports silently disappear.
+The apps read Rust logs through `tracing_support`'s event sink, which only picks up events made by the macros `error_support` re-exports. A `log::debug!` or a raw `tracing::event!` never reaches Android, iOS or Desktop logs, nor the breadcrumbs attached to error reports, so the message is lost exactly when someone needs it.
