@@ -1,1 +1,1 @@
-HTTP clients treated anything below 400 (1xx/3xx) as success, and the cache stored any 2xx (e.g. 204) response.
+viaduct returns 4xx and 5xx responses as `Ok`, so a body read without a status check parses an error page as data. Reviewers also caught `status >= 400` checks that treat 1xx and 3xx as success (#6878); and the ads HTTP cache stores responses without looking at their status, so an error page can be served from the cache until it expires.
