@@ -1,7 +1,7 @@
 //! Helpers shared by the sql rules: finding SQL in Rust strings and `.sql`
 //! files, a small SQL lexer, and a model of the DDL a crate declares.
 
-use std::collections::HashSet;
+use std::collections::{BTreeMap, HashSet};
 
 use proc_macro2::{TokenStream, TokenTree};
 use syn::punctuated::Punctuated;
@@ -10,7 +10,7 @@ use syn::visit::Visit;
 
 use crate::source::RustFile;
 use crate::syntax;
-use crate::workspace::{is_test_path, Package, Workspace};
+use crate::workspace::{is_test_path, Workspace};
 
 // ---------------------------------------------------------------------------
 // Where to look
@@ -1246,19 +1246,18 @@ pub fn schema_from(texts: &[&SqlText]) -> Schema {
     schema
 }
 
-/// The SQL texts that belong to `package` (nested packages excluded).
-pub fn package_texts<'t>(
-    ws: &Workspace,
-    package: &Package,
-    texts: &'t [SqlText],
-) -> Vec<&'t SqlText> {
-    texts
-        .iter()
-        .filter(|t| {
-            ws.package_of(&t.path)
-                .is_some_and(|p| p.manifest == package.manifest)
-        })
-        .collect()
+/// SQL texts grouped by the package (crate) they belong to: each crate has
+/// its own database, so schemas and foreign keys only matter within one.
+pub fn by_package<'t>(ws: &Workspace, texts: &'t [SqlText]) -> BTreeMap<String, Vec<&'t SqlText>> {
+    let mut out: BTreeMap<String, Vec<&SqlText>> = BTreeMap::new();
+    for text in texts {
+        let key = ws
+            .package_of(&text.path)
+            .map(|p| p.manifest.clone())
+            .unwrap_or_default();
+        out.entry(key).or_default().push(text);
+    }
+    out
 }
 
 #[cfg(test)]

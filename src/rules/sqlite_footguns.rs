@@ -21,17 +21,7 @@ pub static RULE: Rule = Rule {
 
 fn check(cx: &Context, out: &mut Findings) {
     let texts = sql::sql_texts(cx.ws);
-    // Group by package: foreign keys only matter within one database.
-    let mut by_package: BTreeMap<String, Vec<&SqlText>> = BTreeMap::new();
-    for text in &texts {
-        let key = cx
-            .ws
-            .package_of(&text.path)
-            .map(|p| p.manifest.clone())
-            .unwrap_or_default();
-        by_package.entry(key).or_default().push(text);
-    }
-    for texts in by_package.values() {
+    for texts in sql::by_package(cx.ws, &texts).values() {
         let schema = sql::schema_from(texts);
         let fk_enforced = texts.iter().any(|t| enables_foreign_keys(&t.value));
         let deliberate = deliberate_replaces(texts, &schema);

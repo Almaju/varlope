@@ -1,12 +1,10 @@
 pub const SQL: &str = "
 CREATE TABLE yelp_modifiers(
+    keyword TEXT PRIMARY KEY,
     type INTEGER NOT NULL,
-    keyword TEXT NOT NULL,
-    record_id TEXT NOT NULL,
-    PRIMARY KEY (type, keyword)
+    record_id TEXT NOT NULL
 ) WITHOUT ROWID;
 ";
-
 impl SuggestDao<'_> {
     pub fn drop_suggestions(&mut self, record_id: &SuggestRecordId) -> Result<()> {
         let params = named_params! { ":record_id": record_id.as_str() };

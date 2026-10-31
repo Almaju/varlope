@@ -93,14 +93,6 @@ fn check(cx: &Context, out: &mut Findings) {
             }
         }
     }
-    dedup(out);
-}
-
-/// A loop may be visited once per enclosing function (closures, nested fns).
-fn dedup(out: &mut Findings) {
-    let mut seen = std::collections::HashSet::new();
-    out.items
-        .retain(|f| seen.insert((f.path.clone(), f.line, f.message.clone())));
 }
 
 struct Loops {
