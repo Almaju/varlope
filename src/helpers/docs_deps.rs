@@ -334,7 +334,7 @@ mod tests {
     #[test]
     fn comments_by_language() {
         let rs = comment_lines("a.rs", "let s = \"// no\"; // yes\n/* one\n * two */\n");
-        assert_eq!(rs.get(&1).map(String::as_str), Some(" yes"));
+        assert_eq!(rs.get(&1).map(String::as_str), Some("yes"));
         assert_eq!(rs.get(&3).map(|s| s.trim()), Some("two"));
         let sh = comment_lines("a.sh", "echo \"#no\" # yes\nx=${#y}\n# top\n");
         assert_eq!(sh.get(&1).map(String::as_str), Some(" yes"));
