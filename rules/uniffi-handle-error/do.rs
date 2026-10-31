@@ -6,7 +6,6 @@ impl Store {
         Ok(self.db.lock().get_by_id(id)?)
     }
 }
-
 impl GetErrorHandling for Error {
     type ExternalError = StoreApiError;
     fn get_error_handling(&self) -> ErrorHandling<StoreApiError> {
