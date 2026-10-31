@@ -1,1 +1,1 @@
-New build/installer scripts lacked strict mode, quoted variables inconsistently and used ad-hoc argument loops.
+Without `set -e` a script keeps going after a failed step and usually exits 0: Linux FML releases silently failed to build that way (#5080), and reviewers keep asking for `set -euo pipefail` on new scripts. `sed -i` is not portable: GNU sed rejects BSD's `sed -i ''` and the reverse, which broke the m-c import script on Linux (#6849). Files meant to be sourced are skipped: they must not change the caller's shell options.
