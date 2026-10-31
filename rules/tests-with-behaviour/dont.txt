@@ -1,5 +1,0 @@
-$ git diff --stat origin/main...HEAD
- CHANGELOG.md                        |  3 +
- components/nimbus/src/enrollment.rs | 41 +++++++++++++++++---
- 2 files changed, 38 insertions(+), 6 deletions(-)
-warning[tests-with-behaviour]: 41 changed lines in components/nimbus/src, no test

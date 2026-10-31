@@ -1,1 +1,1 @@
-The single most frequent request: add unit tests for new functions (get_visit_count_for_host, merge_override), extend merge tests for new fields, add negative/edge-case queries, sad-path config tests, empty-storage cases, and assertions on side effects.
+The most frequent review request is "please add a test": for new functions, for merges that must carry a new field, for sad paths and empty inputs. Code that lands without a test is only checked by hand once; in a backtest, about a quarter of PRs adding 20+ lines of component code changed no test at all.

@@ -1,0 +1,11 @@
+--- a/components/nimbus/src/enrollment.rs
++++ b/components/nimbus/src/enrollment.rs
+@@ -120,0 +121,8 @@ impl EnrollmentsEvolver<'_> {
++    fn merge_override(&self, base: &Experiment, over: &Experiment) -> Experiment {
++        let mut merged = base.clone();
++        if let Some(branches) = &over.branches {
++            merged.branches = branches.clone();
++        }
++        merged.targeting = over.targeting.clone().or(merged.targeting);
++        merged
++    }

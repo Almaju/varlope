@@ -1,0 +1,13 @@
+--- a/components/nimbus/src/enrollment.rs
++++ b/components/nimbus/src/enrollment.rs
+@@ -120,0 +121,5 @@ impl EnrollmentsEvolver<'_> {
++    fn merge_override(&self, base: &Experiment, over: &Experiment) -> Experiment {
++        let mut merged = base.clone();
++        merged.targeting = over.targeting.clone().or(merged.targeting);
++        merged
++    }
+--- a/components/nimbus/src/tests/test_enrollment.rs
++++ b/components/nimbus/src/tests/test_enrollment.rs
+@@ -40,0 +41,2 @@
++#[test]
++fn test_merge_override_keeps_base_targeting_when_unset() { /* … */ }
