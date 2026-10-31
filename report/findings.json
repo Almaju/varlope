@@ -1523,7 +1523,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 344,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1531,7 +1531,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 391,
       "column": 25,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1539,7 +1539,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 401,
       "column": 39,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1547,7 +1547,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 454,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1555,7 +1555,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 501,
       "column": 25,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1563,7 +1563,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 511,
       "column": 39,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1571,7 +1571,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 614,
       "column": 23,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1579,7 +1579,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 615,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1587,7 +1587,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 624,
       "column": 30,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1595,7 +1595,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 625,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1603,7 +1603,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 634,
       "column": 23,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1611,7 +1611,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 635,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1619,7 +1619,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 644,
       "column": 30,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1627,7 +1627,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 645,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1635,7 +1635,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 767,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1643,7 +1643,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 776,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1651,7 +1651,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 785,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1659,7 +1659,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-da69a9954ada1d7c/out/autofill.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/autofill-c161aa7c2cdd3553/out/autofill.uniffi.rs",
       "line": 814,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1667,7 +1667,7 @@
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
       "line": 9,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
@@ -1675,23 +1675,15 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
       "line": 10,
-      "column": 21,
-      "message": "usage of wildcard import (clippy::wildcard_imports)",
-      "origin": "clippy"
-    },
-    {
-      "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
-      "line": 10,
-      "column": 33,
+      "column": 17,
       "message": "usage of wildcard import (clippy::wildcard_imports)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
       "line": 13,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
@@ -1699,31 +1691,31 @@
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
-      "line": 32,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
+      "line": 33,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
-      "line": 52,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
+      "line": 54,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-0676bc7f2182640b/out/glean_metrics.rs",
-      "line": 69,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/error-support-d257fbfa57705e25/out/glean_metrics.rs",
+      "line": 72,
       "column": 1,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 226,
       "column": 19,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1731,7 +1723,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 227,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1739,7 +1731,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 236,
       "column": 30,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1747,7 +1739,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 237,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1755,7 +1747,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 266,
       "column": 16,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1763,7 +1755,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 267,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1771,7 +1763,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 324,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1779,7 +1771,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 333,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1787,7 +1779,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 342,
       "column": 16,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1795,7 +1787,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 343,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1803,7 +1795,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 382,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1811,7 +1803,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 391,
       "column": 16,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1819,7 +1811,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 392,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1827,7 +1819,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 430,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1835,7 +1827,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 439,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1843,7 +1835,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 448,
       "column": 20,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1851,7 +1843,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 449,
       "column": 20,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1859,7 +1851,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 450,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1867,7 +1859,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 480,
       "column": 22,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1875,7 +1867,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 582,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1883,7 +1875,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 638,
       "column": 25,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1891,7 +1883,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-eadc12ac7e832d36/out/logins.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/logins-cd7513ff2aaca3fc/out/logins.uniffi.rs",
       "line": 648,
       "column": 39,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1899,7 +1891,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 147,
       "column": 20,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1907,7 +1899,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 158,
       "column": 22,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1915,7 +1907,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 159,
       "column": 17,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1923,7 +1915,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 161,
       "column": 15,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1931,7 +1923,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 179,
       "column": 18,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1939,7 +1931,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 187,
       "column": 15,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1947,7 +1939,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 237,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1955,7 +1947,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 265,
       "column": 10,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1963,7 +1955,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 274,
       "column": 10,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1971,7 +1963,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 328,
       "column": 32,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -1979,7 +1971,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-fe74a7109e3cd799/out/fml.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/nimbus-fml-e984b207a78cd91b/out/fml.uniffi.rs",
       "line": 337,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2187,7 +2179,7 @@
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
       "line": 9,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
@@ -2195,23 +2187,15 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
       "line": 10,
-      "column": 21,
-      "message": "usage of wildcard import (clippy::wildcard_imports)",
-      "origin": "clippy"
-    },
-    {
-      "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 10,
-      "column": 33,
+      "column": 17,
       "message": "usage of wildcard import (clippy::wildcard_imports)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
       "line": 13,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
@@ -2219,47 +2203,47 @@
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 31,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
+      "line": 32,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 49,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
+      "line": 51,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 67,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
+      "line": 70,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 85,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
+      "line": 89,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "expect-with-reason",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/glean_metrics.rs",
-      "line": 103,
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/glean_metrics.rs",
+      "line": 108,
       "column": 5,
       "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
       "origin": "clippy"
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 266,
       "column": 42,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2267,7 +2251,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 267,
       "column": 42,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2275,7 +2259,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 293,
       "column": 33,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2283,7 +2267,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 362,
       "column": 14,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2291,7 +2275,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 388,
       "column": 17,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2299,7 +2283,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 511,
       "column": 26,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2307,7 +2291,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 541,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2315,7 +2299,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 562,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2323,7 +2307,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 603,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2331,7 +2315,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 665,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2339,7 +2323,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 676,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2347,7 +2331,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 686,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2355,7 +2339,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 706,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2363,7 +2347,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 716,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2371,7 +2355,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 727,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2379,7 +2363,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 761,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2387,7 +2371,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 773,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2395,7 +2379,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 795,
       "column": 17,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2403,7 +2387,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 796,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2411,7 +2395,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 808,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2419,7 +2403,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 891,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -2427,7 +2411,7 @@
     },
     {
       "rule": "rustfmt-config",
-      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-cd64c1063fcf875a/out/places.uniffi.rs",
+      "path": "/tmp/claude-0/-home-user/a1bd19a9-bb4a-50b0-99d4-4583a6271db1/scratchpad/target/debug/build/places-a93060b4a25ca174/out/places.uniffi.rs",
       "line": 902,
       "column": 34,
       "message": "unnecessary qualification (unused_qualifications)",
@@ -3932,15 +3916,17 @@
       "fix": {
         "edits": [
           {
-            "line": 41,
-            "remove": 1,
+            "line": 39,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 38,
+        "start": 36,
         "lines": [
+          "mockall = \"0.12\"",
+          "mockito = { version = \"0.31\", default-features = false }",
           "viaduct-dev = { path = \"../support/viaduct-dev\" }",
           "",
           "[build-dependencies]",
@@ -4158,6 +4144,37 @@
       "message": "9 consumer-visible file(s) changed but CHANGELOG.md was not touched",
       "origin": "varlope",
       "commit": "7f0fd9266205f4d88c657fa2e65a94c020f87963"
+    },
+    {
+      "rule": "needless-clones",
+      "path": "components/ads-client/src/ads.rs",
+      "line": 18,
+      "column": 21,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 18,
+            "remove": 1,
+            "insert": [
+              "        PlacementId(s.to_owned())"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 15,
+        "lines": [
+          "#[cfg(feature = \"stateful\")]",
+          "impl PlacementId {",
+          "    pub fn new(s: &str) -> PlacementId {",
+          "        PlacementId(s.to_string())",
+          "    }",
+          "    pub fn into_inner(self) -> String {",
+          "        self.0"
+        ]
+      }
     },
     {
       "rule": "changelog-required",
@@ -4391,6 +4408,26 @@
       }
     },
     {
+      "rule": "expect-with-reason",
+      "path": "components/ads-client/src/ads_store.rs",
+      "line": 16,
+      "column": 5,
+      "message": "`allow` attribute without specifying a reason (clippy::allow_attributes_without_reason)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 13,
+        "lines": [
+          "pub struct AdsStore {",
+          "    holder: AdsStoreHolder,",
+          "    is_memory: bool,",
+          "    #[allow(dead_code)]",
+          "    max_size: ByteSize,",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
       "rule": "changelog-required",
       "path": "components/ads-client/src/ads_store.rs",
       "line": 33,
@@ -4407,6 +4444,57 @@
       "message": "4 consumer-visible file(s) changed but CHANGELOG.md was not touched",
       "origin": "varlope",
       "commit": "ecd5ab74d37a6e8f37ed1663efdd0e68d49b4091"
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/ads-client/src/ads_store/builder.rs",
+      "line": 99,
+      "column": 9,
+      "message": "non-binding `let` on an expression with `#[must_use]` type (clippy::let_underscore_must_use)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 96,
+        "lines": [
+          "        self.is_memory = true;",
+          "",
+          "        // Attempt to open initial connection, resolving an error if needed.",
+          "        let _ = memory_db.lock()?;",
+          "",
+          "        Ok(memory_db)",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/ads_store/connection_initializer.rs",
+      "line": 9,
+      "column": 41,
+      "message": "found empty brackets on struct declaration (clippy::empty_structs_with_brackets)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 9,
+            "remove": 1,
+            "insert": [
+              "pub struct AdsStoreConnectionInitializer;"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 6,
+        "lines": [
+          "use sql_support::open_database;",
+          "use std::time::Duration;",
+          "",
+          "pub struct AdsStoreConnectionInitializer {}",
+          "",
+          "impl open_database::ConnectionInitializer for AdsStoreConnectionInitializer {",
+          "    const END_VERSION: u32 = 1;"
+        ]
+      }
     },
     {
       "rule": "explain-magic-values",
@@ -4445,6 +4533,37 @@
           "                params![placement_id.as_ref()],",
           "                |row| {",
           "                    let ad_body: Vec<u8> = row.get(1)?;"
+        ]
+      }
+    },
+    {
+      "rule": "borrowed-params",
+      "path": "components/ads-client/src/ads_store/store.rs",
+      "line": 119,
+      "column": 61,
+      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 119,
+            "remove": 1,
+            "insert": [
+              "    pub fn store_ad(&self, placement_id: &PlacementId, ads: &[Ad]) -> Result<(), FetchAdsError> {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 116,
+        "lines": [
+          "    }",
+          "",
+          "    /// Upsert the ads for a placement, replacing any ads already stored for it.",
+          "    pub fn store_ad(&self, placement_id: &PlacementId, ads: Vec<Ad>) -> Result<(), FetchAdsError> {",
+          "        #[cfg(test)]",
+          "        if *self.fault.lock() == FaultKind::Store {",
+          "            return Err(Self::forced_fault_error(\"forced store failure\"))"
         ]
       }
     },
@@ -4629,37 +4748,6 @@
       "message": "6 consumer-visible file(s) changed but CHANGELOG.md was not touched",
       "origin": "varlope",
       "commit": "76a5218fd902e1eca98132ee72185c661a480898"
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 37,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 37,
-            "remove": 1,
-            "insert": [
-              "pub(crate) struct AdsClientInner {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 34,
-        "lines": [
-          "    inner: Arc<AdsClientInner>,",
-          "}",
-          "",
-          "pub struct AdsClientInner {",
-          "    #[cfg(feature = \"stateful\")]",
-          "    ads_store: Arc<Option<AdsStore>>,",
-          "    client: MARSClient,"
-        ]
-      }
     },
     {
       "rule": "minimal-visibility",
@@ -4981,37 +5069,6 @@
       }
     },
     {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 155,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 155,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn new(client_config: AdsClientConfig) -> Self {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 152,
-        "lines": [
-          "}",
-          "",
-          "impl AdsClientInner {",
-          "    pub fn new(client_config: AdsClientConfig) -> Self {",
-          "        let context_id_component = ContextIDComponent::new(",
-          "            &Uuid::new_v4().to_string(),",
-          "            0,"
-        ]
-      }
-    },
-    {
       "rule": "todo-needs-bug",
       "path": "components/ads-client/src/client.rs",
       "line": 192,
@@ -5043,99 +5100,6 @@
       }
     },
     {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 222,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 222,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn clear_cache(&self) -> Result<(), open_database::Error> {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 219,
-        "lines": [
-          "        }",
-          "    }",
-          "",
-          "    pub fn clear_cache(&self) -> Result<(), open_database::Error> {",
-          "        self.client.clear_cache()",
-          "    }",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 226,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 226,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn get_context_id(&self) -> context_id::ApiResult<String> {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 223,
-        "lines": [
-          "        self.client.clear_cache()",
-          "    }",
-          "",
-          "    pub fn get_context_id(&self) -> context_id::ApiResult<String> {",
-          "        self.context_id_component.request(DEFAULT_ROTATION_DAYS)",
-          "    }",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 230,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 230,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn record_click(&self, click_url: Url, ohttp: bool) -> Result<(), RecordClickError> {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 227,
-        "lines": [
-          "        self.context_id_component.request(DEFAULT_ROTATION_DAYS)",
-          "    }",
-          "",
-          "    pub fn record_click(&self, click_url: Url, ohttp: bool) -> Result<(), RecordClickError> {",
-          "        // TODO: Re-enable cache invalidation behind a Nimbus experiment.",
-          "        // The mobile team has requested this be temporarily disabled.",
-          "        // let mut click_url = click_url.clone();"
-        ]
-      }
-    },
-    {
       "rule": "todo-needs-bug",
       "path": "components/ads-client/src/client.rs",
       "line": 231,
@@ -5163,37 +5127,6 @@
           "        // The mobile team has requested this be temporarily disabled.",
           "        // let mut click_url = click_url.clone();",
           "        // if let Some(request_hash) = RequestHash::pop_from_url(&mut click_url) {"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 247,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 247,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn record_impression("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 244,
-        "lines": [
-          "            })",
-          "    }",
-          "",
-          "    pub fn record_impression(",
-          "        &self,",
-          "        impression_url: Url,",
-          "        ohttp: bool,"
         ]
       }
     },
@@ -5260,99 +5193,6 @@
       }
     },
     {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 291,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 291,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn report_ad("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 288,
-        "lines": [
-          "            })",
-          "    }",
-          "",
-          "    pub fn report_ad(",
-          "        &self,",
-          "        report_url: Url,",
-          "        reason: ReportReason,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 308,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 308,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn request_image_ads("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 305,
-        "lines": [
-          "    }",
-          "",
-          "    // relevance is not implemented for image ads, using an empty HashMap.",
-          "    pub fn request_image_ads(",
-          "        &self,",
-          "        ad_placement_requests: Vec<AdPlacementRequest>,",
-          "        flags: AdRequestFlags,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 333,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 333,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn request_spoc_ads("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 330,
-        "lines": [
-          "    }",
-          "",
-          "    // relevance is not implemented for spocs, using an empty HashMap.",
-          "    pub fn request_spoc_ads(",
-          "        &self,",
-          "        ad_placement_requests: Vec<AdPlacementRequest>,",
-          "        flags: AdRequestFlags,"
-        ]
-      }
-    },
-    {
       "rule": "todo-needs-bug",
       "path": "components/ads-client/src/client.rs",
       "line": 361,
@@ -5380,223 +5220,6 @@
           "    // when the stateful client rework is complete.",
           "    pub fn request_spoc_or_image_ads(",
           "        &self,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 363,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 363,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn request_spoc_or_image_ads("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 360,
-        "lines": [
-          "    // This allows both types to be returned without error (as instances of the enum `AdImageOrSpoc`)",
-          "    // TODO: This, as well as the other synchronous functions, are to be deprecated",
-          "    // when the stateful client rework is complete.",
-          "    pub fn request_spoc_or_image_ads(",
-          "        &self,",
-          "        ad_placement_requests: Vec<AdPlacementRequest>,",
-          "        flags: AdRequestFlags,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 389,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 389,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn request_tile_ads("
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 386,
-        "lines": [
-          "            })",
-          "    }",
-          "",
-          "    pub fn request_tile_ads(",
-          "        &self,",
-          "        ad_placement_requests: Vec<AdPlacementRequest>,",
-          "        flags: AdRequestFlags,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client.rs",
-      "line": 416,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 416,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn shutdown(&self) {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 413,
-        "lines": [
-          "            })",
-          "    }",
-          "",
-          "    pub fn shutdown(&self) {",
-          "        telemetry::uninstall();",
-          "",
-          "        #[cfg(feature = \"stateful\")]"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client/config.rs",
-      "line": 8,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 8,
-            "remove": 1,
-            "insert": [
-              "pub(crate) struct AdsClientConfig {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 5,
-        "lines": [
-          "",
-          "use crate::mars::Environment;",
-          "",
-          "pub struct AdsClientConfig {",
-          "    pub cache_config: Option<AdsCacheConfig>,",
-          "    pub environment: Environment,",
-          "    #[cfg(feature = \"stateful\")]"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client/config.rs",
-      "line": 16,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 16,
-            "remove": 1,
-            "insert": [
-              "pub(crate) struct AdsCacheConfig {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 13,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Clone, Debug)]",
-          "pub struct AdsCacheConfig {",
-          "    pub db_path: String,",
-          "    pub default_cache_ttl_seconds: Option<u64>,",
-          "    pub max_size_mib: Option<u64>,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client/error.rs",
-      "line": 9,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 9,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum ComponentError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 6,
-        "lines": [
-          "use crate::mars::error::{FetchAdsError, RecordClickError, RecordImpressionError, ReportAdError};",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum ComponentError {",
-          "    #[cfg(feature = \"stateful\")]",
-          "    #[error(\"Error requesting ads from worker: {0}\")]",
-          "    BackgroundWorker(#[from] BackgroundWorkerError),"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/client/error.rs",
-      "line": 28,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 28,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum RequestAdsError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 25,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum RequestAdsError {",
-          "    #[error(transparent)]",
-          "    ContextId(#[from] context_id::ApiError),",
-          ""
         ]
       }
     },
@@ -10089,316 +9712,6 @@
       }
     },
     {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 19,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 19,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum CallbackRequestError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 16,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum CallbackRequestError {",
-          "    #[error(\"Could not fetch ads, MARS responded with: {0}\")]",
-          "    HTTPError(#[from] HTTPError),",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 34,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 34,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum FetchAdsError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 31,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum FetchAdsError {",
-          "    #[error(\"Error building ad request: {0}\")]",
-          "    BuildRequest(#[from] BuildRequestError),",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 58,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 58,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum HTTPError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 55,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum HTTPError {",
-          "    #[error(\"Bad request ({code}): {message}\")]",
-          "    BadRequest { code: u16, message: String },",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 70,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 70,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn check(response: &Response) -> Result<(), Self> {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 67,
-        "lines": [
-          "}",
-          "",
-          "impl HTTPError {",
-          "    pub fn check(response: &Response) -> Result<(), Self> {",
-          "        let status = response.status;",
-          "",
-          "        if status == 200 {"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 96,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 96,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum RecordClickError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 93,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum RecordClickError {",
-          "    #[error(\"Callback request to MARS failed: {0}\")]",
-          "    CallbackRequest(#[from] CallbackRequestError),",
-          "}"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 102,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 102,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum RecordImpressionError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 99,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum RecordImpressionError {",
-          "    #[error(\"Callback request to MARS failed: {0}\")]",
-          "    CallbackRequest(#[from] CallbackRequestError),",
-          "}"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 108,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 108,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum ReportAdError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 105,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum ReportAdError {",
-          "    #[error(\"Callback request to MARS failed: {0}\")]",
-          "    CallbackRequest(#[from] CallbackRequestError),",
-          "}"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/error.rs",
-      "line": 114,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 114,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum TransportError {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 111,
-        "lines": [
-          "}",
-          "",
-          "#[derive(Debug, thiserror::Error)]",
-          "pub enum TransportError {",
-          "    #[error(\"HTTP error: {0}\")]",
-          "    Http(#[from] HTTPError),",
-          ""
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/report_reason.rs",
-      "line": 7,
-      "column": 1,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 7,
-            "remove": 1,
-            "insert": [
-              "pub(crate) enum ReportReason {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 4,
-        "lines": [
-          "*/",
-          "",
-          "#[derive(Clone, Copy, Debug, PartialEq)]",
-          "pub enum ReportReason {",
-          "    Inappropriate,",
-          "    Misleading,",
-          "    NotInterested,"
-        ]
-      }
-    },
-    {
-      "rule": "minimal-visibility",
-      "path": "components/ads-client/src/mars/report_reason.rs",
-      "line": 17,
-      "column": 5,
-      "message": "unreachable `pub` item (unreachable_pub)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 17,
-            "remove": 1,
-            "insert": [
-              "    pub(crate) fn as_str(&self) -> &'static str {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 14,
-        "lines": [
-          "}",
-          "",
-          "impl ReportReason {",
-          "    pub fn as_str(&self) -> &'static str {",
-          "        match self {",
-          "            ReportReason::Inappropriate => \"inappropriate\",",
-          "            ReportReason::Misleading => \"misleading\","
-        ]
-      }
-    },
-    {
       "rule": "borrowed-params",
       "path": "components/ads-client/src/mars/report_reason.rs",
       "line": 17,
@@ -10729,6 +10042,219 @@
       }
     },
     {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/request.rs",
+      "line": 35,
+      "column": 5,
+      "message": "you should consider adding a `Default` implementation for `RequestQueue` (clippy::new_without_default)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 34,
+            "remove": 1,
+            "insert": [
+              "impl Default for RequestQueue {",
+              "    fn default() -> Self {",
+              "        Self::new()",
+              "    }",
+              "}",
+              "",
+              "impl RequestQueue {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 31,
+        "lines": [
+          "    request_queue: VecDeque<QueuedRequest>,",
+          "}",
+          "",
+          "impl RequestQueue {",
+          "    pub fn new() -> RequestQueue {",
+          "        let inner = RequestQueueInner {",
+          "            queued_ads: HashMap::new(),",
+          "            request_queue: VecDeque::new(),"
+        ]
+      }
+    },
+    {
+      "rule": "option-result-combinators",
+      "path": "components/ads-client/src/request.rs",
+      "line": 92,
+      "column": 45,
+      "message": "redundant closure (clippy::redundant_closure_for_method_calls)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 92,
+            "remove": 1,
+            "insert": [
+              "        inner.request_queue.pop_front().map(std::convert::Into::into)"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 89,
+        "lines": [
+          "        }",
+          "",
+          "        // Otherwise, pop the next queue-able command.",
+          "        inner.request_queue.pop_front().map(|c| c.into())",
+          "    }",
+          "",
+          "    // Add a `DispatchRequest` to the `RequestQueue` (primary entry point for queuing requests)."
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/request.rs",
+      "line": 102,
+      "column": 17,
+      "message": "consider adding a `;` to the last statement for consistent formatting (clippy::semicolon_if_nothing_returned)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 102,
+            "remove": 1,
+            "insert": [
+              "                self.push_queued_request(QueuedRequest::RecordImpression { url });"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 99,
+        "lines": [
+          "        match request {",
+          "            DispatchRequest::RequestAds { ad_requests } => self.push_ad_requests(ad_requests),",
+          "            DispatchRequest::RecordImpression { url } => {",
+          "                self.push_queued_request(QueuedRequest::RecordImpression { url })",
+          "            }",
+          "            DispatchRequest::RecordClick { url } => {",
+          "                self.push_queued_request(QueuedRequest::RecordClick { url })"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/request.rs",
+      "line": 105,
+      "column": 17,
+      "message": "consider adding a `;` to the last statement for consistent formatting (clippy::semicolon_if_nothing_returned)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 105,
+            "remove": 1,
+            "insert": [
+              "                self.push_queued_request(QueuedRequest::RecordClick { url });"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 102,
+        "lines": [
+          "                self.push_queued_request(QueuedRequest::RecordImpression { url })",
+          "            }",
+          "            DispatchRequest::RecordClick { url } => {",
+          "                self.push_queued_request(QueuedRequest::RecordClick { url })",
+          "            }",
+          "            DispatchRequest::ReportAd { url, reason } => {",
+          "                self.push_queued_request(QueuedRequest::ReportAd { url, reason })"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/request.rs",
+      "line": 108,
+      "column": 17,
+      "message": "consider adding a `;` to the last statement for consistent formatting (clippy::semicolon_if_nothing_returned)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 108,
+            "remove": 1,
+            "insert": [
+              "                self.push_queued_request(QueuedRequest::ReportAd { url, reason });"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 105,
+        "lines": [
+          "                self.push_queued_request(QueuedRequest::RecordClick { url })",
+          "            }",
+          "            DispatchRequest::ReportAd { url, reason } => {",
+          "                self.push_queued_request(QueuedRequest::ReportAd { url, reason })",
+          "            }",
+          "        }",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "deterministic-iteration",
+      "path": "components/ads-client/src/request.rs",
+      "line": 119,
+      "column": 9,
+      "message": "iteration over unordered hash-based type (clippy::iter_over_hash_type)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 116,
+        "lines": [
+          "        }",
+          "",
+          "        let mut inner = self.inner.lock();",
+          "        for ad_request in ad_requests {",
+          "            inner",
+          "                .queued_ads",
+          "                .insert(ad_request.placement.clone().into(), ad_request);"
+        ]
+      }
+    },
+    {
+      "rule": "minimal-visibility",
+      "path": "components/ads-client/src/request.rs",
+      "line": 139,
+      "column": 5,
+      "message": "unreachable `pub` item (unreachable_pub)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 139,
+            "remove": 1,
+            "insert": [
+              "    pub(crate) fn next_available(&self) -> bool {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 136,
+        "lines": [
+          "}",
+          "",
+          "impl RequestQueueInner {",
+          "    pub fn next_available(&self) -> bool {",
+          "        !self.queued_ads.is_empty() || !self.request_queue.is_empty()",
+          "    }",
+          "}"
+        ]
+      }
+    },
+    {
       "rule": "todo-needs-bug",
       "path": "components/ads-client/src/telemetry.rs",
       "line": 67,
@@ -11007,6 +10533,68 @@
       }
     },
     {
+      "rule": "needless-clones",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 41,
+      "column": 19,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 41,
+            "remove": 1,
+            "insert": [
+              "            .name(ADS_CLIENT_WORKER_THREAD_NAME.to_owned())"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 38,
+        "lines": [
+          "        // Attempt to spawn a background worker thread to handle requests.",
+          "        // If it fails, all fields of `BackgroundWorker` will be populated with None, and an error will be logged.",
+          "        let Some(worker_thread) = std::thread::Builder::new()",
+          "            .name(ADS_CLIENT_WORKER_THREAD_NAME.to_string())",
+          "            .spawn(move || crate::worker::worker(inner_client, worker_request_queue.clone(), worker_sleep)).inspect_err(|err| {",
+          "                // TODO: Replace this log with telemetry.",
+          "                error_support::error!(\"Failed to create ads-client worker thread `{ADS_CLIENT_WORKER_THREAD_NAME}` with: {err}\")"
+        ]
+      }
+    },
+    {
+      "rule": "rustfmt-config",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 42,
+      "column": 28,
+      "message": "unnecessary qualification (unused_qualifications)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 42,
+            "remove": 1,
+            "insert": [
+              "            .spawn(move || worker(inner_client, worker_request_queue.clone(), worker_sleep)).inspect_err(|err| {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 39,
+        "lines": [
+          "        // If it fails, all fields of `BackgroundWorker` will be populated with None, and an error will be logged.",
+          "        let Some(worker_thread) = std::thread::Builder::new()",
+          "            .name(ADS_CLIENT_WORKER_THREAD_NAME.to_string())",
+          "            .spawn(move || crate::worker::worker(inner_client, worker_request_queue.clone(), worker_sleep)).inspect_err(|err| {",
+          "                // TODO: Replace this log with telemetry.",
+          "                error_support::error!(\"Failed to create ads-client worker thread `{ADS_CLIENT_WORKER_THREAD_NAME}` with: {err}\")",
+          "            }).ok()"
+        ]
+      }
+    },
+    {
       "rule": "todo-needs-bug",
       "path": "components/ads-client/src/worker.rs",
       "line": 43,
@@ -11034,6 +10622,99 @@
           "                error_support::error!(\"Failed to create ads-client worker thread `{ADS_CLIENT_WORKER_THREAD_NAME}` with: {err}\")",
           "            }).ok()",
           "        else {"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 44,
+      "column": 17,
+      "message": "consider adding a `;` to the last statement for consistent formatting (clippy::semicolon_if_nothing_returned)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 44,
+            "remove": 1,
+            "insert": [
+              "                error_support::error!(\"Failed to create ads-client worker thread `{ADS_CLIENT_WORKER_THREAD_NAME}` with: {err}\");"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 41,
+        "lines": [
+          "            .name(ADS_CLIENT_WORKER_THREAD_NAME.to_string())",
+          "            .spawn(move || crate::worker::worker(inner_client, worker_request_queue.clone(), worker_sleep)).inspect_err(|err| {",
+          "                // TODO: Replace this log with telemetry.",
+          "                error_support::error!(\"Failed to create ads-client worker thread `{ADS_CLIENT_WORKER_THREAD_NAME}` with: {err}\")",
+          "            }).ok()",
+          "        else {",
+          "            return BackgroundWorker { thread_handle: None, request_queue }"
+        ]
+      }
+    },
+    {
+      "rule": "borrowed-params",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 76,
+      "column": 19,
+      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 76,
+            "remove": 1,
+            "insert": [
+              "    inner_client: &Arc<AdsClientInner>,"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 73,
+        "lines": [
+          "",
+          "// Endless worker for background thread that synchronously run tasks in the order provided by the RequestQueue.",
+          "fn worker(",
+          "    inner_client: Arc<AdsClientInner>,",
+          "    request_queue: RequestQueue,",
+          "    batch_duration: Duration,",
+          ") {"
+        ]
+      }
+    },
+    {
+      "rule": "borrowed-params",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 77,
+      "column": 20,
+      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 77,
+            "remove": 1,
+            "insert": [
+              "    request_queue: &RequestQueue,"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 74,
+        "lines": [
+          "// Endless worker for background thread that synchronously run tasks in the order provided by the RequestQueue.",
+          "fn worker(",
+          "    inner_client: Arc<AdsClientInner>,",
+          "    request_queue: RequestQueue,",
+          "    batch_duration: Duration,",
+          ") {",
+          "    loop {"
         ]
       }
     },
@@ -11072,9 +10753,60 @@
       "rule": "dont-swallow-errors",
       "path": "components/ads-client/src/worker.rs",
       "line": 87,
+      "column": 17,
+      "message": "non-binding `let` on an expression with `#[must_use]` type (clippy::let_underscore_must_use)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 84,
+        "lines": [
+          "            std::thread::sleep(batch_duration);",
+          "            if let Some(request) = request_queue.next() {",
+          "                // TODO: Request should be logged via telemetry here.",
+          "                let _ = request.handle_request(inner_client.clone());",
+          "            }",
+          "        }",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 87,
       "column": 21,
       "message": "`let _ =` discards this `Result`; propagate it with `?` or log the error",
       "origin": "varlope",
+      "snippet": {
+        "start": 84,
+        "lines": [
+          "            std::thread::sleep(batch_duration);",
+          "            if let Some(request) = request_queue.next() {",
+          "                // TODO: Request should be logged via telemetry here.",
+          "                let _ = request.handle_request(inner_client.clone());",
+          "            }",
+          "        }",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "needless-clones",
+      "path": "components/ads-client/src/worker.rs",
+      "line": 87,
+      "column": 48,
+      "message": "using `.clone()` on a ref-counted pointer (clippy::clone_on_ref_ptr)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 87,
+            "remove": 1,
+            "insert": [
+              "                let _ = request.handle_request(std::sync::Arc::<client::AdsClientInner>::clone(&inner_client));"
+            ]
+          }
+        ]
+      },
       "snippet": {
         "start": 84,
         "lines": [
@@ -14530,6 +14262,37 @@
       }
     },
     {
+      "rule": "needless-clones",
+      "path": "components/autofill/src/lib.rs",
+      "line": 70,
+      "column": 28,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 70,
+            "remove": 1,
+            "insert": [
+              "        NSSKeyManager::new(KEY_NAME.to_owned(), primary_password_authenticator),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 67,
+        "lines": [
+          "    primary_password_authenticator: Arc<dyn PrimaryPasswordAuthenticator>,",
+          ") -> ApiResult<Arc<Store>> {",
+          "    let encdec: ManagedEncryptorDecryptor = ManagedEncryptorDecryptor::new(Arc::new(",
+          "        NSSKeyManager::new(KEY_NAME.to_string(), primary_password_authenticator),",
+          "    ));",
+          "    let store = Store::new(path, Arc::new(encdec))?;",
+          "    Ok(Arc::new(store))"
+        ]
+      }
+    },
+    {
       "rule": "rustfmt-config",
       "path": "components/autofill/src/sync/address/incoming.rs",
       "line": 11,
@@ -17508,15 +17271,17 @@
       "fix": {
         "edits": [
           {
-            "line": 8,
-            "remove": 1,
+            "line": 6,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 5,
+        "start": 3,
         "lines": [
+          "version = \"0.1.0\"",
+          "edition = \"2021\"",
           "license = \"MPL-2.0\"",
           "",
           "[build-dependencies]",
@@ -20931,15 +20696,17 @@
       "fix": {
         "edits": [
           {
-            "line": 33,
-            "remove": 1,
+            "line": 31,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 30,
+        "start": 28,
         "lines": [
+          "uniffi = { version = \"0.32\" }",
+          "payload-support = { path = \"../support/payload\" }",
           "nss-as = { path = \"../support/rc_crypto/nss\" }",
           "",
           "[build-dependencies]",
@@ -35662,12 +35429,12 @@
     {
       "rule": "no-unwrap-in-component-code",
       "path": "components/init_rust_components/src/lib.rs",
-      "line": 27,
+      "line": 47,
       "column": 9,
       "message": "used `expect()` on a `Result` value (clippy::expect_used)",
       "origin": "clippy",
       "snippet": {
-        "start": 24,
+        "start": 44,
         "lines": [
           "",
           "    #[cfg(feature = \"ohttp\")]",
@@ -36274,6 +36041,51 @@
       }
     },
     {
+      "rule": "option-result-combinators",
+      "path": "components/logins/src/db.rs",
+      "line": 766,
+      "column": 5,
+      "message": "this function's return value is unnecessarily wrapped by `Result` (clippy::unnecessary_wraps)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 766,
+            "remove": 8,
+            "insert": [
+              "    fn validate_or_fixup_guid(guid: Guid) -> sync_guid::Guid {",
+              "        if guid.is_valid_for_sync_server() {",
+              "            return guid;",
+              "        }",
+              "        #[cfg(feature = \"fixup_invalid_guids\")]",
+              "        {",
+              "            warn!(\"regenerating a login guid that is invalid for the sync server\");",
+              "            Guid::random()"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 763,
+        "lines": [
+          "    /// an invalid guid is silently replaced with a fresh random one. Without it, an",
+          "    /// invalid guid is rejected so the problem surfaces at write time instead of being",
+          "    /// persisted and later crashing the sync uploader (bug 2056116).",
+          "    fn validate_or_fixup_guid(guid: Guid) -> Result<Guid> {",
+          "        if guid.is_valid_for_sync_server() {",
+          "            return Ok(guid);",
+          "        }",
+          "        #[cfg(feature = \"fixup_invalid_guids\")]",
+          "        {",
+          "            warn!(\"regenerating a login guid that is invalid for the sync server\");",
+          "            Ok(Guid::random())",
+          "        }",
+          "        #[cfg(not(feature = \"fixup_invalid_guids\"))]",
+          "        {"
+        ]
+      }
+    },
+    {
       "rule": "no-unwrap-in-component-code",
       "path": "components/logins/src/db.rs",
       "line": 808,
@@ -36773,6 +36585,37 @@
       }
     },
     {
+      "rule": "needless-clones",
+      "path": "components/logins/src/lib.rs",
+      "line": 57,
+      "column": 28,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 57,
+            "remove": 1,
+            "insert": [
+              "        NSSKeyManager::new(KEY_NAME.to_owned(), primary_password_authenticator),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 54,
+        "lines": [
+          "    primary_password_authenticator: Arc<dyn PrimaryPasswordAuthenticator>,",
+          ") -> ApiResult<Arc<LoginStore>> {",
+          "    let encdec: ManagedEncryptorDecryptor = ManagedEncryptorDecryptor::new(Arc::new(",
+          "        NSSKeyManager::new(KEY_NAME.to_string(), primary_password_authenticator),",
+          "    ));",
+          "    let store = LoginStore::new(path, Arc::new(encdec))?;",
+          "    Ok(Arc::new(store))"
+        ]
+      }
+    },
+    {
       "rule": "todo-needs-bug",
       "path": "components/logins/src/login.rs",
       "line": 106,
@@ -37030,6 +36873,68 @@
       }
     },
     {
+      "rule": "minimal-visibility",
+      "path": "components/logins/src/login.rs",
+      "line": 445,
+      "column": 5,
+      "message": "unreachable `pub` item (unreachable_pub)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 445,
+            "remove": 1,
+            "insert": [
+              "    pub(super) fn perform_additional_origin_fixup(origin: &str) -> Option<String> {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 442,
+        "lines": [
+          "    // - ftp.<domain> without a scheme → ftp://ftp.<domain>",
+          "    // - bare IPv4 address or bare domain → moz-pwmngr-fixed://<host>",
+          "    // - bare label (e.g. example) → moz-pwmngr-fixed://<label>",
+          "    pub fn perform_additional_origin_fixup(origin: &str) -> Option<String> {",
+          "        // Bare https: with missing or incomplete authority.",
+          "        if matches!(origin, \"https:\" | \"https:/\" | \"https://\") {",
+          "            return Some(\"https://moz.pwmngr.fixed\".to_string());"
+        ]
+      }
+    },
+    {
+      "rule": "needless-clones",
+      "path": "components/logins/src/login.rs",
+      "line": 448,
+      "column": 25,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 448,
+            "remove": 1,
+            "insert": [
+              "            return Some(\"https://moz.pwmngr.fixed\".to_owned());"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 445,
+        "lines": [
+          "    pub fn perform_additional_origin_fixup(origin: &str) -> Option<String> {",
+          "        // Bare https: with missing or incomplete authority.",
+          "        if matches!(origin, \"https:\" | \"https:/\" | \"https://\") {",
+          "            return Some(\"https://moz.pwmngr.fixed\".to_string());",
+          "        }",
+          "",
+          "        // http://ftp.<IP>[:port] → ftp://<IP>[:port]"
+        ]
+      }
+    },
+    {
       "rule": "dont-swallow-errors",
       "path": "components/logins/src/login.rs",
       "line": 521,
@@ -37086,6 +36991,43 @@
           "                    }",
           "                    if origin != href {",
           "                        // Needs to be fixed up."
+        ]
+      }
+    },
+    {
+      "rule": "option-result-combinators",
+      "path": "components/logins/src/login.rs",
+      "line": 578,
+      "column": 9,
+      "message": "use Option::map_or_else instead of an if let/else (clippy::option_if_let_else)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 578,
+            "remove": 7,
+            "insert": [
+              "        Self::parse_and_normalize_origin(form_action_origin).map_or_else(|_| Ok(None), |result| Ok(result))"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 575,
+        "lines": [
+          "    pub fn validate_and_normalize_form_action_origin(",
+          "        form_action_origin: &str,",
+          "    ) -> Result<Option<String>> {",
+          "        match Self::parse_and_normalize_origin(form_action_origin) {",
+          "            Ok(result) => Ok(result),",
+          "            #[cfg(feature = \"ignore_form_action_origin_validation_errors\")]",
+          "            Err(_) => Ok(None),",
+          "            #[cfg(not(feature = \"ignore_form_action_origin_validation_errors\"))]",
+          "            Err(e) => Err(e),",
+          "        }",
+          "    }",
+          "}",
+          ""
         ]
       }
     },
@@ -40398,15 +40340,17 @@
       "fix": {
         "edits": [
           {
-            "line": 17,
-            "remove": 1,
+            "line": 15,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 14,
+        "start": 12,
         "lines": [
+          "viaduct = { path = \"../viaduct\", features = [\"ohttp\"] }",
+          "error-support = { path = \"../support/error\" }",
           "thiserror = \"2\"",
           "",
           "[build-dependencies]",
@@ -72623,15 +72567,17 @@
       "fix": {
         "edits": [
           {
-            "line": 24,
-            "remove": 1,
+            "line": 22,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 21,
+        "start": 19,
         "lines": [
+          "expect-test = \"1.4\"",
+          "mockito = { version = \"0.31\", default-features = false}",
           "viaduct-dev = { path = \"../support/viaduct-dev\"}",
           "",
           "[build-dependencies]",
@@ -74952,15 +74898,17 @@
       "fix": {
         "edits": [
           {
-            "line": 30,
-            "remove": 1,
+            "line": 28,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 27,
+        "start": 25,
         "lines": [
+          "url = \"2.5\"",
+          "remote_settings = { path = \"../remote_settings\"}",
           "base64 = \"0.21.2\"",
           "",
           "[build-dependencies]",
@@ -77437,15 +77385,17 @@
       "fix": {
         "edits": [
           {
-            "line": 40,
-            "remove": 1,
+            "line": 38,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 37,
+        "start": 35,
         "lines": [
+          "sha2 = \"^0.10\"",
+          "canonical_json = { version = \"0.5\", optional = true }",
           "rc_crypto = { path = \"../support/rc_crypto\", optional = true }",
           "",
           "[build-dependencies]",
@@ -79903,15 +79853,17 @@
       "fix": {
         "edits": [
           {
-            "line": 21,
-            "remove": 1,
+            "line": 19,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 18,
+        "start": 16,
         "lines": [
+          "thiserror = \"2\"",
+          "uniffi = { version = \"0.32\" }",
           "firefox-versioning = { path = \"../support/firefox-versioning\" }",
           "",
           "[build-dependencies]",
@@ -81792,15 +81744,17 @@
       "fix": {
         "edits": [
           {
-            "line": 42,
-            "remove": 1,
+            "line": 40,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 39,
+        "start": 37,
         "lines": [
+          "hex = \"0.4\"",
+          "itertools = \"0.14\"",
           "rc_crypto = { path = \"../support/rc_crypto\" }",
           "",
           "[build-dependencies]",
@@ -90722,6 +90676,37 @@
       }
     },
     {
+      "rule": "exhaustive-matches",
+      "path": "components/support/db-crypto/src/encryption.rs",
+      "line": 311,
+      "column": 9,
+      "message": "wildcard match will also match any future added variants (clippy::wildcard_enum_match_arm)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 311,
+            "remove": 1,
+            "insert": [
+              "        nss_as::ErrorKind::NSSError(..) | nss_as::ErrorKind::SSLError(..) | nss_as::ErrorKind::PKIXError(..) | nss_as::ErrorKind::InputError(_) | nss_as::ErrorKind::InternalError | nss_as::ErrorKind::InvalidKeyLength | nss_as::ErrorKind::NulError | nss_as::ErrorKind::ConversionError(_) | nss_as::ErrorKind::Base64Decode(_) | nss_as::ErrorKind::CertificateIssuerError | nss_as::ErrorKind::CertificateSubjectError | nss_as::ErrorKind::CertificateValidityError => DbCryptoApiError::MissingKey,"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 308,
+        "lines": [
+          "        nss_as::ErrorKind::TokenNotAuthenticated => DbCryptoApiError::NSSAuthenticationError {",
+          "            reason: e.to_string(),",
+          "        },",
+          "        _ => DbCryptoApiError::MissingKey,",
+          "    })",
+          "}",
+          ""
+        ]
+      }
+    },
+    {
       "rule": "lock-once-per-operation",
       "path": "components/support/db-crypto/src/encryption.rs",
       "line": 349,
@@ -90738,6 +90723,26 @@
           "        if let Some(bytes) = cached {",
           "            return Ok(bytes);",
           "        }"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/db-crypto/src/encryption.rs",
+      "line": 356,
+      "column": 9,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 353,
+        "lines": [
+          "",
+          "        let key = api_get_or_create_aes256_key(self.key_name.as_str())?;",
+          "        let mut bytes: Vec<u8> = Vec::new();",
+          "        serde_json::to_writer(",
+          "            &mut bytes,",
+          "            &jwcrypto::Jwk::new_direct_from_bytes(None, &key),",
+          "        )"
         ]
       }
     },
@@ -91556,20 +91561,60 @@
     {
       "rule": "parking-lot-locks",
       "path": "components/support/error/src/lib.rs",
-      "line": 95,
+      "line": 76,
+      "column": 37,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 73,
+        "lines": [
+          "                ErrorData {",
+          "                    kind,",
+          "                    #[cfg(feature = \"backtrace\")]",
+          "                    backtrace: Some(std::sync::Mutex::new(",
+          "                        $crate::backtrace::Backtrace::new_unresolved(),",
+          "                    )),",
+          "                    #[cfg(not(feature = \"backtrace\"))]"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/error/src/lib.rs",
+      "line": 86,
       "column": 48,
       "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
       "origin": "clippy",
       "snippet": {
-        "start": 92,
+        "start": 83,
         "lines": [
           "",
-          "            #[cfg(not(feature = \"backtrace\"))]",
+          "            #[cfg(feature = \"backtrace\")]",
           "            #[cold]",
           "            fn get_backtrace(&self) -> Option<&std::sync::Mutex<$crate::backtrace::Backtrace>> {",
-          "                None",
-          "            }",
-          "        }"
+          "                self.backtrace.as_ref().map(|mutex| {",
+          "                    mutex.lock().unwrap().resolve();",
+          "                    mutex"
+        ]
+      }
+    },
+    {
+      "rule": "no-callbacks-or-io-under-lock",
+      "path": "components/support/error/src/lib.rs",
+      "line": 104,
+      "column": 25,
+      "message": "temporary with significant `Drop` can be early dropped (clippy::significant_drop_tightening)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 101,
+        "lines": [
+          "            #[cfg(feature = \"backtrace\")]",
+          "            #[cold]",
+          "            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {",
+          "                let mut bt = self.backtrace.as_ref().unwrap().lock().unwrap();",
+          "                bt.resolve();",
+          "                write!(f, \"{:?}\\n\\n{}\", bt, self.kind)",
+          "            }"
         ]
       }
     },
@@ -117135,13 +117180,15 @@
     {
       "rule": "no-unwrap-in-component-code",
       "path": "components/support/rc_crypto/nss/nss_sys/build.rs",
-      "line": 9,
+      "line": 7,
       "column": 5,
       "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
       "origin": "clippy",
       "snippet": {
-        "start": 6,
+        "start": 4,
         "lines": [
+          "",
+          "fn main() {",
           "    #[cfg(feature = \"mozbuild-rustlib\")]",
           "    nss_build_common::link_nss_rustlib().unwrap();",
           "    #[cfg(not(feature = \"mozbuild-rustlib\"))]",
@@ -119354,6 +119401,24 @@
       }
     },
     {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/slot.rs",
+      "line": 31,
+      "column": 5,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 28,
+        "lines": [
+          "/// scope.",
+          "#[cfg(feature = \"keydb\")]",
+          "pub(crate) fn get_internal_key_slot() -> Result<Slot> {",
+          "    unsafe { Slot::from_ptr(nss_sys::PK11_GetInternalKeySlot()) }",
+          "}"
+        ]
+      }
+    },
+    {
       "rule": "rustfmt-config",
       "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
       "line": 10,
@@ -119424,6 +119489,46 @@
           "use std::{",
           "    mem,",
           "    os::raw::{c_uchar, c_uint, c_ulong},"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 17,
+      "column": 17,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 14,
+        "lines": [
+          "#[cfg(feature = \"keydb\")]",
+          "use std::ffi::{c_char, CString};",
+          "#[cfg(feature = \"keydb\")]",
+          "use std::sync::{Mutex, OnceLock};",
+          "use std::{",
+          "    mem,",
+          "    os::raw::{c_uchar, c_uint, c_ulong},"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 26,
+      "column": 36,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 23,
+        "lines": [
+          "",
+          "// Serialize global state dependent function calls",
+          "#[cfg(feature = \"keydb\")]",
+          "static GLOBAL_TOKEN_LOCK: OnceLock<Mutex<()>> = OnceLock::new();",
+          "",
+          "pub fn hkdf_expand(",
+          "    digest_alg: &HashAlgorithm,"
         ]
       }
     },
@@ -119559,6 +119664,186 @@
       }
     },
     {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 111,
+      "column": 49,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 108,
+        "lines": [
+          "#[cfg(feature = \"keydb\")]",
+          "pub fn authentication_with_primary_password_is_needed() -> Result<bool> {",
+          "    // PK11_IsLoggedIn depends on the token state",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let slot = slot::get_internal_key_slot()?;"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 112,
+      "column": 18,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 109,
+        "lines": [
+          "pub fn authentication_with_primary_password_is_needed() -> Result<bool> {",
+          "    // PK11_IsLoggedIn depends on the token state",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let slot = slot::get_internal_key_slot()?;",
+          ""
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 129,
+      "column": 5,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 126,
+        "lines": [
+          "/// GLOBAL_TOKEN_LOCK.",
+          "#[cfg(feature = \"keydb\")]",
+          "fn token_is_authenticated(slot: &Slot) -> bool {",
+          "    unsafe {",
+          "        nss_sys::PK11_NeedLogin(slot.as_mut_ptr()) != nss_sys::PR_TRUE",
+          "            || nss_sys::PK11_IsLoggedIn(slot.as_mut_ptr(), ptr::null_mut()) == nss_sys::PR_TRUE",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 140,
+      "column": 49,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 137,
+        "lines": [
+          "#[cfg(feature = \"keydb\")]",
+          "pub fn authenticate_with_primary_password(primary_password: &str) -> Result<bool> {",
+          "    // this needs serializing because PK11_CheckUserPassword first loggs the user out",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let slot = slot::get_internal_key_slot()?;"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 141,
+      "column": 18,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 138,
+        "lines": [
+          "pub fn authenticate_with_primary_password(primary_password: &str) -> Result<bool> {",
+          "    // this needs serializing because PK11_CheckUserPassword first loggs the user out",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let slot = slot::get_internal_key_slot()?;",
+          ""
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 145,
+      "column": 64,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 142,
+        "lines": [
+          "",
+          "    let slot = slot::get_internal_key_slot()?;",
+          "",
+          "    let password_cstr = CString::new(primary_password).map_err(|_| ErrorKind::NulError)?;",
+          "    unsafe {",
+          "        Ok(",
+          "            nss_sys::PK11_CheckUserPassword(slot.as_mut_ptr(), password_cstr.as_ptr())"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 146,
+      "column": 5,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 143,
+        "lines": [
+          "    let slot = slot::get_internal_key_slot()?;",
+          "",
+          "    let password_cstr = CString::new(primary_password).map_err(|_| ErrorKind::NulError)?;",
+          "    unsafe {",
+          "        Ok(",
+          "            nss_sys::PK11_CheckUserPassword(slot.as_mut_ptr(), password_cstr.as_ptr())",
+          "                == nss_sys::SECStatus::SECSuccess,"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 164,
+      "column": 49,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 161,
+        "lines": [
+          "#[cfg(feature = \"keydb\")]",
+          "pub fn get_or_create_aes256_key(name: &str) -> Result<Vec<u8>> {",
+          "    // The lookup and the key creation it can lead to must see one token state.",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let sym_key = match lookup_aes256_key(name)? {"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 165,
+      "column": 18,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 162,
+        "lines": [
+          "pub fn get_or_create_aes256_key(name: &str) -> Result<Vec<u8>> {",
+          "    // The lookup and the key creation it can lead to must see one token state.",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    let sym_key = match lookup_aes256_key(name)? {",
+          "        Some(sym_key) => sym_key,"
+        ]
+      }
+    },
+    {
       "rule": "unsafe-and-nss",
       "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
       "line": 171,
@@ -119575,6 +119860,459 @@
           "    if key_data.len != nss_sys::AES_256_KEY_LENGTH {",
           "        return Err(ErrorKind::InvalidKeyLength.into());",
           "    }"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 171,
+      "column": 24,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 168,
+        "lines": [
+          "        Some(sym_key) => sym_key,",
+          "        None => create_aes256_key(name)?,",
+          "    };",
+          "    let mut key_data = unsafe { *nss_sys::PK11_GetKeyData(sym_key.as_mut_ptr()) };",
+          "    if key_data.len != nss_sys::AES_256_KEY_LENGTH {",
+          "        return Err(ErrorKind::InvalidKeyLength.into());",
+          "    }"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 175,
+      "column": 15,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 172,
+        "lines": [
+          "    if key_data.len != nss_sys::AES_256_KEY_LENGTH {",
+          "        return Err(ErrorKind::InvalidKeyLength.into());",
+          "    }",
+          "    let buf = unsafe { sec_item_as_slice(&mut key_data)? };",
+          "    // SAFETY: `to_vec` copies the data out before there's any chance for `sym_key` to be",
+          "    // destroyed.",
+          "    Ok(buf.to_vec())"
+        ]
+      }
+    },
+    {
+      "rule": "parking-lot-locks",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 189,
+      "column": 49,
+      "message": "use of a disallowed type `std::sync::Mutex` (clippy::disallowed_types)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 186,
+        "lines": [
+          "#[cfg(feature = \"keydb\")]",
+          "pub fn get_aes256_key(name: &str) -> Result<Option<SymKey>> {",
+          "    // PK11_ListFixedKeysInSlot depends on the token to be unlocked",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    lookup_aes256_key(name)"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 190,
+      "column": 18,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 187,
+        "lines": [
+          "pub fn get_aes256_key(name: &str) -> Result<Option<SymKey>> {",
+          "    // PK11_ListFixedKeysInSlot depends on the token to be unlocked",
+          "    let lock = GLOBAL_TOKEN_LOCK.get_or_init(|| Mutex::new(()));",
+          "    let _guard = lock.lock().unwrap();",
+          "",
+          "    lookup_aes256_key(name)",
+          "}"
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 207,
+      "column": 45,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 204,
+        "lines": [
+          "    if !token_is_authenticated(&slot) {",
+          "        return Err(ErrorKind::TokenNotAuthenticated.into());",
+          "    }",
+          "    let c_name = CString::new(name).map_err(|_| ErrorKind::NulError)?;",
+          "    let sym_key = unsafe {",
+          "        // PK11_ListFixedKeysInSlot returns either a key or null.",
+          "        SymKey::from_ptr(nss_sys::PK11_ListFixedKeysInSlot("
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 208,
+      "column": 19,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 205,
+        "lines": [
+          "        return Err(ErrorKind::TokenNotAuthenticated.into());",
+          "    }",
+          "    let c_name = CString::new(name).map_err(|_| ErrorKind::NulError)?;",
+          "    let sym_key = unsafe {",
+          "        // PK11_ListFixedKeysInSlot returns either a key or null.",
+          "        SymKey::from_ptr(nss_sys::PK11_ListFixedKeysInSlot(",
+          "            slot.as_mut_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "borrowed-params",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 235,
+      "column": 35,
+      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 235,
+            "remove": 1,
+            "insert": [
+              "fn extract_aes256_key_value(slot: &Slot, sym_key: SymKey) -> Result<SymKey> {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 232,
+        "lines": [
+          "// Unfortunately we can't use PK11_ExtractKeyValue(symKey.get()) here because softoken",
+          "// marks all token objects of type CKO_SECRET_KEY as sensitive. So we have to wrap and",
+          "// unwrap symKey to obtain a non-sensitive copy of symKey as a session object.",
+          "fn extract_aes256_key_value(slot: Slot, sym_key: SymKey) -> Result<SymKey> {",
+          "    let wrapping_key = unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_KeyGen(",
+          "            slot.as_mut_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "borrowed-params",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 235,
+      "column": 50,
+      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 235,
+            "remove": 1,
+            "insert": [
+              "fn extract_aes256_key_value(slot: Slot, sym_key: &SymKey) -> Result<SymKey> {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 232,
+        "lines": [
+          "// Unfortunately we can't use PK11_ExtractKeyValue(symKey.get()) here because softoken",
+          "// marks all token objects of type CKO_SECRET_KEY as sensitive. So we have to wrap and",
+          "// unwrap symKey to obtain a non-sensitive copy of symKey as a session object.",
+          "fn extract_aes256_key_value(slot: Slot, sym_key: SymKey) -> Result<SymKey> {",
+          "    let wrapping_key = unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_KeyGen(",
+          "            slot.as_mut_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 236,
+      "column": 24,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 233,
+        "lines": [
+          "// marks all token objects of type CKO_SECRET_KEY as sensitive. So we have to wrap and",
+          "// unwrap symKey to obtain a non-sensitive copy of symKey as a session object.",
+          "fn extract_aes256_key_value(slot: Slot, sym_key: SymKey) -> Result<SymKey> {",
+          "    let wrapping_key = unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_KeyGen(",
+          "            slot.as_mut_ptr(),",
+          "            nss_sys::CKM_AES_KEY_GEN,"
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 244,
+      "column": 18,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 241,
+        "lines": [
+          "            16,",
+          "            ptr::null_mut(),",
+          "        ))",
+          "        .map_err(|_| get_last_error())?",
+          "    };",
+          "",
+          "    // Allocate an extra 8 bytes for CKM_AES_KEY_WRAP_KWP overhead."
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 250,
+      "column": 9,
+      "message": "used `expect()` on a `Result` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 247,
+        "lines": [
+          "    // Allocate an extra 8 bytes for CKM_AES_KEY_WRAP_KWP overhead.",
+          "    let mut buf = vec![",
+          "        0;",
+          "        (nss_sys::AES_256_KEY_LENGTH + 8)",
+          "            .try_into()",
+          "            .expect(\"invalid key length\")",
+          "    ];"
+        ]
+      }
+    },
+    {
+      "rule": "no-panicking-index-or-arith",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 257,
+      "column": 14,
+      "message": "casting `usize` to `u32` may truncate the value on targets with 64-bit wide pointers (clippy::cast_possible_truncation)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 257,
+            "remove": 1,
+            "insert": [
+              "        len: u32::try_from(buf.len()),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 254,
+        "lines": [
+          "    let mut wrapped_key = nss_sys::SECItem {",
+          "        type_: nss_sys::SECItemType::siBuffer as u32,",
+          "        data: buf.as_mut_ptr(),",
+          "        len: buf.len() as u32,",
+          "    };",
+          "",
+          "    // This operation can fail if the sym_key is corrupt."
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 264,
+      "column": 26,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 261,
+        "lines": [
+          "    // If thats the case, the underlying NSC_WrapKey would return a",
+          "    // CKR_KEY_TYPE_INCONSISTENT error, which won't get propagated to us here,",
+          "    // though.",
+          "    map_nss_secstatus(|| unsafe {",
+          "        nss_sys::PK11_WrapSymKey(",
+          "            nss_sys::CKM_AES_KEY_WRAP_KWP,",
+          "            ptr::null_mut(),"
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 273,
+      "column": 14,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 270,
+        "lines": [
+          "            &mut wrapped_key,",
+          "        )",
+          "    })",
+          "    .map_err(|_| get_last_error())?;",
+          "",
+          "    let sym_key = unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_UnwrapSymKey("
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 275,
+      "column": 19,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 272,
+        "lines": [
+          "    })",
+          "    .map_err(|_| get_last_error())?;",
+          "",
+          "    let sym_key = unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_UnwrapSymKey(",
+          "            wrapping_key.as_mut_ptr(),",
+          "            nss_sys::CKM_AES_KEY_WRAP_KWP,"
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 286,
+      "column": 14,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 283,
+        "lines": [
+          "            nss_sys::AES_256_KEY_LENGTH as i32,",
+          "        ))",
+          "    }",
+          "    .map_err(|_| get_last_error())?;",
+          "",
+          "    map_nss_secstatus(|| unsafe { nss_sys::PK11_ExtractKeyValue(sym_key.as_mut_ptr()) })?;",
+          ""
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 288,
+      "column": 26,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 285,
+        "lines": [
+          "    }",
+          "    .map_err(|_| get_last_error())?;",
+          "",
+          "    map_nss_secstatus(|| unsafe { nss_sys::PK11_ExtractKeyValue(sym_key.as_mut_ptr()) })?;",
+          "",
+          "    Ok(sym_key)",
+          "}"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 299,
+      "column": 26,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 296,
+        "lines": [
+          "fn create_aes256_key(name: &str) -> Result<SymKey> {",
+          "    let mut key_bytes: [u8; nss_sys::AES_256_KEY_LENGTH as usize] =",
+          "        [0; nss_sys::AES_256_KEY_LENGTH as usize];",
+          "    map_nss_secstatus(|| unsafe {",
+          "        nss_sys::PK11_GenerateRandom(key_bytes.as_mut_ptr(), nss_sys::AES_256_KEY_LENGTH as i32)",
+          "    })?;",
+          "    match import_and_persist_sym_key("
+        ]
+      }
+    },
+    {
+      "rule": "dont-swallow-errors",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 309,
+      "column": 51,
+      "message": "`map_err(|_|...` wildcard pattern discards the original error (clippy::map_err_ignore)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 306,
+        "lines": [
+          "        &key_bytes,",
+          "    ) {",
+          "        Ok(sym_key) => {",
+          "            let name = CString::new(name).map_err(|_| ErrorKind::NulError)?;",
+          "            unsafe { nss_sys::PK11_SetSymKeyNickname(sym_key.as_mut_ptr(), name.as_ptr()) };",
+          "            Ok(sym_key)",
+          "        }"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 310,
+      "column": 13,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 307,
+        "lines": [
+          "    ) {",
+          "        Ok(sym_key) => {",
+          "            let name = CString::new(name).map_err(|_| ErrorKind::NulError)?;",
+          "            unsafe { nss_sys::PK11_SetSymKeyNickname(sym_key.as_mut_ptr(), name.as_ptr()) };",
+          "            Ok(sym_key)",
+          "        }",
+          "        Err(e) => Err(e),"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/pk11/sym_key.rs",
+      "line": 341,
+      "column": 5,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 338,
+        "lines": [
+          "        data: buf.as_ptr() as *mut c_uchar,",
+          "        len: c_uint::try_from(buf.len())?,",
+          "    };",
+          "    unsafe {",
+          "        SymKey::from_ptr(nss_sys::PK11_ImportSymKeyWithFlags(",
+          "            slot.as_mut_ptr(),",
+          "            mechanism,"
         ]
       }
     },
@@ -120259,7 +120997,7 @@
             "line": 6,
             "remove": 1,
             "insert": [
-              "use nss_sys::{NSS_VersionCheck, PR_FALSE, NSS_IsInitialized, NSS_INIT_READONLY, NSS_INIT_NOCERTDB, NSS_INIT_NOMODDB, NSS_INIT_FORCEOPEN, NSS_INIT_OPTIMIZESPACE, NSS_InitContext, SECStatus, PR_GetError, PR_GetErrorTextLength, PR_GetErrorText, SECItem};"
+              "use nss_sys::{NSS_VersionCheck, PR_FALSE, NSS_IsInitialized, NSS_INIT_FORCEOPEN, NSS_INIT_OPTIMIZESPACE, NSS_InitContext, PK11_NeedUserInit, PK11_InitPin, SECStatus, NSS_INIT_READONLY, NSS_INIT_NOCERTDB, NSS_INIT_NOMODDB, PR_GetError, PR_GetErrorTextLength, PR_GetErrorText, SECItem};"
             ]
           }
         ]
@@ -120389,37 +121127,6 @@
       }
     },
     {
-      "rule": "borrowed-params",
-      "path": "components/support/rc_crypto/nss/src/util.rs",
-      "line": 47,
-      "column": 28,
-      "message": "this argument is passed by value, but not consumed in the function body (clippy::needless_pass_by_value)",
-      "origin": "clippy",
-      "fix": {
-        "edits": [
-          {
-            "line": 47,
-            "remove": 1,
-            "insert": [
-              "fn init_once(profile_path: Option<&PathBuf>) -> NssLoaded {"
-            ]
-          }
-        ]
-      },
-      "snippet": {
-        "start": 44,
-        "lines": [
-          "    }",
-          "}",
-          "",
-          "fn init_once(profile_path: Option<PathBuf>) -> NssLoaded {",
-          "    assert_compatible_version();",
-          "",
-          "    if unsafe { NSS_IsInitialized() != PR_FALSE } {"
-        ]
-      }
-    },
-    {
       "rule": "unsafe-and-nss",
       "path": "components/support/rc_crypto/nss/src/util.rs",
       "line": 50,
@@ -120440,22 +121147,493 @@
       }
     },
     {
-      "rule": "no-unwrap-in-component-code",
+      "rule": "option-result-combinators",
       "path": "components/support/rc_crypto/nss/src/util.rs",
-      "line": 100,
-      "column": 20,
-      "message": "`panic` should not be present in production code (clippy::panic)",
+      "line": 54,
+      "column": 5,
+      "message": "use Option::map_or_else instead of an if let/else (clippy::option_if_let_else)",
       "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 54,
+            "remove": 73,
+            "insert": [
+              "    profile_path.map_or_else(|| {",
+              "            let empty = CString::default();",
+              "            let flags = NSS_INIT_READONLY",
+              "                | NSS_INIT_NOCERTDB",
+              "                | NSS_INIT_NOMODDB",
+              "                | NSS_INIT_FORCEOPEN",
+              "                | NSS_INIT_OPTIMIZESPACE;",
+              "            let context = unsafe {",
+              "                NSS_InitContext(",
+              "                    empty.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    std::ptr::null_mut(),",
+              "                    flags,",
+              "                )",
+              "            };",
+              "            if context.is_null() {",
+              "                let error = get_last_error();",
+              "                panic!(\"Could not initialize NSS: {}\", error);",
+              "            }",
+              "",
+              "            NssLoaded::NoDb",
+              "        }, |path| {",
+              "            if !path.is_dir() {",
+              "                panic!(\"missing profile directory {:?}\", path);",
+              "            }",
+              "            let pathstr = path.to_str().expect(\"invalid path\");",
+              "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");",
+              "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+              "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;",
+              "",
+              "            let context = unsafe {",
+              "                NSS_InitContext(",
+              "                    dircstr.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    empty.as_ptr(),",
+              "                    std::ptr::null_mut(),",
+              "                    flags,",
+              "                )",
+              "            };",
+              "            if context.is_null() {",
+              "                let error = get_last_error();",
+              "                panic!(\"could not initialize context: {}\", error);",
+              "            }",
+              "",
+              "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+              "",
+              "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+              "                let result = unsafe {",
+              "                    PK11_InitPin(",
+              "                        slot.as_mut_ptr(),",
+              "                        std::ptr::null_mut(),",
+              "                        std::ptr::null_mut(),",
+              "                    )",
+              "                };",
+              "                if result != SECStatus::SECSuccess {",
+              "                    let error = get_last_error();",
+              "                    panic!(\"could not initialize context: {}\", error);",
+              "                }",
+              "            }",
+              "",
+              "            NssLoaded::Db",
+              "        })"
+            ]
+          }
+        ]
+      },
       "snippet": {
-        "start": 97,
+        "start": 51,
         "lines": [
+          "        return NssLoaded::External;",
+          "    }",
+          "",
+          "    match profile_path {",
+          "        #[cfg(feature = \"keydb\")]",
+          "        Some(path) => {",
+          "            if !path.is_dir() {",
+          "                panic!(\"missing profile directory {:?}\", path);",
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");",
+          "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+          "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;",
+          "",
+          "            let context = unsafe {",
+          "                NSS_InitContext(",
+          "                    dircstr.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    std::ptr::null_mut(),",
+          "                    flags,",
+          "                )",
+          "            };",
+          "            if context.is_null() {",
+          "                let error = get_last_error();",
+          "                panic!(\"could not initialize context: {}\", error);",
+          "            }",
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+          "",
+          "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+          "                let result = unsafe {",
+          "                    PK11_InitPin(",
+          "                        slot.as_mut_ptr(),",
+          "                        std::ptr::null_mut(),",
+          "                        std::ptr::null_mut(),",
+          "                    )",
+          "                };",
+          "                if result != SECStatus::SECSuccess {",
+          "                    let error = get_last_error();",
+          "                    panic!(\"could not initialize context: {}\", error);",
+          "                }",
+          "            }",
+          "",
+          "            NssLoaded::Db",
           "        }",
           "",
           "        #[cfg(not(feature = \"keydb\"))]",
           "        Some(_) => panic!(\"Use the keydb feature to enable nss initialization with profile path\"),",
           "",
           "        None => {",
-          "            let empty = CString::default();"
+          "            let empty = CString::default();",
+          "            let flags = NSS_INIT_READONLY",
+          "                | NSS_INIT_NOCERTDB",
+          "                | NSS_INIT_NOMODDB",
+          "                | NSS_INIT_FORCEOPEN",
+          "                | NSS_INIT_OPTIMIZESPACE;",
+          "            let context = unsafe {",
+          "                NSS_InitContext(",
+          "                    empty.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    empty.as_ptr(),",
+          "                    std::ptr::null_mut(),",
+          "                    flags,",
+          "                )",
+          "            };",
+          "            if context.is_null() {",
+          "                let error = get_last_error();",
+          "                panic!(\"Could not initialize NSS: {}\", error);",
+          "            }",
+          "",
+          "            NssLoaded::NoDb",
+          "        }",
+          "    }",
+          "}",
+          "",
+          "/// Initialize NSS. This only executes the initialization routines once, so if there is any chance"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 58,
+      "column": 17,
+      "message": "`panic` should not be present in production code (clippy::panic)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 55,
+        "lines": [
+          "        #[cfg(feature = \"keydb\")]",
+          "        Some(path) => {",
+          "            if !path.is_dir() {",
+          "                panic!(\"missing profile directory {:?}\", path);",
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 58,
+      "column": 17,
+      "message": "variables can be used directly in the `format!` string (clippy::uninlined_format_args)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 58,
+            "remove": 1,
+            "insert": [
+              "                panic!(\"missing profile directory {path:?}\");"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 55,
+        "lines": [
+          "        #[cfg(feature = \"keydb\")]",
+          "        Some(path) => {",
+          "            if !path.is_dir() {",
+          "                panic!(\"missing profile directory {:?}\", path);",
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 60,
+      "column": 27,
+      "message": "used `expect()` on an `Option` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 57,
+        "lines": [
+          "            if !path.is_dir() {",
+          "                panic!(\"missing profile directory {:?}\", path);",
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");",
+          "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+          "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 61,
+      "column": 27,
+      "message": "used `expect()` on a `Result` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 58,
+        "lines": [
+          "                panic!(\"missing profile directory {:?}\", path);",
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");",
+          "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+          "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;",
+          ""
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 62,
+      "column": 25,
+      "message": "used `expect()` on a `Result` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 59,
+        "lines": [
+          "            }",
+          "            let pathstr = path.to_str().expect(\"invalid path\");",
+          "            let dircstr = CString::new(pathstr).expect(\"could not build CString from path\");",
+          "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+          "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;",
+          "",
+          "            let context = unsafe {"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 65,
+      "column": 27,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 62,
+        "lines": [
+          "            let empty = CString::new(\"\").expect(\"could not build empty CString\");",
+          "            let flags = NSS_INIT_FORCEOPEN | NSS_INIT_OPTIMIZESPACE;",
+          "",
+          "            let context = unsafe {",
+          "                NSS_InitContext(",
+          "                    dircstr.as_ptr(),",
+          "                    empty.as_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 77,
+      "column": 17,
+      "message": "`panic` should not be present in production code (clippy::panic)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 74,
+        "lines": [
+          "            };",
+          "            if context.is_null() {",
+          "                let error = get_last_error();",
+          "                panic!(\"could not initialize context: {}\", error);",
+          "            }",
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 77,
+      "column": 17,
+      "message": "variables can be used directly in the `format!` string (clippy::uninlined_format_args)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 77,
+            "remove": 1,
+            "insert": [
+              "                panic!(\"could not initialize context: {error}\");"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 74,
+        "lines": [
+          "            };",
+          "            if context.is_null() {",
+          "                let error = get_last_error();",
+          "                panic!(\"could not initialize context: {}\", error);",
+          "            }",
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 80,
+      "column": 24,
+      "message": "used `expect()` on a `Result` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 77,
+        "lines": [
+          "                panic!(\"could not initialize context: {}\", error);",
+          "            }",
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+          "",
+          "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+          "                let result = unsafe {"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 82,
+      "column": 16,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 79,
+        "lines": [
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+          "",
+          "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+          "                let result = unsafe {",
+          "                    PK11_InitPin(",
+          "                        slot.as_mut_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "rustfmt-config",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 82,
+      "column": 67,
+      "message": "unnecessary qualification (unused_qualifications)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 82,
+            "remove": 1,
+            "insert": [
+              "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == PR_TRUE {"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 79,
+        "lines": [
+          "",
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+          "",
+          "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+          "                let result = unsafe {",
+          "                    PK11_InitPin(",
+          "                        slot.as_mut_ptr(),"
+        ]
+      }
+    },
+    {
+      "rule": "unsafe-and-nss",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 83,
+      "column": 30,
+      "message": "unsafe block missing a safety comment (clippy::undocumented_unsafe_blocks)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 80,
+        "lines": [
+          "            let slot = slot::get_internal_key_slot().expect(\"could not get internal key slot\");",
+          "",
+          "            if unsafe { PK11_NeedUserInit(slot.as_mut_ptr()) } == nss_sys::PR_TRUE {",
+          "                let result = unsafe {",
+          "                    PK11_InitPin(",
+          "                        slot.as_mut_ptr(),",
+          "                        std::ptr::null_mut(),"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 92,
+      "column": 21,
+      "message": "`panic` should not be present in production code (clippy::panic)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 89,
+        "lines": [
+          "                };",
+          "                if result != SECStatus::SECSuccess {",
+          "                    let error = get_last_error();",
+          "                    panic!(\"could not initialize context: {}\", error);",
+          "                }",
+          "            }",
+          ""
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/support/rc_crypto/nss/src/util.rs",
+      "line": 92,
+      "column": 21,
+      "message": "variables can be used directly in the `format!` string (clippy::uninlined_format_args)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 92,
+            "remove": 1,
+            "insert": [
+              "                    panic!(\"could not initialize context: {error}\");"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 89,
+        "lines": [
+          "                };",
+          "                if result != SECStatus::SECSuccess {",
+          "                    let error = get_last_error();",
+          "                    panic!(\"could not initialize context: {}\", error);",
+          "                }",
+          "            }",
+          ""
         ]
       }
     },
@@ -122399,15 +123577,17 @@
       "fix": {
         "edits": [
           {
-            "line": 19,
-            "remove": 1,
+            "line": 17,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 16,
+        "start": 14,
         "lines": [
+          "",
+          "[dev-dependencies]",
           "tracing = \"0.1\"",
           "",
           "[build-dependencies]",
@@ -122839,43 +124019,281 @@
       }
     },
     {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 21,
+      "column": 16,
+      "message": "used `expect()` on an `Option` value (clippy::expect_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 18,
+        "lines": [
+          "    let mut rows = stmt.query([])?;",
+          "    let mut table = Table::new();",
+          "    let mut titles = Row::empty();",
+          "    for col in rows.as_ref().expect(\"must have statement\").columns() {",
+          "        titles = titles.add_cell(col.name());",
+          "    }",
+          "    table.add_row(titles);"
+        ]
+      }
+    },
+    {
+      "rule": "needless-clones",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 29,
+      "column": 32,
+      "message": "`to_string()` called on a `&str` (clippy::str_to_string)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 29,
+            "remove": 1,
+            "insert": [
+              "                Value::Null => \"null\".to_owned(),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 26,
+        "lines": [
+          "        let mut table_row = Row::empty();",
+          "        for i in 0..sql_row.as_ref().column_count() {",
+          "            let val = match sql_row.get::<_, Value>(i)? {",
+          "                Value::Null => \"null\".to_string(),",
+          "                Value::Integer(i) => i.to_string(),",
+          "                Value::Real(f) => f.to_string(),",
+          "                Value::Text(s) => s,"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 41,
+      "column": 5,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 38,
+        "lines": [
+          "    }",
+          "    // printstd ends up on stdout - if we just println!() extra buffering seems to happen?",
+          "    use std::io::Write;",
+          "    std::io::stdout()",
+          "        .write_all(format!(\"query: {query}\\n\").as_bytes())",
+          "        .unwrap();",
+          "    table.printstd();"
+        ]
+      }
+    },
+    {
       "rule": "option-result-combinators",
       "path": "components/support/sql/src/debug_tools.rs",
-      "line": 69,
+      "line": 50,
       "column": 1,
       "message": "this function's return value is unnecessarily wrapped by `Result` (clippy::unnecessary_wraps)",
       "origin": "clippy",
       "fix": {
         "edits": [
           {
-            "line": 69,
-            "remove": 6,
+            "line": 50,
+            "remove": 13,
             "insert": [
               "fn dbg(ctx: &Context<'_>) -> rusqlite::types::Value {",
-              "    if ctx.is_empty() {",
-              "        Value::Null",
-              "    } else {",
-              "        ctx.get_raw(ctx.len() - 1).into()",
-              "    }"
+              "    let mut s = Value::Null;",
+              "    for i in 0..ctx.len() {",
+              "        let raw = ctx.get_raw(i);",
+              "        let str_repr = match raw {",
+              "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+              "            _ => format!(\"{:?}\", raw),",
+              "        };",
+              "        eprint!(\"{} \", str_repr);",
+              "        s = raw.into();",
+              "    }",
+              "    eprintln!();",
+              "    s"
             ]
           }
         ]
       },
       "snippet": {
-        "start": 66,
+        "start": 47,
         "lines": [
-          "// It would be very bad if the `dbg()` function only existed when the `debug-tools` feature was",
-          "// enabled - you could imagine some crate defining it as a `dev-dependency`, but then shipping",
-          "// sql with an embedded `dbg()` call - tests and CI would pass, but it would fail in the real lib.",
+          "",
+          "#[cfg(feature = \"debug-tools\")]",
+          "#[inline(never)]",
           "fn dbg(ctx: &Context<'_>) -> rusqlite::Result<Value> {",
-          "    Ok(if ctx.is_empty() {",
-          "        Value::Null",
-          "    } else {",
-          "        ctx.get_raw(ctx.len() - 1).into()",
-          "    })",
+          "    let mut s = Value::Null;",
+          "    for i in 0..ctx.len() {",
+          "        let raw = ctx.get_raw(i);",
+          "        let str_repr = match raw {",
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();",
+          "    }",
+          "    eprintln!();",
+          "    Ok(s)",
           "}",
           "",
-          "/// You can call this function to add all sql functions provided by this module"
+          "#[cfg(not(feature = \"debug-tools\"))]"
+        ]
+      }
+    },
+    {
+      "rule": "no-unwrap-in-component-code",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 55,
+      "column": 51,
+      "message": "used `unwrap()` on a `Result` value (clippy::unwrap_used)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 52,
+        "lines": [
+          "    for i in 0..ctx.len() {",
+          "        let raw = ctx.get_raw(i);",
+          "        let str_repr = match raw {",
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);"
+        ]
+      }
+    },
+    {
+      "rule": "exhaustive-matches",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 56,
+      "column": 13,
+      "message": "wildcard match will also match any future added variants (clippy::wildcard_enum_match_arm)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 56,
+            "remove": 1,
+            "insert": [
+              "            rusqlite::types::ValueRef::Null | rusqlite::types::ValueRef::Integer(_) | rusqlite::types::ValueRef::Real(_) | rusqlite::types::ValueRef::Blob(_) => format!(\"{:?}\", raw),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 53,
+        "lines": [
+          "        let raw = ctx.get_raw(i);",
+          "        let str_repr = match raw {",
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 56,
+      "column": 18,
+      "message": "variables can be used directly in the `format!` string (clippy::uninlined_format_args)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 56,
+            "remove": 1,
+            "insert": [
+              "            _ => format!(\"{raw:?}\"),"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 53,
+        "lines": [
+          "        let raw = ctx.get_raw(i);",
+          "        let str_repr = match raw {",
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();"
+        ]
+      }
+    },
+    {
+      "rule": "no-debug-leftovers",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 58,
+      "column": 9,
+      "message": "use of `eprint!` (clippy::print_stderr)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 55,
+        "lines": [
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();",
+          "    }",
+          "    eprintln!();"
+        ]
+      }
+    },
+    {
+      "rule": "pedantic-subset",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 58,
+      "column": 9,
+      "message": "variables can be used directly in the `format!` string (clippy::uninlined_format_args)",
+      "origin": "clippy",
+      "fix": {
+        "edits": [
+          {
+            "line": 58,
+            "remove": 1,
+            "insert": [
+              "        eprint!(\"{str_repr} \");"
+            ]
+          }
+        ]
+      },
+      "snippet": {
+        "start": 55,
+        "lines": [
+          "            rusqlite::types::ValueRef::Text(_) => raw.as_str().unwrap().to_owned(),",
+          "            _ => format!(\"{:?}\", raw),",
+          "        };",
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();",
+          "    }",
+          "    eprintln!();"
+        ]
+      }
+    },
+    {
+      "rule": "no-debug-leftovers",
+      "path": "components/support/sql/src/debug_tools.rs",
+      "line": 61,
+      "column": 5,
+      "message": "use of `eprintln!` (clippy::print_stderr)",
+      "origin": "clippy",
+      "snippet": {
+        "start": 58,
+        "lines": [
+          "        eprint!(\"{} \", str_repr);",
+          "        s = raw.into();",
+          "    }",
+          "    eprintln!();",
+          "    Ok(s)",
+          "}",
+          ""
         ]
       }
     },
@@ -123939,15 +125357,17 @@
       "fix": {
         "edits": [
           {
-            "line": 19,
-            "remove": 1,
+            "line": 17,
+            "remove": 3,
             "insert": []
           }
         ]
       },
       "snippet": {
-        "start": 16,
+        "start": 14,
         "lines": [
+          "",
+          "[dev-dependencies]",
           "tracing-subscriber = { version = \"0.3\", default-features = false }",
           "",
           "[build-dependencies]",
