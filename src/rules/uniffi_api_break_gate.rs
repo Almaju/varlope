@@ -46,7 +46,7 @@ fn check(cx: &Context, out: &mut Findings) {
                     .entry(api::crate_dir(old_path).to_string())
                     .or_default();
                 side.changed.insert(old_path.to_string());
-                read(old_path, text, &mut side.old, &mut side.old_aliases);
+                side.unreadable |= !read(old_path, text, &mut side.old, &mut side.old_aliases);
             }
         }
         if change.status != Status::Deleted && api::is_shipped_api_file(&change.path) {
@@ -55,10 +55,11 @@ fn check(cx: &Context, out: &mut Findings) {
                     .entry(api::crate_dir(&change.path).to_string())
                     .or_default();
                 side.changed.insert(change.path.clone());
-                read(&change.path, text, &mut side.new, &mut side.new_aliases);
+                side.unreadable |= !read(&change.path, text, &mut side.new, &mut side.new_aliases);
             }
         }
     }
+    sides.retain(|_, side| !side.unreadable);
     if sides.values().all(|s| s.old.is_empty()) {
         return;
     }
@@ -88,6 +89,9 @@ fn check(cx: &Context, out: &mut Findings) {
     let release = Release::find(&cx.ws.root, &diff.base);
     let mut breaks = Vec::new();
     for (dir, (old, new)) in &merged {
+        if old.is_empty() {
+            continue;
+        }
         let released = release.as_ref().map(|r| r.api(dir));
         let gate = Gate {
             diff,
@@ -135,24 +139,31 @@ type Surface = BTreeMap<String, Item>;
 #[derive(Default)]
 struct Side {
     changed: BTreeSet<String>,
+    /// A changed Rust file didn't parse: its items can't be compared.
+    unreadable: bool,
     old: Vec<Item>,
     new: Vec<Item>,
     old_aliases: BTreeMap<String, Option<String>>,
     new_aliases: BTreeMap<String, Option<String>>,
 }
 
+/// Add the items of one file; `false` when it is Rust that doesn't parse.
 fn read(
     path: &str,
     text: &str,
     items: &mut Vec<Item>,
     aliases: &mut BTreeMap<String, Option<String>>,
-) {
+) -> bool {
     if path.ends_with(".udl") {
         items.extend(api::udl_items(path, text));
-    } else if let Ok(file) = RustFile::parse(path, text.to_string()) {
+    } else {
+        let Ok(file) = RustFile::parse(path, text.to_string()) else {
+            return false;
+        };
         items.extend(api::rust_items(&file));
         api::add_aliases(aliases, api::result_aliases(&file.ast));
     }
+    true
 }
 
 /// The last release before the change: the most recent `Start release vN`
@@ -755,6 +766,36 @@ pub fn brand_new() {}
         let found = breaks(old, new);
         assert_eq!(found.len(), 1, "{found:#?}");
         assert!(found[0].contains("callback interface `Sink` gains method `flush`"));
+    }
+
+    #[test]
+    fn changes_to_api_added_since_the_release_are_not_breaks() {
+        use super::{Gate, Surface};
+        use crate::helpers::uniffi as api;
+        use crate::source::RustFile;
+        let surface = |src: &str| -> Surface {
+            let file = RustFile::parse(SUGGEST, src.to_string()).unwrap();
+            api::merge(api::rust_items(&file))
+        };
+        let released = surface("#[uniffi::export]\nimpl Store {\n    pub fn old(&self) {}\n}\n");
+        let before = surface("#[uniffi::export]\nimpl Store {\n    pub fn old(&self) {}\n    pub fn v3(&self, a: u8) {}\n}\n");
+        let after = surface("#[uniffi::export]\nimpl Store {\n    pub fn old(&self, x: u8) {}\n    pub fn v3(&self, a: u16) {}\n}\n");
+        let diff = crate::diff::Diff::default();
+        let gate = Gate {
+            diff: &diff,
+            released: Some(&released),
+        };
+        let mut found = Vec::new();
+        gate.compare(&before["Store"], &after["Store"], &mut found);
+        assert_eq!(found.len(), 1, "{found:#?}");
+        assert!(found[0].2.contains("`Store.old`"));
+        assert!(!gate.shipped("Brand", None));
+    }
+
+    #[test]
+    fn skips_files_that_do_not_parse() {
+        let old = "#[uniffi::export]\npub fn a() {}\n";
+        assert!(breaks(old, "#[uniffi::export]\npub fn a( {}\n").is_empty());
     }
 
     #[test]
