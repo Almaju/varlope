@@ -288,6 +288,9 @@ fn idents_in(expr: &syn::Expr) -> Vec<String> {
 }
 
 impl<'ast> Visit<'ast> for Body<'_> {
+    fn visit_item(&mut self, _: &'ast syn::Item) {
+        // Nested items are checked as functions of their own.
+    }
     fn visit_local(&mut self, l: &'ast syn::Local) {
         let (pat, ty) = match &l.pat {
             syn::Pat::Type(t) => (&*t.pat, Some(&*t.ty)),

@@ -69,6 +69,9 @@ struct Slices {
 }
 
 impl<'ast> Visit<'ast> for Slices {
+    fn visit_item(&mut self, _: &'ast syn::Item) {
+        // Nested items are checked as functions of their own.
+    }
     fn visit_expr_index(&mut self, e: &'ast syn::ExprIndex) {
         if matches!(&*e.index, syn::Expr::Range(_)) {
             let sliced = base(&e.expr);

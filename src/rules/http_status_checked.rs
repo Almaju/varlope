@@ -137,6 +137,9 @@ impl Uses {
 }
 
 impl<'ast> Visit<'ast> for Uses {
+    fn visit_item(&mut self, _: &'ast syn::Item) {
+        // Nested items are checked as functions of their own.
+    }
     fn visit_local(&mut self, l: &'ast syn::Local) {
         if let Some(init) = &l.init {
             self.visit_expr(&init.expr);

@@ -11,7 +11,7 @@
 //! diff (`--base`), also a newly added field that is neither `Option` nor
 //! `#[serde(default)]`: older records and servers don't send it.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 use crate::helpers::errors::{self, TestSupport};
 use crate::rule::{Area, Context, Findings, Kind, Rule};
@@ -57,14 +57,22 @@ fn check(cx: &Context, out: &mut Findings) {
             .unwrap_or_default()
             .to_string();
         let support = TestSupport::of(file);
-        let added: BTreeSet<usize> = cx
-            .diff
-            .and_then(|d| d.file(&file.path))
-            .map(|f| f.added.iter().map(|(n, _)| *n).collect())
-            .unwrap_or_default();
+        let change = cx.diff.and_then(|d| d.file(&file.path));
+        let before = Before {
+            added: change
+                .map(|f| f.added.iter().map(|(n, _)| *n).collect())
+                .unwrap_or_default(),
+            fields: change
+                .and_then(|f| f.old_text.as_deref())
+                .and_then(|t| syn::parse_file(t).ok())
+                .map(|old| struct_fields(&old)),
+            removed: change
+                .map(|f| f.removed_text().collect::<Vec<_>>().join("\n"))
+                .unwrap_or_default(),
+        };
         let mut hits = Vec::new();
         let is_nested = |name: &str| nested.contains(&(krate.clone(), name.to_string()));
-        check_file(file, &added, &is_nested, &mut hits);
+        check_file(file, &before, &is_nested, &mut hits);
         for (line, column, message) in hits {
             if !support.contains(line) {
                 out.add_at(&file.path, line, column, message);
@@ -134,9 +142,55 @@ fn deserialized_field_types(file: &syn::File) -> BTreeSet<String> {
     out
 }
 
+/// The file before the change under review, when there is one.
+struct Before {
+    /// Lines the change adds.
+    added: BTreeSet<usize>,
+    /// Struct name -> field names, when the old text is known.
+    fields: Option<BTreeMap<String, BTreeSet<String>>>,
+    /// The removed lines, when it is not.
+    removed: String,
+}
+
+impl Before {
+    /// Whether `field` is new in a struct that already existed: a field
+    /// required since its type first shipped is fine.
+    fn is_new_field(&self, s: &syn::ItemStruct, field: &str, line: usize) -> bool {
+        if !self.added.contains(&line) {
+            return false;
+        }
+        match &self.fields {
+            Some(old) => old
+                .get(&s.ident.to_string())
+                .is_some_and(|fields| !fields.contains(field)),
+            None => {
+                !self.added.contains(&s.ident.span().start().line)
+                    && !self.removed.contains(&format!("{field}:"))
+            }
+        }
+    }
+}
+
+/// Struct name -> field names, for every struct of a file.
+fn struct_fields(file: &syn::File) -> BTreeMap<String, BTreeSet<String>> {
+    syntax::all_items(file)
+        .into_iter()
+        .filter_map(|item| match item {
+            syn::Item::Struct(s) => Some((
+                s.ident.to_string(),
+                s.fields
+                    .iter()
+                    .filter_map(|f| f.ident.as_ref().map(|i| i.to_string()))
+                    .collect(),
+            )),
+            _ => None,
+        })
+        .collect()
+}
+
 fn check_file(
     file: &RustFile,
-    added: &BTreeSet<usize>,
+    before: &Before,
     is_nested: &dyn Fn(&str) -> bool,
     hits: &mut Vec<(usize, usize, String)>,
 ) {
@@ -155,12 +209,12 @@ fn check_file(
                     let defaulted = struct_default
                         || has_serde(&field.attrs, "default")
                         || has_serde(&field.attrs, "flatten");
-                    if added.contains(&line) && !optional && !defaulted {
-                        let fname = field
-                            .ident
-                            .as_ref()
-                            .map(|i| i.to_string())
-                            .unwrap_or_default();
+                    let fname = field
+                        .ident
+                        .as_ref()
+                        .map(|i| i.to_string())
+                        .unwrap_or_default();
+                    if !optional && !defaulted && before.is_new_field(s, &fname, line) {
                         hits.push((line, 1, format!("new field `{name}::{fname}` is required: records and servers without it fail to parse; make it `Option<_>` or `#[serde(default)]`")));
                     }
                 }
@@ -283,6 +337,13 @@ mod tests {
         assert!(run(src).is_empty());
         let other_crate = "#[derive(Deserialize)]\npub struct R { pub kind: Kind }\n#[derive(Deserialize)]\npub enum Kind { A, B }\n";
         assert!(check(&RULE, &[("components/places/src/x.rs", other_crate)]).is_empty());
+    }
+
+    #[test]
+    fn ignores_fields_of_new_types_and_changed_fields() {
+        let old = "#[derive(Deserialize)]\npub struct Rec {\n    pub env: Env,\n}\n";
+        let new = "#[derive(Deserialize)]\npub struct Rec {\n    pub env: Env<V2>,\n}\n#[derive(Deserialize)]\npub struct RecV3 {\n    pub id: String,\n}\n";
+        assert!(check_diff(&RULE, &[(PATH, old)], &[(PATH, new)]).is_empty());
     }
 
     #[test]
