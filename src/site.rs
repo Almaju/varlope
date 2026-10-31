@@ -663,6 +663,23 @@ fn code_view(f: &ReportFinding) -> String {
     let mut i = 0;
     while i < snippet.lines.len() {
         if let Some(edit) = edits.iter().find(|e| e.line == n) {
+            let unchanged = edit.remove > 0
+                && snippet.lines.get(i..i + edit.remove) == Some(edit.insert.as_slice());
+            if unchanged {
+                // Same text: the edit only adds the missing final newline.
+                for k in 0..edit.remove {
+                    let html = crate::highlight::line(ext, &snippet.lines[i + k], &mut in_block);
+                    let _ = write!(
+                        out,
+                        r#"<span class="ln" data-n="{}"><span>{html}</span></span>"#,
+                        n + k
+                    );
+                }
+                out.push_str(r#"<span class="ln add" data-n="+"><span class="cm">⏎ newline at end of file</span></span>"#);
+                i += edit.remove;
+                n += edit.remove;
+                continue;
+            }
             for k in 0..edit.remove {
                 if let Some(l) = snippet.lines.get(i + k) {
                     let html = crate::highlight::line(ext, l, &mut in_block);
