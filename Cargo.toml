@@ -1,0 +1,22 @@
+[package]
+name = "varlope"
+version = "0.1.0"
+edition = "2021"
+license = "MPL-2.0"
+description = "Experimental linter for mozilla/application-services, built from its PR review history"
+repository = "https://github.com/Almaju/varlope"
+publish = false
+
+# Every dependency (and every transitive one) must already be in
+# mozilla/application-services' Cargo.lock, at the same version.
+# `scripts/check-deps.sh` verifies that.
+[dependencies]
+anyhow = "1.0.58"
+clap = { version = "4.5.39", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "suggestions"] }
+proc-macro2 = { version = "1.0.101", features = ["span-locations"] }
+regex = "1.11.1"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.142"
+syn = { version = "2.0.106", features = ["full", "visit", "extra-traits"] }
+toml = "0.9.6"
+walkdir = "2.5.0"
