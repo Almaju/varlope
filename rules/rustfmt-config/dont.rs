@@ -1,6 +1,9 @@
-use crate::error::{Error, Result}; // flagged: not grouped std / external / crate
+// `cargo +nightly fmt` would regroup and split these imports.
+use crate::stateful::{enrollment::v3, persistence::{Database, StoreId}};
 use parking_lot::Mutex;
 use std::sync::Arc;
-// flagged: nested tree, imports_granularity = "Module" splits it per module
-use crate::stateful::{enrollment::v3, persistence::{Database, StoreId}};
-use rkv::StoreOptions;
+
+pub(crate) const DB_KEY_DB_VERSION: &str = "db_version";
+
+// flagged: an import below the code
+use crate::enrollment::NotEnrolledReason;
