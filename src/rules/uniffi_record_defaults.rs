@@ -14,7 +14,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use crate::helpers::uniffi::{self as api, Field, Item, Shape};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::syntax;
 use crate::uniffi::ApiKind;
 
@@ -87,6 +87,13 @@ fn check(cx: &Context, out: &mut Findings) {
                         record.name, field.name
                     ),
                 );
+                let text = cx.ws.file(&member.path).map(|f| f.text.as_str());
+                if let (Some(fix), Some(last)) = (
+                    text.and_then(|t| default_none(&member.path, t, member.line, &field.name)),
+                    out.items.last_mut(),
+                ) {
+                    last.fix = Some(fix);
+                }
                 continue;
             }
             if let Some(mismatch) = default_mismatch(&defaults, &record.name, field) {
@@ -94,6 +101,43 @@ fn check(cx: &Context, out: &mut Findings) {
             }
         }
     }
+}
+
+/// Give the field on `line` a `None` default: `#[uniffi(default)]` on a
+/// line of its own above a Rust field, `= null` before a UDL member's `;`.
+fn default_none(path: &str, text: &str, line: usize, name: &str) -> Option<Fix> {
+    let source = text.lines().nth(line.checked_sub(1)?)?;
+    let (code, comment) = source.split_once("//").unwrap_or((source, ""));
+    if path.ends_with(".udl") {
+        let decl = code.trim_end().strip_suffix(';')?;
+        if decl.contains('=') || !decl.trim_end().ends_with(name) {
+            return None;
+        }
+        let space = &code[code.trim_end().len()..];
+        let comment = if comment.is_empty() {
+            String::new()
+        } else {
+            format!("//{comment}")
+        };
+        return Some(Fix::replace_line(
+            line,
+            format!("{} = null;{space}{comment}", decl.trim_end()),
+        ));
+    }
+    let field = code.trim_start();
+    let named = field
+        .strip_prefix("pub ")
+        .unwrap_or(field)
+        .trim_start()
+        .strip_prefix(name)?;
+    if !named.trim_start().starts_with(':') {
+        return None; // attributes or more on the line
+    }
+    let indent = &code[..code.len() - field.len()];
+    Some(Fix::insert_before(
+        line,
+        vec![format!("{indent}#[uniffi(default)]")],
+    ))
 }
 
 /// Names of the types the foreign side constructs: argument types of
@@ -361,7 +405,13 @@ mod tests {
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![7, 8, 10], "{found:#?}");
         assert!(found[0].message.contains("no UniFFI default"));
+        // The fix gives `limit` a default on the line above it.
+        let edit = &found[0].fix.as_ref().expect("a fix").edits[0];
+        assert_eq!((edit.line, edit.remove), (7, 0));
+        assert_eq!(edit.insert, vec!["    #[uniffi(default)]"]);
         assert!(found[1].message.contains("optional `Vec`"));
+        // Whether to drop the `Option` or document `None` is a decision.
+        assert!(found[1].fix.is_none() && found[2].fix.is_none());
         assert!(found[2]
             .message
             .contains("`true` for Kotlin/Swift but `false`"));
@@ -410,5 +460,8 @@ mod tests {
         let found = check(&RULE, &[udl]);
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![8], "{found:#?}");
+        let edit = &found[0].fix.as_ref().expect("a fix").edits[0];
+        assert_eq!((edit.line, edit.remove), (8, 1));
+        assert_eq!(edit.insert, vec!["    u32? max = null;"]);
     }
 }
