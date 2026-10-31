@@ -1,6 +1,6 @@
 uniffi::custom_type!(JsonValue, String, {
     remote,
-    // flagged: unwrap in try_lift; bad JSON from the caller crashes the app
+    // flagged: bad JSON from the caller crashes the app
     try_lift: |val| Ok(serde_json::from_str(val.as_str()).unwrap()),
     lower: |obj| obj.to_string(),
 });
