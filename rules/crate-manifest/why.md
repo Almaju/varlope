@@ -1,1 +1,1 @@
-New crates (rs_client, nimbus-cli, remote_settings) were added without `license`/`description`/`authors`, were missing from workspace `default-members` (so `cargo test` skipped them), or shipped a per-crate .gitignore duplicating the root one.
+Every crate here is vendored into mozilla-central, which needs a `license` on each one (#6243) and should not receive the `android/` and `ios/` trees (#7209 had to add `exclude` to several crates). Crates must not depend on `examples/`: nimbus-cli picked up `cli-support` and with it NSS linking (#7199).
