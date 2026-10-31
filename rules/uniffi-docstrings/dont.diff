@@ -1,0 +1,12 @@
+--- a/components/tabs/src/tabs.udl
++++ b/components/tabs/src/tabs.udl
+ interface TabsStore {
+     /// Opens (or creates) the tabs database at `path`.
+     constructor(string path);
++    // Sets the local tabs, with their window and group info.
++    void set_local_tabs_info(LocalTabsInfo info); // flagged: `//` is not a docstring
+ };
++
++dictionary LocalTabsInfo { // flagged: no `///` docstring
++    sequence<RemoteTabRecord> tabs;
++};

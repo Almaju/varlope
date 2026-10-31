@@ -9,5 +9,7 @@ pub struct Store {
     authenticator: Mutex<Option<Arc<dyn PrimaryPasswordAuthenticator>>>,
 }
 impl Store {
-    pub fn shutdown(&self) { self.authenticator.lock().take(); }
+    pub fn shutdown(&self) {
+        self.authenticator.lock().take();
+    }
 }

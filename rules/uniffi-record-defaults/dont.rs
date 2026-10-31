@@ -2,9 +2,10 @@
 #[derive(Clone, Debug, Default, uniffi::Record)]
 pub struct SuggestionQuery {
     pub keyword: String,
+    #[uniffi(default)]
     pub providers: Vec<SuggestionProvider>,
-    pub limit: Option<i32>, // flagged: Option field without a UniFFI default
+    pub limit: Option<i32>, // flagged: other fields have defaults, this one doesn't
     pub excluded_keywords: Option<Vec<String>>, // flagged: use a Vec; empty means none
-    #[uniffi(default = true)] // flagged: `Default` gives false
-    pub include_sponsored: bool,
+    #[uniffi(default = true)]
+    pub include_sponsored: bool, // flagged: `Default` gives false
 }

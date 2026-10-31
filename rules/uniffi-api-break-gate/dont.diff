@@ -1,11 +1,13 @@
 --- a/components/suggest/src/suggestion.rs
 +++ b/components/suggest/src/suggestion.rs
-@@ pub enum Suggestion {
+ #[derive(uniffi::Enum)]
+ pub enum Suggestion {
      Amp {
          title: String,
          url: String,
-+        suggestion_id: String, // flagged: breaking, no ⚠️ Breaking Changes entry
++        suggestion_id: String, // flagged: Swift code destructuring `Amp` breaks
      },
+ }
 --- a/CHANGELOG.md
 +++ b/CHANGELOG.md
  ## ✨ What's New ✨

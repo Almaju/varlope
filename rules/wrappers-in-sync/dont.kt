@@ -1,8 +1,6 @@
-// flagged: mirrors the generated `DeviceType` enum; define it once in Rust
-enum class FxaDeviceType { DESKTOP, MOBILE, TABLET }
+enum class FxaDeviceType { DESKTOP, MOBILE, TABLET } // flagged: mirrors the generated `DeviceType`
 
 class FxaClient(private val inner: FirefoxAccount) {
     fun getDevices(): Array<Device> =
-        // flagged: Rust exposes `ignore_cache`; the wrapper hard-codes it
-        inner.getDevices(false).toTypedArray()
+        inner.getDevices(false).toTypedArray() // flagged: Rust exposes `ignore_cache`
 }
