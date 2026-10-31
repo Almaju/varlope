@@ -112,7 +112,7 @@ fn run() -> Result<ExitCode> {
             let mut findings = varlope::run::run(&ws, diff.as_ref(), &selected);
             findings.extend(varlope::run::allow_problems(&ws));
             if clippy {
-                let from_clippy = varlope::clippy::run(&cli.root, &selected)?;
+                let from_clippy = varlope::clippy::run(&cli.root, &ws, &selected)?;
                 findings.extend(from_clippy.into_iter().filter(|f| {
                     varlope::rule(f.rule).is_some_and(|r| varlope::run::keep(&ws, r, f))
                 }));
@@ -156,10 +156,16 @@ fn run() -> Result<ExitCode> {
             let all = varlope::rules();
             let mut findings = varlope::run::run(&ws, None, all);
             if clippy {
-                let from_clippy = varlope::clippy::run(&cli.root, all)?;
+                let from_clippy = varlope::clippy::run(&cli.root, &ws, all)?;
                 findings.extend(from_clippy.into_iter().filter(|f| {
                     varlope::rule(f.rule).is_some_and(|r| varlope::run::keep(&ws, r, f))
                 }));
+            }
+            // Findings on the code as it is carry the lines around them.
+            for f in &mut findings {
+                if let Some(file) = ws.file(&f.path) {
+                    f.attach_snippet(&file.text);
+                }
             }
             let (replayed, diff_findings) = varlope::replay::replay(&cli.root, &ws, all, commits)?;
             findings.extend(diff_findings);

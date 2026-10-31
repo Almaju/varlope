@@ -9,6 +9,7 @@ pub mod clippy;
 pub mod comment;
 pub mod diff;
 pub mod helpers;
+pub mod highlight;
 pub mod replay;
 pub mod report;
 pub mod rule;
@@ -23,7 +24,7 @@ pub mod udl;
 pub mod uniffi;
 pub mod workspace;
 
-pub use rule::{Area, Context, Finding, Findings, Kind, Rule};
+pub use rule::{Area, Context, Edit, Finding, Findings, Fix, Kind, Rule};
 
 /// Every rule, grouped by area.
 pub fn rules() -> &'static [&'static Rule] {

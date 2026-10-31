@@ -134,6 +134,101 @@ pub struct Finding {
     /// The commit a diff finding was found in (replay only).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub commit: Option<String>,
+    /// A suggested change, when the fix is mechanical.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fix: Option<Fix>,
+    /// The lines around the finding (and its fix), filled in for reports.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub snippet: Option<Snippet>,
+}
+
+/// A suggested change to the file a finding is in, as line edits.
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct Fix {
+    pub edits: Vec<Edit>,
+}
+
+/// Replace `remove` lines starting at 1-based `line` with `insert`
+/// (`remove: 0` inserts before `line`).
+#[derive(Clone, Debug, Serialize)]
+pub struct Edit {
+    pub line: usize,
+    pub remove: usize,
+    pub insert: Vec<String>,
+}
+
+impl Fix {
+    /// Replace line `line` with `text`.
+    pub fn replace_line(line: usize, text: impl Into<String>) -> Self {
+        Self::edit(line, 1, vec![text.into()])
+    }
+
+    /// Insert `lines` before line `line`.
+    pub fn insert_before(line: usize, lines: Vec<String>) -> Self {
+        Self::edit(line, 0, lines)
+    }
+
+    /// Delete `count` lines starting at `line`.
+    pub fn delete(line: usize, count: usize) -> Self {
+        Self::edit(line, count, Vec::new())
+    }
+
+    pub fn edit(line: usize, remove: usize, insert: Vec<String>) -> Self {
+        Self {
+            edits: vec![Edit {
+                line,
+                remove,
+                insert,
+            }],
+        }
+    }
+
+    /// The first and last line the fix touches.
+    pub fn span(&self) -> (usize, usize) {
+        let first = self.edits.iter().map(|e| e.line).min().unwrap_or(0);
+        let last = self
+            .edits
+            .iter()
+            .map(|e| e.line + e.remove.max(1) - 1)
+            .max()
+            .unwrap_or(0);
+        (first, last)
+    }
+}
+
+/// Some lines of a file: `lines[0]` is line `start`.
+#[derive(Clone, Debug, Serialize)]
+pub struct Snippet {
+    pub start: usize,
+    pub lines: Vec<String>,
+}
+
+impl Finding {
+    /// Fill in `snippet` from the file text: a few lines around the finding
+    /// and its fix.
+    pub fn attach_snippet(&mut self, text: &str) {
+        const AROUND: usize = 3;
+        if self.line == 0 && self.fix.is_none() {
+            return;
+        }
+        let (mut first, mut last) = (self.line.max(1), self.line.max(1));
+        if let Some(fix) = &self.fix {
+            let (a, b) = fix.span();
+            first = first.min(a.max(1));
+            last = last.max(b);
+        }
+        let start = first.saturating_sub(AROUND).max(1);
+        let end = last + AROUND;
+        let lines: Vec<String> = text
+            .lines()
+            .skip(start - 1)
+            .take(end - start + 1)
+            .map(str::to_string)
+            .collect();
+        if !lines.is_empty() {
+            self.snippet = Some(Snippet { start, lines });
+        }
+    }
 }
 
 /// The findings of one rule. Rules call [`Findings::add`]; the runner sets
@@ -171,7 +266,23 @@ impl Findings {
             message: message.into(),
             origin: Origin::Varlope,
             commit: None,
+            fix: None,
+            snippet: None,
         });
+    }
+
+    /// Report `message` at `path:line` with a suggested change.
+    pub fn add_fix(
+        &mut self,
+        path: impl Into<String>,
+        line: usize,
+        message: impl Into<String>,
+        fix: Fix,
+    ) {
+        self.add(path, line, message);
+        if let Some(last) = self.items.last_mut() {
+            last.fix = Some(fix);
+        }
     }
 
     pub fn len(&self) -> usize {

@@ -51,6 +51,8 @@ pub fn allow_problems(ws: &Workspace) -> Vec<Finding> {
                 message: p.message,
                 origin: Origin::Varlope,
                 commit: None,
+                fix: None,
+                snippet: None,
             });
         }
     }
