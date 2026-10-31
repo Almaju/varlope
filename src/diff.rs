@@ -259,7 +259,7 @@ fn parse_start(range: &str) -> usize {
 type Lines = Vec<(usize, String)>;
 
 /// Removed and added lines between two texts (longest common subsequence).
-fn line_diff(old: &str, new: &str) -> (Lines, Lines) {
+pub(crate) fn line_diff(old: &str, new: &str) -> (Lines, Lines) {
     let a: Vec<&str> = old.lines().collect();
     let b: Vec<&str> = new.lines().collect();
     let mut lcs = vec![vec![0u32; b.len() + 1]; a.len() + 1];

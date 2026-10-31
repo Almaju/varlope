@@ -29,6 +29,26 @@ struct ReportFinding {
     message: String,
     origin: String,
     commit: Option<String>,
+    fix: Option<FixJson>,
+    snippet: Option<SnippetJson>,
+}
+
+#[derive(Deserialize)]
+struct FixJson {
+    edits: Vec<EditJson>,
+}
+
+#[derive(Deserialize)]
+struct EditJson {
+    line: usize,
+    remove: usize,
+    insert: Vec<String>,
+}
+
+#[derive(Deserialize)]
+struct SnippetJson {
+    start: usize,
+    lines: Vec<String>,
 }
 
 #[derive(Deserialize)]
@@ -70,6 +90,8 @@ struct Bugfix {
 const SOURCE_REPO: &str = "mozilla/application-services";
 const SHOWN_FINDINGS: usize = 30;
 const SHOWN_SOURCES: usize = 5;
+/// Findings rendered per rule page; the rest are in the report file.
+const MAX_RENDERED: usize = 300;
 
 /// Write `index.html` and `rules/<id>.html` under `out`.
 pub fn build(report: &Path, research: &Path, docs: &Path, out: &Path) -> Result<()> {
@@ -211,8 +233,8 @@ fn rule_page(
 <p class="meta"><code>{id}</code> · {kind}{clippy}</p>
 <div class="why">{why}</div>
 <div class="pair">
-<figure class="dont"><figcaption>Don't <span>{dont_name}</span></figcaption><pre><code>{dont}</code></pre></figure>
-<figure class="do"><figcaption>Do <span>{do_name}</span></figcaption><pre><code>{good}</code></pre></figure>
+{dont_panel}
+{do_panel}
 </div>
 "#,
         area = rule.area.title(),
@@ -232,10 +254,8 @@ fn rule_page(
             )
         },
         why = markdown(&why),
-        dont = esc(&dont),
-        good = esc(&good),
-        dont_name = esc(&dont_name),
-        do_name = esc(&do_name),
+        dont_panel = example_panel(false, &dont_name, &dont, &good),
+        do_panel = example_panel(true, &do_name, &good, &dont),
     );
 
     // What it finds today.
@@ -295,20 +315,26 @@ fn rule_page(
                 esc(&report.date)
             )
         };
-        let _ = write!(b, "<p class=\"meta\">{what}</p><ul class=\"found\">");
-        for (i, f) in findings.iter().enumerate() {
-            if i == SHOWN_FINDINGS {
-                let _ = write!(
-                    b,
-                    "</ul><details><summary>{} more</summary><ul class=\"found\">",
-                    findings.len() - SHOWN_FINDINGS
-                );
-            }
+        let fixes = findings.iter().filter(|f| f.fix.is_some()).count();
+        let fixes = if fixes > 0 {
+            format!(" · {fixes} with a suggested change")
+        } else {
+            String::new()
+        };
+        let _ = write!(
+            b,
+            "<p class=\"meta\">{what}{fixes}. Click one to see the code.</p><div class=\"found\">"
+        );
+        for f in findings.iter().take(MAX_RENDERED) {
             b.push_str(&finding_item(f, report, commits));
         }
-        b.push_str("</ul>");
-        if findings.len() > SHOWN_FINDINGS {
-            b.push_str("</details>");
+        b.push_str("</div>");
+        if findings.len() > MAX_RENDERED {
+            let _ = write!(
+                b,
+                r#"<p class="meta">And {} more in <a href="https://github.com/Almaju/varlope/blob/main/report/findings.json">the report</a>.</p>"#,
+                findings.len() - MAX_RENDERED
+            );
         }
     }
 
@@ -428,10 +454,11 @@ fn finding_item(
     commits: &BTreeMap<&str, &ReportCommit>,
 ) -> String {
     let repo = esc(&report.repo);
-    let clippy = if f.origin == "clippy" {
-        " <span class=\"tag\">clippy</span>"
-    } else {
-        ""
+    let (message, lint) = split_lint(&f.message);
+    let clippy = match lint {
+        Some(lint) => format!(r#" <span class="tag">{}</span>"#, esc(lint)),
+        None if f.origin == "clippy" => r#" <span class="tag">clippy</span>"#.to_string(),
+        None => String::new(),
     };
     match &f.commit {
         Some(sha) => {
@@ -462,15 +489,228 @@ fn finding_item(
             } else {
                 f.path.clone()
             };
+            let view = code_view(f);
+            let note = if f.fix.is_some() {
+                "Suggested change"
+            } else if view.is_empty() {
+                "No code to show for this finding"
+            } else {
+                "No suggested change: see the Do example above"
+            };
             format!(
-                r#"<li><a href="https://github.com/{repo}/blob/{sha}/{path}{anchor}"><code>{at}</code></a>{clippy} <span class="msg">{msg}</span></li>"#,
+                r#"<details class="finding"><summary><code>{at}</code><span class="msg">{msg} <span class="tags">{clippy}{fixed}</span></span></summary><div class="fbody"><p class="fnote">{note} · <a href="https://github.com/{repo}/blob/{sha}/{path}{anchor}">view on GitHub</a></p>{view}</div></details>"#,
                 sha = esc(&report.sha),
                 path = esc(&f.path),
                 at = esc(&at),
-                msg = inline(&f.message),
+                msg = inline(message),
+                fixed = if f.fix.is_some() {
+                    " <span class=\"tag fix\">fix</span>"
+                } else {
+                    ""
+                },
             )
         }
     }
+}
+
+/// A clippy message without its `(clippy::lint)` suffix, and the lint.
+fn split_lint(message: &str) -> (&str, Option<&str>) {
+    match message.rsplit_once(" (clippy::") {
+        Some((msg, rest)) if rest.ends_with(')') => {
+            (msg, Some(&message[msg.len() + 2..message.len() - 1]))
+        }
+        _ => (message, None),
+    }
+}
+
+/// A Don't or Do example: line numbers, syntax highlighting, the lines the
+/// rule flags (Don't) or the lines that changed (Do) marked.
+fn example_panel(good: bool, ext: &str, text: &str, other: &str) -> String {
+    let lines: Vec<&str> = text.lines().collect();
+    let marks: std::collections::BTreeSet<usize> = if ext == "diff" {
+        if good {
+            Default::default()
+        } else {
+            flagged_lines(&lines)
+        }
+    } else if good {
+        let (_, added) = crate::diff::line_diff(&strip_flags(other), &strip_flags(text));
+        added.into_iter().map(|(n, _)| n).collect()
+    } else {
+        let flagged = flagged_lines(&lines);
+        if flagged.is_empty() {
+            let (removed, _) = crate::diff::line_diff(&strip_flags(text), &strip_flags(other));
+            removed.into_iter().map(|(n, _)| n).collect()
+        } else {
+            flagged
+        }
+    };
+    let (class, caption) = if good {
+        ("do", "✓ Do")
+    } else {
+        ("dont", "✕ Don't")
+    };
+    let mut body = String::new();
+    let mut in_block = crate::highlight::Carry::default();
+    let mut diff_ext = String::new();
+    for (i, l) in lines.iter().enumerate() {
+        let n = i + 1;
+        let (prefix_class, html) = if ext == "diff" {
+            diff_line(l, &mut diff_ext, &mut in_block)
+        } else {
+            ("", crate::highlight::line(ext, l, &mut in_block))
+        };
+        let mark = if marks.contains(&n) {
+            if good {
+                " fixed"
+            } else {
+                " flagged"
+            }
+        } else {
+            ""
+        };
+        let _ = write!(
+            body,
+            r#"<span class="ln{mark}{prefix_class}" data-n="{n}"><span>{html}</span></span>"#
+        );
+    }
+    format!(
+        r#"<figure class="{class}"><figcaption>{caption} <span>{ext}</span></figcaption><pre class="code">{body}</pre></figure>"#,
+        ext = esc(ext),
+    )
+}
+
+/// One line of a `.diff` example: its kind, and the line highlighted in the
+/// language of the file it belongs to.
+fn diff_line(
+    l: &str,
+    file_ext: &mut String,
+    in_block: &mut crate::highlight::Carry,
+) -> (&'static str, String) {
+    if l.starts_with("+++ ")
+        || l.starts_with("--- ")
+        || l.starts_with("@@")
+        || l.starts_with("diff ")
+    {
+        if l.starts_with("+++ ") || l.starts_with("--- ") {
+            *file_ext = crate::highlight::diff_file_ext(l);
+            *in_block = crate::highlight::Carry::default();
+        }
+        return (" meta", esc(l));
+    }
+    let (class, sign, rest) = match l.chars().next() {
+        Some('+') => (" add", "+", &l[1..]),
+        Some('-') => (" del", "-", &l[1..]),
+        Some(' ') => ("", " ", &l[1..]),
+        _ => ("", "", l),
+    };
+    (
+        class,
+        format!(
+            "{}{}",
+            esc(sign),
+            crate::highlight::line(file_ext, rest, in_block)
+        ),
+    )
+}
+
+/// Lines whose comment marks them as what the rule flags.
+fn flagged_lines(lines: &[&str]) -> std::collections::BTreeSet<usize> {
+    lines
+        .iter()
+        .enumerate()
+        .filter(|(_, l)| l.to_ascii_lowercase().contains("flagged"))
+        .map(|(i, _)| i + 1)
+        .collect()
+}
+
+/// The example without its `// flagged: …` notes, for comparing Don't and Do.
+fn strip_flags(text: &str) -> String {
+    text.lines()
+        .map(|l| {
+            let lower = l.to_ascii_lowercase();
+            match lower.find("flagged") {
+                Some(at) => {
+                    let cut = ["//", "#", "--"]
+                        .iter()
+                        .filter_map(|o| l[..at].rfind(o))
+                        .max()
+                        .unwrap_or(at);
+                    l[..cut].trim_end().to_string()
+                }
+                None => l.to_string(),
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+/// The code around a finding: with its suggested change as a diff, or with
+/// the flagged line marked.
+fn code_view(f: &ReportFinding) -> String {
+    let Some(snippet) = &f.snippet else {
+        return String::new();
+    };
+    let ext = crate::highlight::ext_of(&f.path);
+    let mut out = String::from(r#"<pre class="code diffview">"#);
+    let mut in_block = crate::highlight::Carry::default();
+    let edits: Vec<&EditJson> = f
+        .fix
+        .as_ref()
+        .map(|x| x.edits.iter().collect())
+        .unwrap_or_default();
+    let mut n = snippet.start;
+    let mut i = 0;
+    while i < snippet.lines.len() {
+        if let Some(edit) = edits.iter().find(|e| e.line == n) {
+            for k in 0..edit.remove {
+                if let Some(l) = snippet.lines.get(i + k) {
+                    let html = crate::highlight::line(ext, l, &mut in_block);
+                    let _ = write!(
+                        out,
+                        r#"<span class="ln del" data-n="{}"><span>{html}</span></span>"#,
+                        n + k
+                    );
+                }
+            }
+            let mut add_block = crate::highlight::Carry::default();
+            for l in &edit.insert {
+                let html = crate::highlight::line(ext, l, &mut add_block);
+                let _ = write!(
+                    out,
+                    r#"<span class="ln add" data-n="+"><span>{html}</span></span>"#
+                );
+            }
+            i += edit.remove;
+            n += edit.remove;
+            if edit.remove == 0 {
+                // Insertion: the original line follows unchanged.
+                let html = crate::highlight::line(ext, &snippet.lines[i], &mut in_block);
+                let _ = write!(
+                    out,
+                    r#"<span class="ln" data-n="{n}"><span>{html}</span></span>"#
+                );
+                i += 1;
+                n += 1;
+            }
+            continue;
+        }
+        let l = &snippet.lines[i];
+        let html = crate::highlight::line(ext, l, &mut in_block);
+        let mark = if edits.is_empty() && n == f.line {
+            " flagged"
+        } else {
+            ""
+        };
+        let _ = write!(
+            out,
+            r#"<span class="ln{mark}" data-n="{n}"><span>{html}</span></span>"#
+        );
+        i += 1;
+        n += 1;
+    }
+    out.push_str("</pre>");
+    out
 }
 
 /// `(file name, contents)` of `rules/<id>/<stem>.*`.
@@ -585,18 +825,21 @@ pub fn markdown(text: &str) -> String {
 const STYLE: &str = r#":root {
   --bg: #fbfbfa; --fg: #1d2125; --muted: #646b73; --line: #e2e4e7; --code: #f2f3f5;
   --link: #1a5fb4; --bad: #b3261e; --bad-bg: #fbeceb; --good: #1e7a46; --good-bg: #e8f4ec;
+  --kw: #8250df; --st: #0a3069; --nu: #0550ae; --ty: #953800; --ma: #1b7c83; --at: #57606a;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #141619; --fg: #e3e5e8; --muted: #9aa1a9; --line: #2b2f34; --code: #1d2024;
-    --link: #8ab4f8; --bad: #f28b82; --bad-bg: #2c1b1a; --good: #81c995; --good-bg: #17271d;
+    --link: #8ab4f8; --bad: #f28b82; --bad-bg: #3a1f1d; --good: #81c995; --good-bg: #183223;
+    --kw: #d2a8ff; --st: #a5d6ff; --nu: #79c0ff; --ty: #ffa657; --ma: #56d4dd; --at: #8b949e;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #141619; --fg: #e3e5e8; --muted: #9aa1a9; --line: #2b2f34; --code: #1d2024;
-  --link: #8ab4f8; --bad: #f28b82; --bad-bg: #2c1b1a; --good: #81c995; --good-bg: #17271d;
+  --link: #8ab4f8; --bad: #f28b82; --bad-bg: #3a1f1d; --good: #81c995; --good-bg: #183223;
+  --kw: #d2a8ff; --st: #a5d6ff; --nu: #79c0ff; --ty: #ffa657; --ma: #56d4dd; --at: #8b949e;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -617,14 +860,28 @@ code, pre { font: 0.86em/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, mono
 .crumbs { font-size: 0.9rem; color: var(--muted); margin-bottom: 14px; }
 .why { max-width: 68ch; margin: 18px 0; }
 .why p { margin: 0 0 10px; }
-.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 22px 0; }
-@media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin: 22px 0; }
 figure { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; min-width: 0; }
 figcaption { font-size: 0.85rem; font-weight: 600; padding: 6px 12px; display: flex; justify-content: space-between; }
 figcaption span { font-weight: 400; color: var(--muted); font-family: ui-monospace, monospace; }
 .dont figcaption { color: var(--bad); background: var(--bad-bg); }
 .do figcaption { color: var(--good); background: var(--good-bg); }
 pre { margin: 0; padding: 12px; overflow-x: auto; background: var(--code); }
+pre.code { padding: 10px 0; font-size: 0.8rem; line-height: 1.6; font-variant-ligatures: none; }
+pre.code .ln { display: grid; grid-template-columns: 2.8em minmax(0, 1fr); padding-right: 14px; min-width: max-content; }
+pre.code .ln::before { content: attr(data-n); text-align: right; padding-right: 0.9em; color: var(--muted);
+  opacity: 0.6; user-select: none; }
+pre.code .ln > span { white-space: pre; }
+.ln.flagged, .ln.del { background: var(--bad-bg); }
+.ln.flagged > span { text-decoration: underline wavy var(--bad); text-decoration-skip-ink: none;
+  text-underline-offset: 3px; }
+.ln.fixed, .ln.add { background: var(--good-bg); }
+.ln.add::before, .ln.fixed::before { color: var(--good); opacity: 1; }
+.ln.del::before, .ln.flagged::before { color: var(--bad); opacity: 1; }
+.ln.flagged.add { background: var(--bad-bg); }
+.ln.meta { color: var(--muted); }
+.kw { color: var(--kw); } .st { color: var(--st); } .nu { color: var(--nu); } .ty { color: var(--ty); }
+.ma { color: var(--ma); } .at { color: var(--at); } .cm { color: var(--muted); font-style: italic; }
 ul { padding-left: 0; list-style: none; margin: 0; }
 .cols { display: grid; grid-template-columns: 1fr 3.5rem 3rem; gap: 10px; margin: 28px 0 -18px;
   font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); text-align: right; }
@@ -634,7 +891,26 @@ ul { padding-left: 0; list-style: none; margin: 0; }
 .rules .n { font-weight: 600; }
 .rules .zero { color: var(--muted); font-weight: 400; }
 .rules .src { color: var(--muted); }
-.found li { padding: 4px 0; font-size: 0.92rem; }
+ul.found li { padding: 4px 0; font-size: 0.92rem; }
+div.found { border-top: 1px solid var(--line); }
+details.finding { border-bottom: 1px solid var(--line); }
+details.finding > summary { cursor: pointer; padding: 7px 0; font-size: 0.9rem; color: var(--fg); margin: 0;
+  list-style: none; display: grid; grid-template-columns: 0.8em fit-content(55%) minmax(0, 1fr); gap: 4px 10px;
+  align-items: baseline; }
+details.finding > summary code { overflow-wrap: anywhere; }
+details.finding .tags { white-space: nowrap; }
+details.finding .tags .tag { margin-left: 4px; }
+@media (max-width: 640px) {
+  details.finding > summary { grid-template-columns: 0.8em minmax(0, 1fr); }
+  details.finding .msg { grid-column: 2; }
+}
+details.finding > summary::-webkit-details-marker { display: none; }
+details.finding > summary::before { content: "▸"; color: var(--muted); width: 0.8em; }
+details.finding[open] > summary::before { content: "▾"; }
+.fbody { margin: 0 0 12px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.fnote { margin: 0; padding: 6px 12px; font-size: 0.8rem; color: var(--muted); background: var(--code);
+  border-bottom: 1px solid var(--line); }
+.tag.fix { color: var(--good); border-color: var(--good); }
 .found .msg { color: var(--muted); }
 .found .sub { margin: 2px 0 6px 14px; }
 .found .sub li { padding: 1px 0; font-size: 0.88rem; }

@@ -17,6 +17,15 @@ struct Lang {
     macros: bool,
     /// Single quotes delimit strings (not lifetimes/chars).
     single_quote_strings: bool,
+    /// A `"` string can run over several lines.
+    multiline_strings: bool,
+}
+
+/// What a line leaves open for the next one: a `/* */` comment or a string.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct Carry {
+    block: bool,
+    string: bool,
 }
 
 const RUST: Lang = Lang {
@@ -31,6 +40,7 @@ const RUST: Lang = Lang {
     attributes: true,
     macros: true,
     single_quote_strings: false,
+    multiline_strings: true,
 };
 
 const UDL: Lang = Lang {
@@ -62,6 +72,7 @@ const UDL: Lang = Lang {
     attributes: false,
     macros: false,
     single_quote_strings: false,
+    multiline_strings: false,
 };
 
 const KOTLIN: Lang = Lang {
@@ -126,6 +137,7 @@ const KOTLIN: Lang = Lang {
     attributes: true,
     macros: false,
     single_quote_strings: false,
+    multiline_strings: true,
 };
 
 const SQL: Lang = Lang {
@@ -188,6 +200,7 @@ const SQL: Lang = Lang {
     attributes: false,
     macros: false,
     single_quote_strings: true,
+    multiline_strings: false,
 };
 
 const SHELL: Lang = Lang {
@@ -202,6 +215,7 @@ const SHELL: Lang = Lang {
     attributes: false,
     macros: false,
     single_quote_strings: true,
+    multiline_strings: true,
 };
 
 const CONFIG: Lang = Lang {
@@ -211,6 +225,7 @@ const CONFIG: Lang = Lang {
     attributes: false,
     macros: false,
     single_quote_strings: true,
+    multiline_strings: false,
 };
 
 fn lang(ext: &str) -> Option<&'static Lang> {
@@ -231,9 +246,9 @@ pub fn ext_of(path: &str) -> &str {
     name.rsplit_once('.').map(|(_, e)| e).unwrap_or("")
 }
 
-/// Highlight one line of `ext` source. `in_block` carries an open `/* */`
-/// comment from line to line.
-pub fn line(ext: &str, text: &str, in_block: &mut bool) -> String {
+/// Highlight one line of `ext` source. `carry` holds what the previous line
+/// left open.
+pub fn line(ext: &str, text: &str, carry: &mut Carry) -> String {
     let Some(lang) = lang(ext) else {
         return esc(text);
     };
@@ -241,15 +256,33 @@ pub fn line(ext: &str, text: &str, in_block: &mut bool) -> String {
     let mut out = String::new();
     let mut i = 0;
     let rest = |i: usize| chars[i..].iter().collect::<String>();
+    if carry.string && !lang.multiline_strings {
+        carry.string = false;
+    }
     while i < chars.len() {
-        if *in_block {
+        if carry.string {
+            let start = i;
+            while i < chars.len() && chars[i] != '"' {
+                if chars[i] == '\\' {
+                    i += 1;
+                }
+                i += 1;
+            }
+            if i < chars.len() {
+                i += 1;
+                carry.string = false;
+            }
+            span(&mut out, "st", &chars[start..i.min(chars.len())]);
+            continue;
+        }
+        if carry.block {
             let start = i;
             while i < chars.len() && !(chars[i] == '*' && chars.get(i + 1) == Some(&'/')) {
                 i += 1;
             }
             if i < chars.len() {
                 i += 2;
-                *in_block = false;
+                carry.block = false;
             }
             span(&mut out, "cm", &chars[start..i.min(chars.len())]);
             continue;
@@ -262,7 +295,7 @@ pub fn line(ext: &str, text: &str, in_block: &mut bool) -> String {
             break;
         }
         if lang.block_comments && c == '/' && chars.get(i + 1) == Some(&'*') {
-            *in_block = true;
+            carry.block = true;
             continue;
         }
         if lang.attributes && c == '#' && matches!(chars.get(i + 1), Some('[') | Some('!')) {
@@ -303,9 +336,31 @@ pub fn line(ext: &str, text: &str, in_block: &mut bool) -> String {
                 }
                 i += 1;
             }
+            if i >= chars.len() && c == '"' && lang.multiline_strings {
+                carry.string = true;
+            }
             i = (i + 1).min(chars.len());
             span(&mut out, "st", &chars[start..i]);
             continue;
+        }
+        if c == '\'' && !lang.single_quote_strings {
+            // A char literal ('x', '\n', '"'), not a lifetime.
+            let end = if chars.get(i + 1) == Some(&'\\') {
+                chars[i + 2..]
+                    .iter()
+                    .take(8)
+                    .position(|&x| x == '\'')
+                    .map(|p| i + 3 + p)
+            } else if chars.get(i + 2) == Some(&'\'') {
+                Some(i + 3)
+            } else {
+                None
+            };
+            if let Some(end) = end {
+                span(&mut out, "st", &chars[i..end]);
+                i = end;
+                continue;
+            }
         }
         if c == 'r' && chars.get(i + 1) == Some(&'#') && chars.get(i + 2) == Some(&'"') {
             let start = i;
@@ -388,7 +443,7 @@ mod tests {
 
     #[test]
     fn rust_tokens() {
-        let mut b = false;
+        let mut b = Carry::default();
         let html = line(
             "rs",
             r#"#[uniffi::export] pub fn get(s: &str) -> Option<String> { log::info!("x {}", 1); } // why"#,
@@ -404,17 +459,31 @@ mod tests {
 
     #[test]
     fn block_comments_span_lines() {
-        let mut b = false;
+        let mut b = Carry::default();
         line("rs", "let a = 1; /* start", &mut b);
-        assert!(b);
+        assert!(b.block);
         let html = line("rs", "still */ let b = 2;", &mut b);
-        assert!(!b);
+        assert!(!b.block);
         assert!(html.starts_with(r#"<span class="cm">still */</span>"#));
     }
 
     #[test]
+    fn strings_span_lines_and_chars_do_not() {
+        let mut b = Carry::default();
+        line("rs", r#"query("SELECT 1"#, &mut b);
+        assert!(b.string);
+        let html = line("rs", r#"  FROM t", x); // c"#, &mut b);
+        assert!(!b.string);
+        assert!(html.contains(r#"<span class="cm">// c</span>"#));
+        let html = line("rs", r#"if c == '"' { f::<'a>() } // c"#, &mut b);
+        assert!(!b.string);
+        assert!(html.contains(r#"<span class="st">'&quot;'</span>"#));
+        assert!(html.contains(r#"<span class="cm">// c</span>"#));
+    }
+
+    #[test]
     fn sql_and_hash_comments() {
-        let mut b = false;
+        let mut b = Carry::default();
         assert!(line("sql", "select * from t -- c", &mut b)
             .contains(r#"<span class="kw">select</span>"#));
         assert!(line("toml", "a = \"b\" # c", &mut b).contains(r#"<span class="cm"># c</span>"#));
