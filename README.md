@@ -4,8 +4,8 @@ An experimental linter for [mozilla/application-services](https://github.com/moz
 Each of its 91 rules is something reviewers kept asking for in PR reviews between 2022 and 2026. Every rule
 links to the review comments it came from and lists what it finds in application-services today.
 
-The docs site is built from this repository: `cargo run --release -- site --report report/findings.json --out site`,
-then open `site/index.html`.
+**Rules site: https://almaju.github.io/varlope/** (rebuilt on every push to `main`; locally:
+`cargo run --release -- site --report report/findings.json --out site`).
 
 ## Use
 
