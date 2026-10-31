@@ -1,13 +1,15 @@
+--- a/components/ads-client/src/http_cache/connection_initializer.rs
++++ b/components/ads-client/src/http_cache/connection_initializer.rs
+@@ -10,1 +10,1 @@ impl ConnectionInitializer for HttpCacheConnectionInitializer {
 -    const END_VERSION: u32 = 2;
 +    const END_VERSION: u32 = 3;
-@@ fn init(&self, tx: &rusqlite::Transaction<'_>) @@
+@@ -14,2 +14,3 @@ fn init(&self, tx: &rusqlite::Transaction<'_>) -> open_database::Result<()> {
+             "CREATE TABLE IF NOT EXISTS http_cache (…);
 +            CREATE INDEX IF NOT EXISTS idx_http_cache_url ON http_cache(request_url);
-@@ fn upgrade_from(&self, conn: &rusqlite::Transaction<'_>, version: u32) @@
+             ",
+@@ -55,1 +56,4 @@ fn upgrade_from(&self, conn: &rusqlite::Transaction<'_>, version: u32) -> open_database::Result<()> {
+             1 => { /* … */ }
 +            2 => Ok(conn.execute_batch(
-+                "CREATE INDEX IF NOT EXISTS idx_http_cache_url
-+                 ON http_cache(request_url);",
++                "CREATE INDEX IF NOT EXISTS idx_http_cache_url ON http_cache(request_url);",
 +            )?),
-@@ mod tests: fn test_all_upgrades() @@
-+        let db = MigratedDatabaseFile::new(HttpCacheConnectionInitializer {}, V2_SCHEMA);
-+        db.run_all_upgrades();
-+        db.assert_schema_matches_new_database();
+             _ => Err(open_database::Error::IncompatibleVersion(version)),

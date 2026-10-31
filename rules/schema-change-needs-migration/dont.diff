@@ -1,6 +1,11 @@
-     const END_VERSION: u32 = 2; // flagged: schema changed, END_VERSION not bumped
-@@ fn init(&self, tx: &rusqlite::Transaction<'_>) @@
-+            CREATE INDEX IF NOT EXISTS idx_http_cache_url ON http_cache(request_url);
-@@ fn upgrade_from(&self, conn: &rusqlite::Transaction<'_>, version: u32) @@
-             1 => { /* … */ }
-             _ => Err(open_database::Error::IncompatibleVersion(version)),
+--- a/components/ads-client/src/http_cache/connection_initializer.rs
++++ b/components/ads-client/src/http_cache/connection_initializer.rs
+@@ -10,8 +10,9 @@ impl ConnectionInitializer for HttpCacheConnectionInitializer {
+     const END_VERSION: u32 = 2;
+ 
+     fn init(&self, tx: &rusqlite::Transaction<'_>) -> open_database::Result<()> {
+         tx.execute_batch(
+             "CREATE TABLE IF NOT EXISTS http_cache (…);
++            CREATE INDEX IF NOT EXISTS idx_http_cache_url ON http_cache(request_url); -- flagged
+             ",
+         )?;
