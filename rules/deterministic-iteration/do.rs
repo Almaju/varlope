@@ -1,6 +1,6 @@
-fn engines_in_sync_order(engines: &BTreeSet<SyncEngineId>) -> Vec<SyncEngineId> {
+fn engines_to_sync(engines: &BTreeSet<SyncEngineId>) -> Vec<SyncEngineId> {
     let mut order = Vec::new();
-    for id in engines { // priority order, from SyncEngineId's derived Ord
+    for id in engines { // SyncEngineId's derived `Ord` gives a stable order
         order.push(id.clone());
     }
     order

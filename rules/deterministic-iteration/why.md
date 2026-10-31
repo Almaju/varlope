@@ -1,1 +1,1 @@
-HashMap iteration made FML output nondeterministic and sync engine order random, and tests relied on serde_json Map order that only came from workspace feature unification.
+`HashMap`/`HashSet` iteration order is random and changes between runs, so anything built by walking one (generated Kotlin/Swift from nimbus-fml, the order engines sync in, query results, rows written to disk) changes for no reason, which makes diffs, snapshots and bugs hard to reproduce. Iterate a `BTreeMap`/`BTreeSet`, or sort before the order becomes visible.
