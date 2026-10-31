@@ -1,0 +1,1348 @@
+{
+  "repo": "mozilla/application-services",
+  "sha": "a22b5318ea47192e8b65af5ebde6ec0e21ed5be5",
+  "date": "2026-10-31",
+  "clippy": false,
+  "rules": [
+    {
+      "id": "uniffi-api-break-gate",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Detect binding API changes and require a ⚠️ Breaking Changes entry",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-public-errors-actionable",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Keep public error enums small and actionable; one reported catch-all with a reason",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-docstrings",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Every exported item has a `///` docstring (it is what Kotlin/Swift consumers see)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-record-defaults",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Optional/new Record fields get a UniFFI default that matches Rust's `Default`; avoid `Option<Vec<_>>`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-typed-values",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Expose typed values over FFI (enums, Url, timestamps), not strings, magic ints or raw JSON",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-unique-exported-names",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Exported names must be unique across the megazord (Swift has one flat module)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-names-read-well",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Exported names must read well in Kotlin/Swift and say what they do",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-no-panic-across-ffi",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Never panic in lifts, custom-type conversions or exported constructors",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-thin-ffi-layer",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Keep the FFI layer thin: `Arc`, builders and serde stay at the boundary",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-handle-error",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Exported fallible functions return `ApiResult` via `#[handle_error]`; internal code uses the crate `Error`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-no-test-only-exports",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Don't export test-only helpers over FFI",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-callback-contract",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "Callback interfaces return `Result`, are released on shutdown, and user-waiting calls are async",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "uniffi-udl-proc-macro-consistency",
+      "area": "uniffi",
+      "area_title": "UniFFI & bindings",
+      "title": "UDL and proc-macro declarations agree; new code uses proc-macros",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-unwrap-in-component-code",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "No `unwrap()`/`expect()`/`panic!` in non-test component code",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::unwrap_used",
+        "clippy::expect_used",
+        "clippy::panic"
+      ]
+    },
+    {
+      "id": "dont-swallow-errors",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "Don't silently discard errors (`let _ =`, `.ok()`, `if let Ok`, `_ => None`)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::let_underscore_must_use",
+        "clippy::map_err_ignore"
+      ]
+    },
+    {
+      "id": "error-report-labels",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "`report_error!` labels are component-prefixed, unique, and not on hot paths",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-panicking-index-or-arith",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "No panicking indexing/slicing or unchecked arithmetic on external sizes and timestamps",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::indexing_slicing",
+        "clippy::cast_possible_truncation",
+        "clippy::cast_sign_loss"
+      ]
+    },
+    {
+      "id": "preserve-error-sources",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "Keep error sources typed (`#[from]`), not stringified or mapped to an unrelated variant",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "utf8-safe-truncation",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "Never truncate or slice strings at byte offsets",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::string_slice",
+        "clippy::disallowed_methods"
+      ]
+    },
+    {
+      "id": "http-status-checked",
+      "area": "errors",
+      "area_title": "Errors & panics",
+      "title": "Check the HTTP status before using a response body; only explicit success is success",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "schema-change-needs-migration",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Any schema change bumps `VERSION`, adds an `upgrade_from` step and an upgrade test",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "schema-constraints",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Columns declare NOT NULL/keys, FKs declare ON DELETE and are indexed, new indexes are justified",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "use-sql-support",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Use `sql_support` helpers (`ConnExt`, cached statements, `ConnectionInitializer`) instead of raw rusqlite",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-per-item-queries",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "No per-item queries/requests in loops; long loops check for interruption",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "sqlite-footguns",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "SQLite footguns: `INSERT OR REPLACE`, `COUNT(*)` for existence, `LIKE` prefix, unsafe `LOWER()`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "migration-code-frozen",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Migrations use frozen SQL and fixtures; tests assert the `VERSION` constant",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "sql-formatting",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Format SQL embedded in Rust strings consistently",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "pragmas-centralized",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "PRAGMAs are set only in the connection initializer and documented",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "transaction-must-commit",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Every transaction bound to a variable is committed (drop = silent rollback)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "rs-record-cleanup",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Tables filled from Remote Settings records carry `record_id` and are cleaned on deletion",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "persisted-values-stable",
+      "area": "sql",
+      "area_title": "SQL & storage",
+      "title": "Persisted enum discriminants and hashes are stable",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::disallowed_types"
+      ]
+    },
+    {
+      "id": "tolerant-remote-deserialization",
+      "area": "remote",
+      "area_title": "Remote data",
+      "title": "Types deserialized from server/Remote Settings data tolerate absent and unknown values",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "sync-payload-compat",
+      "area": "remote",
+      "area_title": "Remote data",
+      "title": "Sync payloads round-trip unknown fields and tolerate nulls",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-callbacks-or-io-under-lock",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "Never call foreign callbacks, do network I/O, or re-lock while holding a store lock",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::significant_drop_tightening",
+        "clippy::significant_drop_in_scrutinee"
+      ]
+    },
+    {
+      "id": "lock-once-per-operation",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "Acquire a lock once per operation, at the layer that owns the state",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "parking-lot-locks",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "Use `parking_lot` locks, not `std::sync::Mutex`/`RwLock`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::disallowed_types"
+      ]
+    },
+    {
+      "id": "no-blocking-io-in-constructors",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "No disk/network I/O in constructors of exported objects",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "no-global-mutable-statics",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "No `static Mutex<…>` caches for state that belongs in the DB or a struct",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "arc-try-unwrap-clone",
+      "area": "concurrency",
+      "area_title": "Concurrency",
+      "title": "`Arc::try_unwrap(x.clone())` always fails",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-pii-in-logs",
+      "area": "privacy",
+      "area_title": "Logging & privacy",
+      "title": "No URLs, titles, usernames or record payloads in logs, errors or reports",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "tracing-support-logging",
+      "area": "privacy",
+      "area_title": "Logging & privacy",
+      "title": "Log through `tracing_support`, not the `log` crate",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::disallowed_macros"
+      ]
+    },
+    {
+      "id": "spellcheck",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Spell-check identifiers, comments, docs, UDL and CHANGELOG",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "license-header-and-whitespace",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Every source file starts with the MPL-2.0 header and ends with a newline",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "docs-in-sync",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Doc comments reference things that exist (intra-doc links, stale names)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "changelog-format",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "CHANGELOG edits go in the in-progress section, under a component heading, with a PR link",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "explain-magic-values",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Name and explain magic values and non-obvious intent",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "changelog-required",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Consumer-visible component changes need a CHANGELOG.md entry",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "todo-needs-bug",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "TODO/FIXME/XXX must reference a bug",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "doc-comment-format",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "Well-formed doc comments: `///` for items, `//!` for modules, fenced examples",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::empty_line_after_doc_comments",
+        "clippy::doc_lazy_continuation"
+      ]
+    },
+    {
+      "id": "docs-index-and-adr",
+      "area": "docs",
+      "area_title": "Docs & CHANGELOG",
+      "title": "New docs are linked from SUMMARY.md; ADRs have complete metadata; links are permalinks",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "remove-dead-pub-code",
+      "area": "dead-code",
+      "area_title": "Dead code",
+      "title": "Remove unused pub items, error variants and columns that rustc can't see",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "expect-with-reason",
+      "area": "dead-code",
+      "area_title": "Dead code",
+      "title": "No blanket `#[allow(dead_code|unused)]`; use `#[cfg]` or `#[expect(…, reason = …)]`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::allow_attributes_without_reason"
+      ]
+    },
+    {
+      "id": "no-unused-deps",
+      "area": "dead-code",
+      "area_title": "Dead code",
+      "title": "No unused or misplaced dependencies",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-commented-out-code",
+      "area": "dead-code",
+      "area_title": "Dead code",
+      "title": "Delete commented-out code",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-debug-leftovers",
+      "area": "dead-code",
+      "area_title": "Dead code",
+      "title": "No `println!`/`eprintln!`/`dbg!` (or `printStackTrace`/`print`) in shipped code",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::dbg_macro",
+        "clippy::print_stdout",
+        "clippy::print_stderr"
+      ]
+    },
+    {
+      "id": "option-result-combinators",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Use Option/Result combinators and `let-else` instead of manual matches",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::manual_let_else",
+        "clippy::option_if_let_else",
+        "clippy::map_unwrap_or",
+        "clippy::unnecessary_wraps",
+        "clippy::match_same_arms",
+        "clippy::if_not_else",
+        "clippy::redundant_closure_for_method_calls"
+      ]
+    },
+    {
+      "id": "needless-clones",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Avoid needless clones and allocations; write `Arc::clone(&x)`",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::redundant_clone",
+        "clippy::implicit_clone",
+        "clippy::str_to_string",
+        "clippy::clone_on_ref_ptr",
+        "clippy::inefficient_to_string"
+      ]
+    },
+    {
+      "id": "pedantic-subset",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "A small curated pedantic subset (derives, unit structs, `Default` use)",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::uninlined_format_args",
+        "clippy::semicolon_if_nothing_returned",
+        "clippy::default_trait_access",
+        "clippy::empty_structs_with_brackets",
+        "clippy::empty_enum_variants_with_brackets"
+      ]
+    },
+    {
+      "id": "rustfmt-config",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Let rustfmt own imports and layout (incl. inside macros)",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::wildcard_imports",
+        "unused_qualifications"
+      ]
+    },
+    {
+      "id": "collection-idioms",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Use `collect`/`extend`/entry API; compile regexes once",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::needless_collect",
+        "clippy::explicit_iter_loop"
+      ]
+    },
+    {
+      "id": "borrowed-params",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Take `&str`/`&[T]`/`Option<&T>` instead of `String`/`&Vec<T>`/`&Option<T>`",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::needless_pass_by_value",
+        "clippy::ref_option",
+        "clippy::trivially_copy_pass_by_ref"
+      ]
+    },
+    {
+      "id": "exhaustive-matches",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "No wildcard arms on domain enums; destructure fully in merge/hash/eq impls",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::wildcard_enum_match_arm",
+        "clippy::match_wildcard_for_single_variants"
+      ]
+    },
+    {
+      "id": "unsafe-and-nss",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Every `unsafe` block has a `// SAFETY:` comment; NSS allocations use RAII",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::undocumented_unsafe_blocks"
+      ]
+    },
+    {
+      "id": "duplicated-code",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Don't copy-paste logic; reuse existing helpers",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "deterministic-iteration",
+      "area": "idioms",
+      "area_title": "Rust idioms",
+      "title": "Don't let HashMap/HashSet order leak into results, storage or generated output",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::iter_over_hash_type"
+      ]
+    },
+    {
+      "id": "naming",
+      "area": "api",
+      "area_title": "API design & naming",
+      "title": "Descriptive identifiers: no cryptic abbreviations, follow Rust API naming",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": [
+        "clippy::disallowed_names"
+      ]
+    },
+    {
+      "id": "minimal-visibility",
+      "area": "api",
+      "area_title": "API design & naming",
+      "title": "Use the narrowest visibility (`pub(crate)`/private)",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "unreachable_pub"
+      ]
+    },
+    {
+      "id": "url-hygiene",
+      "area": "api",
+      "area_title": "API design & naming",
+      "title": "Build URLs with `url::Url`, never by string concat; no hard-coded endpoints",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-bool-params",
+      "area": "api",
+      "area_title": "API design & naming",
+      "title": "Replace boolean flags/positional tuples with enums or named structs",
+      "kind": "clippy",
+      "kind_label": "clippy lints (via varlope)",
+      "clippy": [
+        "clippy::fn_params_excessive_bools",
+        "clippy::struct_excessive_bools"
+      ]
+    },
+    {
+      "id": "typed-time-and-units",
+      "area": "api",
+      "area_title": "API design & naming",
+      "title": "Typed durations, sizes and timestamps; don't substitute `now` for bad data",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "dependency-vetting",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "New/bumped crates must be vetted and compatible with mozilla-central",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "compile-everything-on-pr",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "Every PR compiles all targets that a change can break (wrappers, examples, tests, taskgraph)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "component-wiring",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "New/renamed components are registered everywhere (megazords, uniffi.toml, Swift, Gradle, CI)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "cargo-feature-hygiene",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "Optional deps and the code that uses them sit behind the same feature; check every combination",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "version-sync",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "One UniFFI/Glean version everywhere; toolchain versions in sync; no accidental submodule moves",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "generated-files-untouched",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "Don't hand-edit generated files or commit unrelated churn",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "crate-manifest",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "New crate manifests: license, description, `exclude` platform dirs, no deps on `examples/`",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "build-rs-hygiene",
+      "area": "deps",
+      "area_title": "Dependencies & build",
+      "title": "`build.rs` writes only to `OUT_DIR`, doesn't shell out, fails with actionable messages",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "test-isolation",
+      "area": "tests",
+      "area_title": "Tests",
+      "title": "Tests are isolated: no wall clock, shared global state, fixed DB paths or prod endpoints",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "tests-with-behaviour",
+      "area": "tests",
+      "area_title": "Tests",
+      "title": "New behaviour comes with tests in the same PR",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "test-structure",
+      "area": "tests",
+      "area_title": "Tests",
+      "title": "Focused, descriptively named tests; shared fixtures via helpers",
+      "kind": "review",
+      "kind_label": "varlope hints, for review",
+      "clippy": []
+    },
+    {
+      "id": "meaningful-assertions",
+      "area": "tests",
+      "area_title": "Tests",
+      "title": "Tests must actually assert: no bare `matches!`, mockito mocks asserted, messages match",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "shell-strict-shellcheck",
+      "area": "scripts",
+      "area_title": "Scripts & CI",
+      "title": "Shell scripts use `set -euo pipefail` and stay portable (shellcheck alone misses both)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "pin-ci-tools",
+      "area": "scripts",
+      "area_title": "Scripts & CI",
+      "title": "Pin CI tools, images and actions (no `:latest`, current major of actions)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "python-ruff",
+      "area": "scripts",
+      "area_title": "Scripts & CI",
+      "title": "Python automation is formatted and linted (ruff) and exits non-zero on failure",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "kotlin-gradle-misc",
+      "area": "mobile",
+      "area_title": "Kotlin & Swift",
+      "title": "Kotlin/Gradle hygiene: injectable dispatchers, KDoc params, lazy task APIs, no lint baselines",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "no-force-unwrap-wrappers",
+      "area": "mobile",
+      "area_title": "Kotlin & Swift",
+      "title": "No `!!`/force unwraps/force casts in Kotlin & Swift wrappers (incl. FML-generated code)",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "swift-access-control",
+      "area": "mobile",
+      "area_title": "Kotlin & Swift",
+      "title": "Swift: explicit access control for consumer-facing API",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "wrappers-in-sync",
+      "area": "mobile",
+      "area_title": "Kotlin & Swift",
+      "title": "Hand-written Kotlin/Swift wrappers stay in sync with the Rust API and don't redefine UDL types",
+      "kind": "diff",
+      "kind_label": "varlope, on the PR diff",
+      "clippy": []
+    },
+    {
+      "id": "glean-metrics-yaml",
+      "area": "nimbus-glean",
+      "area_title": "Nimbus & Glean",
+      "title": "Validate metrics.yaml: bugs, data reviews, notification emails, expiry",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    },
+    {
+      "id": "fml-hygiene",
+      "area": "nimbus-glean",
+      "area_title": "Nimbus & Glean",
+      "title": "FML: pinned remote imports, backward-compatible manifests, clean templates and fixtures",
+      "kind": "code",
+      "kind_label": "varlope, on the code",
+      "clippy": []
+    }
+  ],
+  "findings": [
+    {
+      "rule": "changelog-required",
+      "path": "components/ads-client/src/ads.rs",
+      "line": 21,
+      "column": 1,
+      "message": "24 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "3f49809a333c8a59ad565b53cee898952ad0ce55"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/ads-client/src/ads.rs",
+      "line": 91,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "eba864f98b7ce6823e41c21c15adca7d6a778ea0"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/ads-client/src/ads_store.rs",
+      "line": 8,
+      "column": 1,
+      "message": "12 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "9d3b1783c753f497a0f2489fc4b14653a3dc0ecc"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/ads-client/src/ads_store.rs",
+      "line": 10,
+      "column": 1,
+      "message": "14 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "47b9efa112d5dc6adee6b757703742e5c19022f6"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/autofill/src/autofill.udl",
+      "line": 237,
+      "column": 1,
+      "message": "`Store` is generic enough to collide in the shared Swift module; prefix it (e.g. `AutofillStore`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/context_id/src/error.rs",
+      "line": 11,
+      "column": 1,
+      "message": "`ApiError` is generic enough to collide in the shared Swift module; prefix it (e.g. `ContextIdApiError`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/fxa-client/src/internal/mod.rs",
+      "line": 265,
+      "column": 1,
+      "message": "3 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "a139f7b26184bf8d2f5171ca8ba9fb166dbf0329"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/fxa-client/src/state_machine/transitions.rs",
+      "line": 166,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "97fadb81fa3e7578c72c977ed66f6ae63be0e45d"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/fxa-client/src/state_machine/transitions.rs",
+      "line": 167,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "5669cd6363d4a4fe76c5f285dbe4d2f4f806b181"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/init_rust_components/src/lib.rs",
+      "line": 22,
+      "column": 1,
+      "message": "`initialize` is generic enough to collide in the shared Swift module; prefix it (e.g. `init_rust_components_initialize`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/remote_settings/src/client.rs",
+      "line": 99,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "001271d538d66f8627ebcd8151c7b5fef8a023d3"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/remote_settings/src/client.rs",
+      "line": 830,
+      "column": 1,
+      "message": "`Attachment` is generic enough to collide in the shared Swift module; prefix it (e.g. `RemoteSettingsAttachment`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/search/src/configuration_types.rs",
+      "line": 9,
+      "column": 1,
+      "message": "4 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "942998740a1e2d8e3ffa6aecfaa710a2bde2e53a"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/support/error/src/error_tracing.rs",
+      "line": 35,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "d08654572909316a1ea1b4383ae7788c27dd25e1"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/support/rust-log-forwarder/src/lib.rs",
+      "line": 17,
+      "column": 1,
+      "message": "`Record` is generic enough to collide in the shared Swift module; prefix it (e.g. `RustLogForwarderRecord`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/support/rust-log-forwarder/src/lib.rs",
+      "line": 27,
+      "column": 1,
+      "message": "`Level` is generic enough to collide in the shared Swift module; prefix it (e.g. `RustLogForwarderLevel`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/sync_manager/src/error.rs",
+      "line": 7,
+      "column": 1,
+      "message": "5 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "afd9e477f3ccb108c618360132cdd4e2c91b35ae"
+    },
+    {
+      "rule": "changelog-required",
+      "path": "components/viaduct/android/src/main/java/mozilla/appservices/viaduct/FetchBackend.kt",
+      "line": 7,
+      "column": 1,
+      "message": "1 consumer-visible file(s) changed but CHANGELOG.md was not touched",
+      "origin": "varlope",
+      "commit": "d4057dd5972a7c83aa279f4f342d42f4b163222c"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/viaduct/src/backend.rs",
+      "line": 15,
+      "column": 1,
+      "message": "`Backend` is generic enough to collide in the shared Swift module; prefix it (e.g. `ViaductBackend`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/viaduct/src/lib.rs",
+      "line": 42,
+      "column": 1,
+      "message": "`Method` is generic enough to collide in the shared Swift module; prefix it (e.g. `ViaductMethod`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/viaduct/src/lib.rs",
+      "line": 78,
+      "column": 1,
+      "message": "`Request` is generic enough to collide in the shared Swift module; prefix it (e.g. `ViaductRequest`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/viaduct/src/lib.rs",
+      "line": 260,
+      "column": 1,
+      "message": "`Response` is generic enough to collide in the shared Swift module; prefix it (e.g. `ViaductResponse`)",
+      "origin": "varlope"
+    },
+    {
+      "rule": "uniffi-unique-exported-names",
+      "path": "components/viaduct/src/lib.rs",
+      "line": 427,
+      "column": 1,
+      "message": "`Headers` is generic enough to collide in the shared Swift module; prefix it (e.g. `ViaductHeaders`)",
+      "origin": "varlope"
+    }
+  ],
+  "commits": [
+    {
+      "sha": "a22b5318ea47192e8b65af5ebde6ec0e21ed5be5",
+      "subject": "review-insights: catch method-form report_error labels",
+      "pr": null
+    },
+    {
+      "sha": "d74a93b293cc9388b9b57026ccd9ec63b73ab6f9",
+      "subject": "review-insights: note ADRs missing from docs/SUMMARY.md",
+      "pr": null
+    },
+    {
+      "sha": "9f0b460aed4219a5882757f3ed2d9d46d34f44cd",
+      "subject": "Add review-insights: lint rules mined from PR review history",
+      "pr": null
+    },
+    {
+      "sha": "53354393fa810eb995d9ce5401fcce33d24e97e1",
+      "subject": "Bug 2085717 - Keep the stored CVV when a credit card update omits it (#7687)",
+      "pr": 7687
+    },
+    {
+      "sha": "fb0db34242f9511db0978aec6fb04ff592e06fa0",
+      "subject": "Updated docs and libs to account for unsupported gyp (#7671)",
+      "pr": 7671
+    },
+    {
+      "sha": "e1f3ac925e24386bf6223dc5db2171169cad295a",
+      "subject": "Bug 2084735 - Update to reqwest 0.13.5 in viaduct-backend-rust (#7677)",
+      "pr": 7677
+    },
+    {
+      "sha": "d036deff57e372fcb462e73427d225a3af1982c1",
+      "subject": "Bug 2047640 - Cut ads-client telemetry strings to Glean's 255-byte limit (#7680)",
+      "pr": 7680
+    },
+    {
+      "sha": "9d73b60fd59ab11fd4947cc8e3b5e271a7127f4b",
+      "subject": "Bug 2085007 - Address cargo audit errors in application-services (#7683)",
+      "pr": 7683
+    },
+    {
+      "sha": "9ef6d76c70ec8be772769328a12c90fa2ce710d8",
+      "subject": "Bug 1941569 - Leverage server error responses content in client errors (#7672)",
+      "pr": 7672
+    },
+    {
+      "sha": "d67c6260ee7c9a870a9ee48859a6a7558a06a9e8",
+      "subject": "Start release v161.0 (#7681)",
+      "pr": 7681
+    },
+    {
+      "sha": "eba864f98b7ce6823e41c21c15adca7d6a778ea0",
+      "subject": "feat: Ads-Client Provides fix for images_or_spocs ordering issue (#7676)",
+      "pr": 7676
+    },
+    {
+      "sha": "a139f7b26184bf8d2f5171ca8ba9fb166dbf0329",
+      "subject": "Bug 2084274 - clear the logged_out_from_auth_issues state (#7673)",
+      "pr": 7673
+    },
+    {
+      "sha": "a7ba20dbf5f091b8db1db3b573f8d20374667026",
+      "subject": "No bug - Add remote-settings team as codeowner for RS directories (#7675)",
+      "pr": 7675
+    },
+    {
+      "sha": "5669cd6363d4a4fe76c5f285dbe4d2f4f806b181",
+      "subject": "Bug 2084260 - move to AuthIssues when there's no refresh/session token (#7674)",
+      "pr": 7674
+    },
+    {
+      "sha": "97fadb81fa3e7578c72c977ed66f6ae63be0e45d",
+      "subject": "Bug 2084252, revert 2060539 for iOS (#7670)",
+      "pr": 7670
+    },
+    {
+      "sha": "cb05b484d15d9339de7ee2546d48feab36e3a3ed",
+      "subject": "fix: adds request_spoc_or_image_ads to fix deserialization error (#7663)",
+      "pr": 7663
+    },
+    {
+      "sha": "4be71acad0d62d7360292c882cd63c76bd51b169",
+      "subject": "Bug 2081305 - Add studies and rollouts opt out events (#7656)",
+      "pr": 7656
+    },
+    {
+      "sha": "c53dcc11ef64e471c895e6fbb7d4043ffe1de48a",
+      "subject": "No bug - Fix changelog entries for 159 and 160 (#7668)",
+      "pr": 7668
+    },
+    {
+      "sha": "24417f0c7e8b79bc31234c4819cb26cbf7070bac",
+      "subject": "Bug 2053517 - Revert 4a8546f9b047 and 36f1b0ea4bcd for build breakage (#7664)",
+      "pr": 7664
+    },
+    {
+      "sha": "4a8546f9b0477c34696429db16f8b441a4cd8d5c",
+      "subject": "Bug 2053517 - Remove more shared preferences gunk (#7660)",
+      "pr": 7660
+    },
+    {
+      "sha": "001271d538d66f8627ebcd8151c7b5fef8a023d3",
+      "subject": "Bug 2082570 - Add dumps for search config v3 and update other search related dumps (#7659)",
+      "pr": 7659
+    },
+    {
+      "sha": "2e13f43757f42250a1674e191f91f6de4d70bdfc",
+      "subject": "Upgrade rustls (#7655)",
+      "pr": 7655
+    },
+    {
+      "sha": "03b5b85d867e948f8f929b75e7384d0c4aa71b96",
+      "subject": "Bug 2080694 - Make sync15 cope with meta/global records written by per-device-choice clients (#7651)",
+      "pr": 7651
+    },
+    {
+      "sha": "9be28d24cbc806eea2d9af5258a28ae6ded5080b",
+      "subject": "Bug 2080209 - List credit cards without decrypting them (#7650)",
+      "pr": 7650
+    },
+    {
+      "sha": "d785f1dcb08b18f319ba8956b15cc7e79ee0aeb0",
+      "subject": "ads-client: make telemetry a singleton with the glean-sym API (#7653)",
+      "pr": 7653
+    },
+    {
+      "sha": "d08654572909316a1ea1b4383ae7788c27dd25e1",
+      "subject": "Fix breadcrumbs field in error support (#7658)",
+      "pr": 7658
+    },
+    {
+      "sha": "36f1b0ea4bcd28df6e43fea0054986f283faa518",
+      "subject": "Bug 2053517 - Remove pref-key support (#7559)",
+      "pr": 7559
+    },
+    {
+      "sha": "c0f2af40e5d6ef4f9fa673e48ba3218921a3ed32",
+      "subject": "AC-206: include relevance scores in tile ad requests (#7647)",
+      "pr": 7647
+    },
+    {
+      "sha": "7afac3d5d04ee81490e9a0947216c1ea15addd57",
+      "subject": "Bug 2081454 - Go back to kotlin-pointer-ffi (#7654)",
+      "pr": 7654
+    },
+    {
+      "sha": "7389c969a63e2bf9065279c1b8d4e92b4826feb2",
+      "subject": "Bug 2068685 - Support env.distribution in filter expressions (#7574)",
+      "pr": 7574
+    },
+    {
+      "sha": "bf6e952d382a7b2e445600e6e591f12f92210b05",
+      "subject": "Bug 2074008 - Expose a bridged sync engine for credit cards (#7648)",
+      "pr": 7648
+    },
+    {
+      "sha": "5e4145e5cec37f3f55a92f516451a5481e5d8913",
+      "subject": "Bug 2076154 - Store an optional CVV encrypted alongside the card number (#7631)",
+      "pr": 7631
+    },
+    {
+      "sha": "ec31dc5b4a91bff3749222090a8f8eef4b70cb56",
+      "subject": "Bug 2050097 - Add AI engine classification to search-config-v3. (#7646)",
+      "pr": 7646
+    },
+    {
+      "sha": "28bf907d4ef0ed00098c806be0fa9cf5241f1b42",
+      "subject": "Bug 2061724 - Create new enumerations for search-config-v3 which handle backward compatibility and add new per-platform Firefox desktop application names (#7645)",
+      "pr": 7645
+    },
+    {
+      "sha": "942998740a1e2d8e3ffa6aecfaa710a2bde2e53a",
+      "subject": "Bug 2063272 - Change Partner Code structures for search-config-v3 to include maps for search access point. (#7633)",
+      "pr": 7633
+    },
+    {
+      "sha": "b37772c8b17cdbaae92c3790ece521d069fd25b9",
+      "subject": "Bug 2063260 - Set up new SearchEngineSelector APIs on application-services for accessing search-config-v3. (#7632)",
+      "pr": 7632
+    },
+    {
+      "sha": "f6fed0754ab425ad2d91fa02e36bb2fcd087e464",
+      "subject": "Bug 2011695 - Wire up the Glean error ping on iOS (#7636)",
+      "pr": 7636
+    },
+    {
+      "sha": "f22774fb1bed92801709e499d7718ed61d4b42e9",
+      "subject": "Bug 2080807 - Move create_static_key_manager and create_managed_encdec to db-crypto (#7652)",
+      "pr": 7652
+    },
+    {
+      "sha": "47b9efa112d5dc6adee6b757703742e5c19022f6",
+      "subject": "AC-208 Use LazyDB to encapsulate required locks in AdsClient (#7642)",
+      "pr": 7642
+    },
+    {
+      "sha": "d3dbcf19b62a42f6a9d8fc0d88ba5507aee2ba76",
+      "subject": "Downgrade docker back to ubuntu 22.04 (#7649)",
+      "pr": 7649
+    },
+    {
+      "sha": "d3a08867770575f22479f3a4699760af324a0417",
+      "subject": "Bug 1652558 - Export SimpleEventFilter from tracing-support (#7635)",
+      "pr": 7635
+    },
+    {
+      "sha": "a3e82ce2c7eba655c7a88310c01212834b1af7a2",
+      "subject": "Bug 2067851 - `viaduct-hyper` -> `viaduct-backend-rust` (#7596)",
+      "pr": 7596
+    },
+    {
+      "sha": "d4057dd5972a7c83aa279f4f342d42f4b163222c",
+      "subject": "Bug 2079421 - pre-allocate viaduct buffer (#7641)",
+      "pr": 7641
+    },
+    {
+      "sha": "16af03eecd47bcf3bf31676ba56b885beb372504",
+      "subject": "Bug 2078892 - update docker image bases (#7640)",
+      "pr": 7640
+    },
+    {
+      "sha": "e57fe2900f7b979d13aefb4eef32aed43e7ee772",
+      "subject": "Bug 2075563 - Integrate EncryptorDecryptor into the autofill database (#7573)",
+      "pr": 7573
+    },
+    {
+      "sha": "6e71adad77918de1f7c9f58226deb4043792c4ff",
+      "subject": "Start release v160.0 (#7644)",
+      "pr": 7644
+    },
+    {
+      "sha": "afd9e477f3ccb108c618360132cdd4e2c91b35ae",
+      "subject": "Replace sync_manager.udl with uniffi macros. (#7637)",
+      "pr": 7637
+    },
+    {
+      "sha": "3f49809a333c8a59ad565b53cee898952ad0ce55",
+      "subject": "style(ads-client): sort declarations, fields and literals (#7612)",
+      "pr": 7612
+    },
+    {
+      "sha": "9d3b1783c753f497a0f2489fc4b14653a3dc0ecc",
+      "subject": "refactor(ads-client): move pop_request_hash_from_url onto RequestHash and drop common (#7613)",
+      "pr": 7613
+    }
+  ]
+}
