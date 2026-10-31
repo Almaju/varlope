@@ -246,10 +246,18 @@ fn declaration_line(text: &str, dep: &Dependency) -> Option<usize> {
 fn removal(text: &str, line: usize, name: &str, to_dev: bool) -> Option<Fix> {
     let lines: Vec<&str> = text.lines().collect();
     let count = declaration_len(&lines, line)?;
-    let mut edits = vec![Edit {
-        line,
-        remove: count,
-        insert: Vec::new(),
+    let mut edits = vec![match emptied_table(&lines, line, count) {
+        // The table's last key: the header goes too, with the blank line before it.
+        Some(start) if !to_dev => Edit {
+            line: start,
+            remove: line + count - start,
+            insert: Vec::new(),
+        },
+        _ => Edit {
+            line,
+            remove: count,
+            insert: Vec::new(),
+        },
     }];
     if to_dev {
         let declaration: Vec<String> = lines[line - 1..line - 1 + count]
@@ -284,6 +292,28 @@ fn removal(text: &str, line: usize, name: &str, to_dev: bool) -> Option<Fix> {
     }
     edits.sort_by_key(|e| e.line);
     Some(Fix { edits })
+}
+
+/// When the declaration at `line` (`count` lines) is the only thing in its
+/// table, the first line to delete with it: the header, or the blank line
+/// before the header.
+fn emptied_table(lines: &[&str], line: usize, count: usize) -> Option<usize> {
+    let index = line.checked_sub(1)?;
+    let header = (0..index)
+        .rev()
+        .find(|&i| lines[i].trim_start().starts_with('['))?;
+    let after = index + count;
+    let next = (after..lines.len())
+        .find(|&i| lines[i].trim_start().starts_with('['))
+        .unwrap_or(lines.len());
+    let others = (header + 1..next)
+        .filter(|&i| i < index || i >= after)
+        .any(|i| !lines[i].trim().is_empty());
+    if others {
+        return None;
+    }
+    let blank_before = header > 0 && lines[header - 1].trim().is_empty();
+    Some(if blank_before { header } else { header + 1 })
 }
 
 /// How many lines the declaration starting at `line` takes (`x = { …,\n
@@ -493,6 +523,19 @@ mod tests {
             ],
         );
         assert!(found.is_empty(), "{found:#?}");
+    }
+
+    #[test]
+    fn removing_a_tables_last_key_removes_the_table() {
+        let text = "[dev-dependencies]\nmockall = \"0.13\"\n\n[build-dependencies]\nuniffi = { version = \"0.29\", features = [\"build\"] }\n";
+        let fix = super::removal(text, 5, "uniffi", false).unwrap();
+        let edits: Vec<_> = fix.edits.iter().map(|e| (e.line, e.remove)).collect();
+        assert_eq!(edits, vec![(3, 3)]);
+        // Another key left: only the declaration goes.
+        let text = "[dev-dependencies]\nmockall = \"0.13\"\nmockito = \"0.31\"\n";
+        let fix = super::removal(text, 2, "mockall", false).unwrap();
+        let edits: Vec<_> = fix.edits.iter().map(|e| (e.line, e.remove)).collect();
+        assert_eq!(edits, vec![(2, 1)]);
     }
 
     #[test]

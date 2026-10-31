@@ -54,6 +54,9 @@ pub fn run(root: &Path, ws: &Workspace, rules: &[&'static Rule]) -> Result<Vec<F
     cmd.args([
         "clippy",
         "--workspace",
+        // Feature-gated code is linted too, and visibility is judged with
+        // every public module present.
+        "--all-features",
         "--lib",
         "--message-format=json",
         "--quiet",
