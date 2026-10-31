@@ -1,7 +1,7 @@
 [dependencies]
 error-support = { path = "../support/error" }
-ffi-support = "0.4" # flagged: unused (cargo machete)
-mockito = { version = "0.31", default-features = false } # flagged: test-only crate
+ffi-support = "0.4" # flagged: nothing in the crate uses it
+mockito = "0.31"
 sql-support = { path = "../support/sql" }
 url = "2.1"
 

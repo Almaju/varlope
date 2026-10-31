@@ -5,4 +5,4 @@ url = "2.1"
 
 [dev-dependencies]
 env_logger = { version = "0.10", default-features = false }
-mockito = { version = "0.31", default-features = false }
+mockito = "0.31"

@@ -1,9 +1,13 @@
-fn record_impression(&self, ad: &Ad) -> Result<()> {
-    let url = match &ad.callbacks.impression { // flagged: manual_let_else
-        Some(url) => url,
-        None => return Ok(()),
-    };
-    // flagged: option_if_let_else, use map_or
-    let attempts = if let Some(retries) = self.config.retries { retries + 1 } else { 1 };
-    self.send_with_retries(url, attempts)
+impl PlacesApi {
+    fn parse_url(&self, val: &str) -> ApiResult<Url> {
+        match Url::parse(val) { // flagged: only converts the error
+            Ok(url) => Ok(url),
+            Err(e) => Err(PlacesApiError::UrlParseFailed { reason: e.to_string() }),
+        }
+    }
+
+    fn visit_limit(&self) -> u32 {
+        // clippy (`map_unwrap_or`): `.map(..).unwrap_or(..)` is `.map_or(..)`
+        self.config.max_visits.map(|n| n.min(MAX_VISITS)).unwrap_or(DEFAULT_VISITS)
+    }
 }
