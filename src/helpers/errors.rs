@@ -354,6 +354,56 @@ pub fn macro_args(mac: &syn::Macro) -> Option<Vec<syn::Expr>> {
         .map(|p| p.into_iter().collect())
 }
 
+/// The text of the `//` comments that sit right above line `start` (one
+/// contiguous block) or trail line `start` or `end`, joined and lowercased.
+/// The `// flagged: ..` markers of the docs examples are not explanations.
+pub fn nearby_comments(file: &RustFile, start: usize, end: usize) -> String {
+    let mut out = Vec::new();
+    let mut above = start.saturating_sub(1);
+    let comments: Vec<_> = file
+        .comments
+        .iter()
+        .filter(|c| !c.is_doc() && !c.text.trim_start().starts_with("flagged"))
+        .collect();
+    while above > 0 {
+        let Some(c) = comments
+            .iter()
+            .find(|c| file.line_of(c.end.saturating_sub(1)) == above && c.line <= above)
+        else {
+            break;
+        };
+        out.push(c.text.clone());
+        above = c.line.saturating_sub(1);
+    }
+    for c in &comments {
+        if c.line == start || c.line == end {
+            out.push(c.text.clone());
+        }
+    }
+    out.join(" ").to_lowercase()
+}
+
+/// Whether a nearby comment says why an error may be dropped.
+pub fn comment_explains_error(file: &RustFile, start: usize, end: usize) -> bool {
+    let text = nearby_comments(file, start, end);
+    [
+        "error",
+        "fail",
+        "ignor",
+        "best effort",
+        "best-effort",
+        "otherwise",
+        "don't care",
+        "doesn't matter",
+        "not matter",
+        "skip",
+        "nothing we can",
+        "anything we can",
+    ]
+    .iter()
+    .any(|w| text.contains(w))
+}
+
 /// Visit the expressions inside a `format!`-style macro (`format!`, `warn!`,
 /// `vec!`, `assert!`...), which `syn` leaves as tokens.
 /// The visitor must not borrow from the tree (`for<'a> Visit<'a>`).
