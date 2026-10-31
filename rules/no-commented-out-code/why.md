@@ -1,1 +1,1 @@
-Reviewers kept asking to delete commented-out code (Rust, YAML, Python taskgraph), leftover TODOs in build.rs and stale TODO/XXX notes.
+Commented-out code rots: nobody compiles it, nobody knows whether it should come back, and readers have to skip over it ("Nit: Let's remove this commented-out code", "Did you mean to leave these here?"). Delete it, since git keeps the history; when it really must stay, say in prose why it is disabled.
