@@ -39,10 +39,11 @@ fn check(cx: &Context, out: &mut Findings) {
         for file in &files {
             machinery_in_ffi_objects(file, out);
         }
-        if files.iter().any(|f| is_ffi_module(package, &f.path)) {
-            // In a UDL crate, `#[handle_error]` sits on functions the UDL exports.
-            let has_udl = cx.ws.package_files(package).any(|f| f.extension() == "udl");
-            core_depends_on_ffi(package, &files, !has_udl, out);
+        // A UDL crate implements its exported functions in core modules, so
+        // only a proc-macro crate with an `ffi` module draws the line.
+        let has_udl = cx.ws.package_files(package).any(|f| f.extension() == "udl");
+        if !has_udl && files.iter().any(|f| is_ffi_module(package, &f.path)) {
+            core_depends_on_ffi(package, &files, out);
         }
     }
 }
@@ -91,12 +92,7 @@ fn machinery_in_ffi_objects(file: &RustFile, out: &mut Findings) {
 
 /// Core modules that name the FFI object, the `*ApiResult`/`*ApiError` the
 /// FFI layer returns, or use `#[handle_error]`.
-fn core_depends_on_ffi(
-    package: &Package,
-    files: &[&RustFile],
-    check_handle_error: bool,
-    out: &mut Findings,
-) {
+fn core_depends_on_ffi(package: &Package, files: &[&RustFile], out: &mut Findings) {
     let mut ffi_names: BTreeSet<String> = BTreeSet::new();
     for file in files {
         for item in syntax::all_items(&file.ast) {
@@ -139,7 +135,7 @@ fn core_depends_on_ffi(
             let named = ffi_names
                 .iter()
                 .find(|n| !defined.contains(*n) && has_word(code, n));
-            let message = if check_handle_error && code.contains("#[handle_error") {
+            let message = if code.contains("#[handle_error") {
                 Some("core module uses `#[handle_error]`; return the internal `Result` and convert in the FFI layer".to_string())
             } else {
                 named.map(|n| {
@@ -235,6 +231,21 @@ mod tests {
                     "components/ads-client/src/worker.rs",
                     "use crate::error::Result;\n\npub struct BackgroundWorker;\n",
                 ),
+            ],
+        );
+        assert!(found.is_empty(), "{found:#?}");
+    }
+
+    #[test]
+    fn leaves_udl_crates_alone() {
+        let udl = ("components/ads-client/src/ads.udl", "namespace ads {};\n");
+        let found = check(
+            &RULE,
+            &[
+                MANIFEST,
+                FFI,
+                udl,
+                ("components/ads-client/src/api.rs", "#[handle_error(Error)]\npub fn ads_new() -> AdsClientApiResult<()> { todo!() }\n"),
             ],
         );
         assert!(found.is_empty(), "{found:#?}");

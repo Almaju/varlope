@@ -5,9 +5,9 @@
 use std::collections::BTreeMap;
 
 use crate::helpers::api_mobile::{all_slots, is_uniffi_crate_file, words, Slot, SlotKind};
+use crate::rule::{Area, Context, Findings, Kind, Rule};
 use crate::syntax;
 use crate::udl::{self, UdlKind};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
 
 pub static RULE: Rule = Rule {
     id: "uniffi-typed-values",
@@ -173,7 +173,10 @@ mod tests {
             &[
                 MANIFEST,
                 URL_TYPE,
-                (PATH, include_str!("../../rules/uniffi-typed-values/dont.rs")),
+                (
+                    PATH,
+                    include_str!("../../rules/uniffi-typed-values/dont.rs"),
+                ),
             ],
         );
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();

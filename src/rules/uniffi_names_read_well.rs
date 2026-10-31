@@ -24,12 +24,21 @@ const IMPLEMENTATION_WORDS: &[&str] = &["rust", "impl", "ffi", "uniffi", "inner"
 
 /// Function names that already mean something in Kotlin or Swift.
 const IDIOMS: &[(&str, &str)] = &[
-    ("run_blocking", "Kotlin's `runBlocking` runs a coroutine and blocks on it"),
+    (
+        "run_blocking",
+        "Kotlin's `runBlocking` runs a coroutine and blocks on it",
+    ),
     ("to_string", "it shadows `toString()` in Kotlin"),
     ("hash_code", "it shadows `hashCode()` in Kotlin"),
     ("equals", "it shadows `equals()` in Kotlin"),
-    ("description", "Swift uses `description` for `CustomStringConvertible`"),
-    ("debug_description", "Swift uses `debugDescription` for `CustomDebugStringConvertible`"),
+    (
+        "description",
+        "Swift uses `description` for `CustomStringConvertible`",
+    ),
+    (
+        "debug_description",
+        "Swift uses `debugDescription` for `CustomDebugStringConvertible`",
+    ),
 ];
 
 /// Verbs that promise to only look, and words that say a call destroys data.
@@ -38,8 +47,22 @@ const LOOKING_VERBS: &[&str] = &[
     "read", "load", "scan",
 ];
 const DESTRUCTIVE: &[&str] = &[
-    "delete", "deletes", "remove", "removes", "wipe", "wipes", "clear", "clears", "discard",
-    "discards", "purge", "purges", "drop", "drops", "overwrite", "overwrites",
+    "delete",
+    "deletes",
+    "remove",
+    "removes",
+    "wipe",
+    "wipes",
+    "clear",
+    "clears",
+    "discard",
+    "discards",
+    "purge",
+    "purges",
+    "drop",
+    "drops",
+    "overwrite",
+    "overwrites",
 ];
 
 /// One exported name, where it is declared.
@@ -77,7 +100,10 @@ fn check(cx: &Context, out: &mut Findings) {
                 out.add(
                     &n.path,
                     n.line,
-                    format!("exported fn `{}` reads wrong in the bindings: {why}; rename it", n.name),
+                    format!(
+                        "exported fn `{}` reads wrong in the bindings: {why}; rename it",
+                        n.name
+                    ),
                 );
             }
             if let Some(message) = destructive_but_quiet(n, &w) {
@@ -273,7 +299,10 @@ fn doc_for(cx: &Context, path: &str, line: usize) -> Option<String> {
         let above = lines.get(k - 1)?.trim();
         if let Some(d) = above.strip_prefix("///") {
             doc.push(d.trim());
-        } else if !(above.starts_with("#[") || above.starts_with('[') || above.is_empty() && doc.is_empty()) {
+        } else if !(above.starts_with("#[")
+            || above.starts_with('[')
+            || above.is_empty() && doc.is_empty())
+        {
             break;
         }
         k -= 1;
@@ -299,7 +328,10 @@ mod tests {
             &RULE,
             &[
                 MANIFEST,
-                (PATH, include_str!("../../rules/uniffi-names-read-well/dont.rs")),
+                (
+                    PATH,
+                    include_str!("../../rules/uniffi-names-read-well/dont.rs"),
+                ),
             ],
         );
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
@@ -312,7 +344,10 @@ mod tests {
             &RULE,
             &[
                 MANIFEST,
-                (PATH, include_str!("../../rules/uniffi-names-read-well/do.rs")),
+                (
+                    PATH,
+                    include_str!("../../rules/uniffi-names-read-well/do.rs"),
+                ),
             ],
         );
         assert!(found.is_empty(), "{found:#?}");
