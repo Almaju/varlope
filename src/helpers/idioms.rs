@@ -23,6 +23,13 @@ pub fn rust_files(ws: &Workspace) -> impl Iterator<Item = &RustFile> {
     ws.rust_files().filter(|f| !is_generated(&f.path))
 }
 
+/// Tool, example and integration-test crates: maintained, but not shipped.
+pub fn is_tooling(path: &str) -> bool {
+    ["tools/", "examples/", "testing/", "automation/"]
+        .iter()
+        .any(|p| path.starts_with(p))
+}
+
 /// Code that ships in a library: not a build script, a binary, a benchmark,
 /// or a tool, example or integration-test crate.
 pub fn is_library_code(ws: &Workspace, path: &str) -> bool {
@@ -33,10 +40,7 @@ pub fn is_library_code(ws: &Workspace, path: &str) -> bool {
     if path.contains("/benchmarks/") || path.contains("/bench/") {
         return false;
     }
-    if ["tools/", "examples/", "testing/", "automation/", "megazords/"]
-        .iter()
-        .any(|p| path.starts_with(p))
-    {
+    if is_tooling(path) || path.starts_with("megazords/") {
         return false;
     }
     match ws.package_of(path) {

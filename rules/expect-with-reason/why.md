@@ -1,1 +1,1 @@
-#[allow(dead_code)] and #[allow(unused_imports)] were added to quiet clippy runs with different feature sets, or as copy-pasted cargo-cult; reviewers ask to remove them or use a cfg on the module/item instead.
+`#[allow(dead_code)]` and `#[allow(unused_*)]` get added to quiet one build and then stay forever, hiding code nobody calls ("we should try and avoid allowing dead code - how is this used?"). Delete the code, put test-only helpers behind `#[cfg(test)]`, or write `#[expect(dead_code, reason = "…")]`, which documents why and fails the build once it is no longer true.
