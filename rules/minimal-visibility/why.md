@@ -1,1 +1,4 @@
-Reviewers repeatedly pushed back on `pub` fields (state manager, event listener, manifest channels), an internal `pub type Result`, and crate-internal types not marked `pub(crate)`, to keep state mutations behind functions.
+A `pub` item inside a private module looks like API but nobody outside the crate can reach it, so
+readers can't tell what consumers depend on and `dead_code` stops warning when it goes unused.
+Reviewers keep asking "does this need to be `pub`?"; `pub(crate)` (or private) says the item is an
+implementation detail, and rustc's `unreachable_pub` lint finds them all with a machine-applicable fix.
