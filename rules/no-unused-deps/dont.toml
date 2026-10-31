@@ -1,0 +1,9 @@
+[dependencies]
+error-support = { path = "../support/error" }
+ffi-support = "0.4" # flagged: unused (cargo machete)
+mockito = { version = "0.31", default-features = false } # flagged: test-only crate
+sql-support = { path = "../support/sql" }
+url = "2.1"
+
+[dev-dependencies]
+env_logger = { version = "0.10", default-features = false }

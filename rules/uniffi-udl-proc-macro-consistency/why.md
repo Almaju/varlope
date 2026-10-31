@@ -1,0 +1,1 @@
+When types moved to a new crate (db-crypto), UDL files kept unnecessary `[External=...] typedef` lines, used the wrong kind (`trait` vs `trait_with_foreign`) and still declared functions now defined in the new crate, which produced duplicate Swift definitions and broke iOS.

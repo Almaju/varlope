@@ -1,0 +1,1 @@
+Nimbus' build.rs wrote generated Glean code into src/, shelled out to bash/python3 (breaking Windows/mac setups and depending on PATH), and panicked with messages like 'Error installing venv'. Reviewers want generation via a Rust build crate (glean-build) writing to OUT_DIR and clear failure output.

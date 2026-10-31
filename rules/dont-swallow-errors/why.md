@@ -1,0 +1,1 @@
+Reviewers repeatedly catch fallible calls whose errors are dropped: `let _ = client.sync()`, `if let Ok(x) = conn.query_row_and_then_cachable(..)`, `store.cleanup_expired().ok()`, `filter_map(|r| r.ok().flatten())` over query_map rows, `if let Ok(Some(..))`. Real DB/network/serde failures then vanish or get mistaken for 'no rows', making bugs undiagnosable.

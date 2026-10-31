@@ -1,0 +1,8 @@
+[package] # flagged: no `license`, `description` or `exclude = ["/android", "/ios"]`
+name = "notes"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+error-support = { path = "../support/error" }
+cli-support = { path = "../../examples/cli-support" } # flagged: dep on examples/

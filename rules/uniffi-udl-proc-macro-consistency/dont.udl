@@ -1,0 +1,7 @@
+namespace logins {
+    [Throws=LoginsApiError]
+    string create_key(); // flagged: also #[uniffi::export] in src/encryption.rs
+};
+
+[External = "db_crypto"]
+typedef interface EncryptorDecryptor; // flagged: Rust declares it with_foreign

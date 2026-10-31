@@ -1,0 +1,1 @@
+Reviewers questioned an `UnrecoverableServerError` used for client bugs, a `ScopedKeyMissing` consumers can't act on, a `Panic` variant documented as thrown only by Kotlin bindings, and abbreviated variant names.

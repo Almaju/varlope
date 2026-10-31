@@ -1,0 +1,14 @@
+--- a/docs/SUMMARY.md
++++ b/docs/SUMMARY.md
+   - [ADR-0007](adr/0007-limit-visits-migration-to-10000.md)
++  - [ADR-0010](adr/0010-bundle-suggest-data.md)
++++ b/docs/adr/0010-bundle-suggest-data.md
++# Bundle Suggest data in the app binary
++
++* Status: proposed
++* Deciders: DISCO team, Android, iOS
++* Date: 2026-10-30
++
++Workspace members are listed in the [root manifest][1].
++
++[1]: https://github.com/mozilla/application-services/blob/3f2a9c1d7e0b/Cargo.toml#L6

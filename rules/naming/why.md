@@ -1,0 +1,1 @@
+By far the most repeated nit in nimbus-fml and nimbus reviews: abbreviations like `nm`, `og`, `th`, `ta`, `ee`, `md`, `kt`, `vt` make code hard to read ("`nm` is not at all clear", "`ta` is not a readable variable name").

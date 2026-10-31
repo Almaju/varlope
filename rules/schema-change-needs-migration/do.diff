@@ -1,0 +1,13 @@
+-    const END_VERSION: u32 = 2;
++    const END_VERSION: u32 = 3;
+@@ fn init(&self, tx: &rusqlite::Transaction<'_>) @@
++            CREATE INDEX IF NOT EXISTS idx_http_cache_url ON http_cache(request_url);
+@@ fn upgrade_from(&self, conn: &rusqlite::Transaction<'_>, version: u32) @@
++            2 => Ok(conn.execute_batch(
++                "CREATE INDEX IF NOT EXISTS idx_http_cache_url
++                 ON http_cache(request_url);",
++            )?),
+@@ mod tests: fn test_all_upgrades() @@
++        let db = MigratedDatabaseFile::new(HttpCacheConnectionInitializer {}, V2_SCHEMA);
++        db.run_all_upgrades();
++        db.assert_schema_matches_new_database();

@@ -1,0 +1,14 @@
+--- a/components/places/src/places.udl
++++ b/components/places/src/places.udl
+@@ -110,2 +110,5 @@ interface PlacesConnection {
+     void delete_visits_for(string url);
++
++    [Throws=PlacesApiError]
++    void delete_visits_for_host(string host);
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+ ## ✨ What's New ✨
++
++### Places
++- Added `PlacesConnection.delete_visits_for_host()`.
++  ([#7700](https://github.com/mozilla/application-services/pull/7700))

@@ -1,0 +1,1 @@
+New tables were written with nullable columns and a missing PRIMARY KEY on the 1:1 detail table; reviewers had to add NOT NULL/PRIMARY KEY column by column, and conversely asked to make provider-specific columns nullable instead of fake values.

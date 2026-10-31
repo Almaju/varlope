@@ -1,0 +1,1 @@
+RemoteSettingsService read the config under one lock and registered the client under another, so `update_config()` could interleave and leave a client with stale config (race found in two review rounds); error_tracing took the global lock in pieces; nimbus re-opened a DB writer per loop iteration.

@@ -1,0 +1,11 @@
+use std::sync::{Arc, Mutex}; // flagged: disallowed type std::sync::Mutex
+
+pub struct Store {
+    config: Mutex<Option<Arc<Config>>>,
+}
+
+impl Store {
+    fn config(&self) -> Option<Arc<Config>> {
+        self.config.lock().unwrap().clone()
+    }
+}

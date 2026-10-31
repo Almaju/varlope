@@ -1,0 +1,10 @@
+[package]
+name = "notes"
+version = "0.1.0"
+edition = "2021"
+license = "MPL-2.0"
+description = "Storage for user notes, exposed to Kotlin and Swift via UniFFI."
+exclude = ["/android", "/ios"]
+
+[dependencies]
+error-support = { path = "../support/error" }

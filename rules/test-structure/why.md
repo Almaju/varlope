@@ -1,0 +1,1 @@
+Suggest's `query()` test grew unwieldy with every provider, multiple cases were packed into one FML test, and names like `test_integration_smoke_test` or tests not renamed after the function they cover were flagged.

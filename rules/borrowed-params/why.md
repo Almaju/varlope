@@ -1,0 +1,1 @@
+Functions took `Vec<T>` (forcing a move/allocation) or `&String` where `&[T]`/`&str` work; reviewers noted the UniFFI caveat that exported fns receive an owned Vec anyway and `&[T]` needs `[ByRef]` in UDL with no FFI benefit.

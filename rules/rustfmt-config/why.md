@@ -1,0 +1,1 @@
+Reviewers keep fixing whitespace by hand: `row.get::<_,Option<f64>>`, misaligned `if` blocks, `)?\n;`, `max_suggestions:Option<u64> )`, blank lines after `#[test]`, missing trailing newline in shell scripts; first-time contributors were told to run `cargo fmt`.

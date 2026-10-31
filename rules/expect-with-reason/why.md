@@ -1,0 +1,1 @@
+#[allow(dead_code)] and #[allow(unused_imports)] were added to quiet clippy runs with different feature sets, or as copy-pasted cargo-cult; reviewers ask to remove them or use a cfg on the module/item instead.

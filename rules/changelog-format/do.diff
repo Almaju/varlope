@@ -1,0 +1,13 @@
+ # v161.0 (In progress)
+
+ ## ✨ What's Changed ✨
+
++### Nimbus
++
++- Disabled rollouts now submit an event.
++  ([#7700](https://github.com/mozilla/application-services/pull/7700))
++
++### Search
++
++- Fixed a crash on an empty engine list.
++  ([#7701](https://github.com/mozilla/application-services/pull/7701))

@@ -1,0 +1,1 @@
+Reviewers found unused `#[cfg(test)] pub fn` helpers, commented-out consts (`//const WRITE_CHUNK_SIZE`), a `_top_urls_by_frecency` param that became used, redundant `#[cfg(feature = "stateful")]` inside an already-gated module, and an obsolete SDK manifest entry.

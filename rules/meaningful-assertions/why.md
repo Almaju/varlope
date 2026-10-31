@@ -1,0 +1,1 @@
+In the search selector tests reviewers flagged a dozen assertion messages copy-pasted from other tests ('Should have selected the single engine...', 'distribution' when testing applications) or too vague to locate the failing property.

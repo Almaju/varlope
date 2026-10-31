@@ -1,0 +1,9 @@
+--- a/components/places/Cargo.toml
++++ b/components/places/Cargo.toml
+ [dev-dependencies]
++mockall = "0.12"
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ name = "places"
++ "mockall",
+# tokio stays at 1.38.0: the unrelated `cargo update` churn is reverted

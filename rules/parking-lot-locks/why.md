@@ -1,0 +1,1 @@
+std mutexes poison and force `.lock().unwrap()` everywhere, which reviewers then flag as panics. The team convention is parking_lot (no poisoning, no unwrap), but new code (rs_client, Cirrus) keeps introducing `std::sync::Mutex`.

@@ -1,0 +1,1 @@
+`Arc::try_unwrap(x.clone())` can never succeed: the clone itself holds a second reference. A `close()` refactor did exactly this, so the database was never closed. Unwrap the `Arc` you own, or use `Arc::into_inner`.

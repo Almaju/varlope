@@ -1,0 +1,1 @@
+After error_support landed, reviewers repeatedly asked to replace log::error!/log::warn!/log::info! on unexpected-but-recoverable paths (malformed incoming records, unknown clients) with report_error! (escalates to Sentry) or breadcrumb! (context for later errors), and to keep syncing rather than failing the whole sync.

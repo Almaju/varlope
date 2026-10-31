@@ -1,0 +1,1 @@
+After `allow-coenrollment` defaulted to false, fixtures still spelled it out; inline JSON-ish dict literals were used in YAML; a top-level manifest with an `about` block lacked the `.fml.yaml` suffix.

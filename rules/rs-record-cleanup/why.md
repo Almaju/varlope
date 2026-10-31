@@ -1,0 +1,1 @@
+Wiping individual logins inside `decrypt_fields` gave a read method a persistent side effect, could leave the DB half-repaired if the key is globally unavailable, forced a full resync, and the autofill scrub would delete everything when a user merely cancels a primary-password prompt.

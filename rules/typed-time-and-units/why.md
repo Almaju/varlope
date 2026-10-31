@@ -1,0 +1,1 @@
+Fields like `dismissed_at: i64`, `batch_interval_ms: Option<u64>`, a channel `buffer_size = 10000` and date strings left consumers guessing the unit; reviewers asked for `Duration`, the `ByteSize` struct or unit-bearing names (`time_` prefix convention), but not redundant names like `batch_interval_duration: Duration`.

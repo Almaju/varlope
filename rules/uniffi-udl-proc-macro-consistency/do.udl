@@ -1,0 +1,6 @@
+namespace logins {
+    // `create_key` is exported with #[uniffi::export] in src/encryption.rs
+};
+
+[External = "db_crypto"]
+typedef trait_with_foreign EncryptorDecryptor;

@@ -1,0 +1,1 @@
+Debug scaffolding keeps slipping into PRs: `println!("XXXXX - hello println")`, commented-out `println!` blocks, commented-out old code, `println!` inside an exported `initialize()`, debugging `assert!`, and a `find` step in a taskcluster kind that adds ~4500 log lines.

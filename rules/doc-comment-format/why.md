@@ -1,0 +1,1 @@
+Small formatting slips in doc comments keep coming up (`///Same`, `\"starts with\"`, broken `(` Markdown link, `made(https://bugzilla...)`), and they show up verbatim in the generated Kotlin/Swift docs.

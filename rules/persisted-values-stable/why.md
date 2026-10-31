@@ -1,0 +1,1 @@
+Dismissed-suggestion URLs were stored as `DefaultHasher` digests (algorithm may change between Rust releases, silently invalidating stored rows), then switched to MD5, which Firefox security is removing.

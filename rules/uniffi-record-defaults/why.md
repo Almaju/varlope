@@ -1,0 +1,1 @@
+Reviewers removed `T?` on always-present values (provider, coenrolling id lists), asked for empty lists instead of nullable lists, questioned `String?` returns that should be errors, and removed `= ""` defaults that let callers build invalid queries.

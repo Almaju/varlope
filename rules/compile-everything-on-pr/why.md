@@ -1,0 +1,1 @@
+Making `LoginsSyncEngine.scope` private broke the sync-pass example, `#[cfg(test)]` on `open_in_memory` broke sync-test; reviewers praise keeping sync-pass/benchmarks updated, implying they often aren't.

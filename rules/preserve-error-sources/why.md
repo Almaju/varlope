@@ -1,0 +1,1 @@
+Reviewers asked to keep `QuotaReason` as an enum instead of `reason: String`, flagged `map_err` that turned a parse failure into `rusqlite::Error::QueryReturnedNoRows`, and asked for serde-path-to-error so JSON errors carry their path.

@@ -1,0 +1,1 @@
+Reviewers flagged Kotlin `!!` (throws on null) and Swift force-unwrap/`try!` (crashes the app), and rejected the lint-driven fix of `?? ""` + `print` that silently returns invalid JSON with different semantics. Errors should be thrown/handled or asserted explicitly.

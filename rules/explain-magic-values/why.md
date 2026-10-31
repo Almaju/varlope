@@ -1,0 +1,1 @@
+The most frequent request overall: explain blank-string arguments, `_expected=0`, `+ 8` buffer sizes, cryptic FTS tokenizer config, terms like tombstone/x5u, why a call is a no-op, why behavior on permanent errors is intentional, and what hard-coded lists mean.

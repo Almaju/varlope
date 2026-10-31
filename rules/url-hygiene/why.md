@@ -1,0 +1,1 @@
+Across two PRs the RS team insisted on the kinto convention (server URL `https://host/v1` without trailing `/`, named root URL, endpoints `{root}/buckets/{bucket}/collections/{collection}`), conflicting with `Url::join` semantics the author relied on.

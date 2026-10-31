@@ -1,0 +1,1 @@
+New CI packages (python3-venv, python3-pip), renamed rust targets (darwin-x86-64/darwin-aarch64), a new MOZ_APPSERVICES_MODULE env var, and 'delete libs/* and re-run verify scripts' steps were introduced without docs updates. Reviewers asked each time whether docs/building.md needed changes.

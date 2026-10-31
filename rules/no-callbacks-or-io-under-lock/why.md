@@ -1,0 +1,1 @@
+UniFFI callback objects call into JS/Kotlin/Swift; swapping/dropping them under a Mutex risks deadlock if foreign code re-enters, and leaked callbacks crash Desktop at quit. Shutdown methods used `?` so later cleanup steps were skipped on the first error, and calling methods after shutdown could panic.

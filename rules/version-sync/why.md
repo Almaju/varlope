@@ -1,0 +1,1 @@
+A Glean bump updated build.gradle to 52.4.0 while Cargo used 52.4.1 and the iOS test project still pinned the old glean-swift; unrelated PRs accidentally modified the glean submodule pointer or Package.resolved, and stale submodules left Cargo.lock out of date in CI.

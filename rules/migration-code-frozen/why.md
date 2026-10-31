@@ -1,0 +1,1 @@
+Bumping the Nimbus DB to v4 required editing a dozen tests that hardcoded `Some(3)`/`migrated_version: Some(3)` and names like `test_migrate_db_v2_to_v3_*`; the reviewer asked for constants and version-neutral names so the next bump only touches the new migration test.

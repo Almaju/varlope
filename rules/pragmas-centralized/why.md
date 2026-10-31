@@ -1,0 +1,1 @@
+Changing `wal_checkpoint(PASSIVE)` to `TRUNCATE` (blocks other connections) and running `PRAGMA auto_vacuum` + `VACUUM` in a function named init_new_database needed careful review; skipping unneeded schema-version writes avoided a startup checkpoint.

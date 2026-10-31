@@ -1,0 +1,1 @@
+Many comments were stale after refactors: wrong state names in docs, comments describing removed behaviour, copy-pasted comments naming the wrong suggestion type, docs referring to callbacks that no longer exist.

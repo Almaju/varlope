@@ -1,0 +1,1 @@
+Direct indexing like `&query[..n]`, `&keyword_lowercase[query_string.len()..]` and `query_words.drain(0..n)` caused a Yelp crash in Nightly that had to be backed out. Byte-vs-char length confusion (`chunk_char_len`) makes string slicing panic on non-ASCII input.

@@ -1,0 +1,1 @@
+Reviewers repeatedly blocked Suggest PRs that changed CREATE TABLE statements (or the stored JSON shape) without bumping `pub const VERSION` in schema.rs and/or without moving the `upgrade_from` match range. Without the bump, existing on-device databases keep the old schema and queries fail or silently miss data.

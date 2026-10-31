@@ -1,0 +1,1 @@
+HardcodedNimbusFeatures shipped without `public` modifiers (needing a follow-up PR), reviewers had to ask whether new Swift types needed `public`, and nits about `var` vs `let` and an unused `import UIKit` recur.

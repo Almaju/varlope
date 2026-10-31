@@ -1,0 +1,1 @@
+Reviewers flag new crates that need vetting in m-c (DEPENDENCIES.md), dev-only deps (env_logger, hyper-tls) placed in component crates instead of CLI/example crates, duplicate crate versions (askama), version floors below what m-c ships, and unexplained Cargo.lock bumps.

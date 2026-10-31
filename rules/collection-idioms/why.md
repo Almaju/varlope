@@ -1,0 +1,1 @@
+Push-in-a-loop patterns (`for ex in xs { v.push(ex.into()) }`, `clone.push(s.clone())`, `Vec::default()` then push of known length) were rewritten by reviewers more than ten times, including `collect::<Result<Vec<_>, _>>()` for fallible maps.

@@ -1,0 +1,1 @@
+PRs accidentally included Package.resolved rewrites from switching branches in Xcode, an empty file with no path, and whitespace-only reformatting of SQL string literals (apparently from cargo fmt). Reviewers had to ask whether these were intended.

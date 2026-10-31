@@ -1,0 +1,1 @@
+The single most frequent idiom nit: `match r { Ok(v) => Ok(v), Err(e) => Err(..) }` instead of `map_err`, eager `unwrap_or("UTF-8".to_string())`, manual `None => default` matches, manual `*`-suffix slicing instead of `strip_suffix`, `if let Some(x) = o { v.push(x) }` instead of `v.extend(o)`, `match` on Option where `if let` reads better.

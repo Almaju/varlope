@@ -1,0 +1,1 @@
+The single most frequent nit in this chunk: typos in comments, docs, function/test names ('regresion', 'maintanance' spelled two ways in one changelog, 'orphanen', 'experiemnt', 'considerid', 'anomoly') and doubled words ('necessary ... necessary').

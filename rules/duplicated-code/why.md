@@ -1,0 +1,1 @@
+Reviewers repeatedly asked to fold duplicated logic into a helper: repeated revert blocks in nimbus, near-identical trait methods and fake HTTP clients in merino, duplicated decrypt-optional logic in autofill, vacuum logic copied in places, repeated bearer-token setup.

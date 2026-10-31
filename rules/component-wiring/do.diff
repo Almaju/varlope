@@ -1,0 +1,13 @@
++++ b/megazords/full/src/lib.rs
++pub use notes;
++++ b/megazords/ios-rust/src/lib.rs
++pub use notes;
++++ b/megazords/ios-rust/MozillaRustComponents.h
++#import "notesFFI.h"
++++ b/components/notes/uniffi.toml
++[bindings.kotlin]
++package_name = "mozilla.appservices.notes"
++omit_checksums = true
++[bindings.swift]
++ffi_module_name = "MozillaRustComponents"
++ffi_module_filename = "notesFFI"

@@ -1,0 +1,1 @@
+Reviewers repeatedly pushed back on `pub` fields (state manager, event listener, manifest channels), an internal `pub type Result`, and crate-internal types not marked `pub(crate)`, to keep state mutations behind functions.

@@ -1,0 +1,1 @@
+Reviewers keep asking for a link to the GitHub issue/Jira ticket on temporary branches ('this branch should die', iOS-migration-only APIs, deprecated rc_log, serde workarounds) and push back on bare `XXX` question comments left in code.

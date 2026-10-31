@@ -1,0 +1,1 @@
+Reviewers spend comments on mechanical idioms: needless explicit lifetimes, `format!` with no args, positional instead of inlined format args, manual `match` instead of `ok_or_else`, and hand-written `Default` impls that a derive would cover.

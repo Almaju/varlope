@@ -1,0 +1,1 @@
+Changing the Nimbus constructor required matching changes in Nimbus.kt/NimbusBuilder.kt/NimbusCreate.swift/NimbusBuilder.swift and tests; FxaClient.kt thin wrapper needed the new `services` param with a default; a Swift wrapper silently flipped a default from false to true.

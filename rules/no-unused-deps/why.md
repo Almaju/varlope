@@ -1,0 +1,1 @@
+A new crate shipped with unused `lazy_static`, `serde`, `serde_derive`; an Android build.gradle kept an unnecessary `testImplementation project(":httpconfig")`; protobuf remained in build.gradle after its removal; a `cargo audit --ignore` stayed after the advisory no longer applied.

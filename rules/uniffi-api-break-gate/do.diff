@@ -1,0 +1,13 @@
+--- a/components/suggest/src/suggestion.rs
++++ b/components/suggest/src/suggestion.rs
+@@ pub enum Suggestion {
+     Amp {
+         title: String,
+         url: String,
++        suggestion_id: String,
+     },
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+ ## ⚠️ Breaking Changes ⚠️
++### Suggest
++- `Suggestion::Amp` gains `suggestion_id`; Swift code destructuring it must update.

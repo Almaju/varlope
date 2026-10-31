@@ -1,0 +1,1 @@
+The error_support design splits internal Error/Result from the public ApiError/ApiResult; exported functions must convert, log and report through handle_error!/#[handle_error]. Reviewers discussed the two-Result confusion, missing imports, and that the proc-macro silently changes the signature, so a mechanical check is worth having.

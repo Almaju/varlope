@@ -1,0 +1,5 @@
+# components/suggest/Cargo.toml
+[dependencies]
+regex = "1.9" # resolves to the 1.9.x that mozilla-central vendors
+serde = { version = "1", features = ["derive"] }
+unicode-segmentation = "1.12" # audit landed in m-c first (bug 1234567)

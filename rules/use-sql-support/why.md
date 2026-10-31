@@ -1,0 +1,1 @@
+Ingestion and fetch paths used `conn.execute`/`query_row_and_then` in hot loops (no prepared-statement cache), hand-rolled `query_rows..pop()` instead of `try_query_row`, and `last_insert_rowid()` instead of `RETURNING id`.

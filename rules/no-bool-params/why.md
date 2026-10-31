@@ -1,0 +1,1 @@
+FxA code accumulated `new(config, true)`, `get_access_token(scope, None, false)`, `disconnect(from_auth_issues: bool)`, `Disconnected(boolean from_auth_issues)` and state classes with two booleans; reviewers asked for enum variants or distinct constructors because call sites are unreadable and invalid combinations are representable.

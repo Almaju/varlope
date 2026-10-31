@@ -1,0 +1,1 @@
+Nimbus' `stateful` split repeatedly had a non-optional `remote_settings` dep, error variants/`pub use`/UDL variants compiled outside the feature, and `cfg_if!` blocks wrapping whole files; each was caught by hand.

@@ -1,0 +1,5 @@
+$ git diff --stat origin/main...HEAD
+ CHANGELOG.md                                   |  3 +
+ components/nimbus/src/enrollment.rs            | 41 +++++++++++++++++---
+ components/nimbus/src/tests/test_enrollment.rs | 58 ++++++++++++++++++++++++++
+ 3 files changed, 96 insertions(+), 6 deletions(-)

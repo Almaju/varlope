@@ -1,0 +1,1 @@
+Consumers (Firefox Android, iOS, Desktop) read CHANGELOG.md to know what changed in each release. Reviewers asked for a missing entry in PR after PR, even though the PR template already has a checkbox for it. A diff check is cheap; keep it a warning, since 63% of consumer-visible PRs since 2025 had no entry and some don't need one.

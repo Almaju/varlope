@@ -1,0 +1,11 @@
+--- a/components/places/Cargo.toml
++++ b/components/places/Cargo.toml
+ [dev-dependencies]
++mockall = "0.12"
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ name = "places"
++ "mockall",
+@@ name = "tokio"
+-version = "1.38.0"
++version = "1.40.0" # flagged: not explained by this PR's Cargo.toml change

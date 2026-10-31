@@ -1,0 +1,13 @@
+Lint Bash scripts:
+  docker:
+    - image: koalaman/shellcheck-alpine:v0.10.0
+  steps:
+    - checkout
+    - run: sh automation/lint_bash_scripts.sh
+Lint Python:
+  docker:
+    - image: cimg/python:3.11
+  steps:
+    - checkout
+    - run: pip install ruff==0.6.9
+    - run: ruff check automation taskcluster tools

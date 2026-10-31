@@ -1,0 +1,1 @@
+In ads-client the uniffi Object started owning workers/telemetry and core modules (worker, command) imported FFI types (`MozAds*`, `AdsClientApiResult`, `#[handle_error]`), creating cycles and making other bindings impossible.

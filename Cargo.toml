@@ -12,6 +12,7 @@ publish = false
 # `scripts/check-deps.sh` verifies that.
 [dependencies]
 anyhow = "1.0.58"
+quote = "1.0.40"
 clap = { version = "4.5.39", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "suggestions"] }
 proc-macro2 = { version = "1.0.101", features = ["span-locations"] }
 regex = "1.11.1"

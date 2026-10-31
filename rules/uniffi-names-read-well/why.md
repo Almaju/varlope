@@ -1,0 +1,1 @@
+Reviewers caught `mimetype` (becomes `mimetype` in Kotlin/Swift, looks like a typo), `finish()` instead of the Java/Kotlin `build()`, `run_blocking` meaning the opposite of Kotlin's `runBlocking`, and inconsistent field names across suggestion variants (`subject_exact_match` vs `is_top_pick`).

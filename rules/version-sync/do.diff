@@ -1,0 +1,13 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+ name = "glean-sym"
+-version = "70.0.0"
++version = "71.0.0"
+--- a/gradle/libs.versions.toml
++++ b/gradle/libs.versions.toml
+-glean = "70.0.0"
++glean = "71.0.0"
+--- a/megazords/ios-rust/Package.resolved
++++ b/megazords/ios-rust/Package.resolved
+-        "version" : "70.0.0"
++        "version" : "71.0.0"

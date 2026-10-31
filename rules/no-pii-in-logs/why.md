@@ -1,0 +1,1 @@
+Error messages for invalid logins were extended and had to be checked for URL/origin content (PII); reporting large viaduct downloads via error reporting risked leaking URLs that may contain PII; code needed explicit 'don't log the input string' care.

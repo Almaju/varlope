@@ -1,0 +1,1 @@
+PRs deleted a released version section and a `## What's Changed` header, split one component across headings (Nimbus FML vs Nimbus), added dev-only features to What's Changed, left extra blank lines, mislabelled non-breaking changes as breaking, and left stale lines after renames.

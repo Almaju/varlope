@@ -1,0 +1,13 @@
+Lint Bash scripts:
+  docker:
+    - image: koalaman/shellcheck-alpine:stable # flagged: floating tag
+  steps:
+    - checkout
+    - run: sh automation/lint_bash_scripts.sh
+Lint Python:
+  docker:
+    - image: cimg/python:3.11
+  steps:
+    - checkout
+    - run: pip install ruff # flagged: unpinned; a new release can fail CI
+    - run: ruff check automation taskcluster tools

@@ -1,0 +1,1 @@
+Every component in the iOS megazord ends up in one Swift module, with no namespaces. Two components exporting the same name break the iOS build: `Guid` in tabs and places (#5181), `create_key` in autofill and logins (#5293). Generic names (`Headers`, `Record`, `Level`) are the next collision waiting to happen.

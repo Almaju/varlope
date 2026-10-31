@@ -1,0 +1,1 @@
+A steady stream of nits: `.to_string()` inside `log::info!` args, cloning a value that is not used afterwards, cloning before `serde_json::to_value` (borrow works), `contains(&x.to_string())`, `unwrap_or_default().to_string()` on a String, `"".to_string()` vs `String::new()`, joining words into a new String per chunk.

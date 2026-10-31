@@ -1,0 +1,1 @@
+New crates (rs_client, nimbus-cli, remote_settings) were added without `license`/`description`/`authors`, were missing from workspace `default-members` (so `cargo test` skipped them), or shipped a per-crate .gitignore duplicating the root one.

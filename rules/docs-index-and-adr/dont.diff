@@ -1,0 +1,10 @@
+--- /dev/null
++++ b/docs/adr/0010-bundle-suggest-data.md
++# Bundle Suggest data in the app binary <!-- flagged: not in docs/SUMMARY.md -->
++
++* Status: proposed
++* Date: 2026-10-30 <!-- flagged: no `* Deciders:` line -->
++
++Workspace members are listed in the [root manifest][1].
++
++[1]: https://github.com/mozilla/application-services/blob/main/Cargo.toml#L6

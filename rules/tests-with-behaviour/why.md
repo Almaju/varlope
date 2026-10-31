@@ -1,0 +1,1 @@
+The single most frequent request: add unit tests for new functions (get_visit_count_for_host, merge_override), extend merge tests for new fields, add negative/edge-case queries, sad-path config tests, empty-storage cases, and assertions on side effects.

@@ -1,0 +1,1 @@
+`bandit_init` opened one `read_write` transaction per arm, and storage methods did several dependent reads without a transaction; reviewers want a single transaction for atomicity, speed and consistent reads even if a mutex currently serializes access.

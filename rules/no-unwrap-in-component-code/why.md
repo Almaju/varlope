@@ -1,0 +1,1 @@
+Reviewers repeatedly flag `.unwrap()` on serde, DB-meta, header and JSON results in component code (tabs storage, Cirrus client, remote settings). A panic inside Rust called over FFI crashes the app or surfaces as an opaque exception in Kotlin/Swift/Python; reviewers want `?`, a logged fallback, or an explicit justified invariant.

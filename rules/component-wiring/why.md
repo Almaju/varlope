@@ -1,0 +1,1 @@
+When adding a crate (db-crypto/encryption) reviewers had to spot missing megazord registration (ios-rust lib.rs / stub), missing `[bindings.swift] ffi_module_name`/`omit_checksums`, a build.gradle out of sync with tools/start-bindings/templates, edition 2024 vs 2021 and a missing `license`. Missing registration silently drops symbols from a megazord.

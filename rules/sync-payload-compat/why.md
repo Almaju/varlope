@@ -1,0 +1,1 @@
+Engines that deserialize server records into fixed structs drop fields/enum values written by newer Firefox versions and re-upload the lossy record (e.g. unknown device type -> `DeviceType::Unknown`). Reviewers demanded `unknown_fields` preservation plus tests for 3-way merge, fork and dedupe paths.

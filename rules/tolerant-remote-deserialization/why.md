@@ -1,0 +1,1 @@
+Adding `private: bool` to a send-tab payload without `#[serde(default)]` would reject commands from older devices; a new required `suggestion_id` in remote-settings records risks deserialization failures that are silently swallowed; a missing meta/global `declined` was read as 'nothing declined' (enabling everything); empty-string sentinels were used instead of Option.
