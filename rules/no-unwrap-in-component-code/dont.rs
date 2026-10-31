@@ -1,6 +1,8 @@
-uniffi::custom_type!(JsonValue, String, {
-    remote,
-    // flagged: unwrap_used, invalid JSON from the app aborts the browser
-    try_lift: |val| Ok(serde_json::from_str(val.as_str()).unwrap()),
-    lower: |obj| obj.to_string(),
-});
+impl TabsStorage {
+    fn remote_clients(&self) -> Result<HashMap<String, RemoteClient>> {
+        Ok(match self.get_meta::<String>(REMOTE_CLIENTS_KEY)? {
+            None => HashMap::default(),
+            Some(json) => serde_json::from_str(&json).unwrap(), // flagged: corrupt meta crashes the app
+        })
+    }
+}
