@@ -1,11 +1,11 @@
-//! New exported items get a `///` docstring (it is what Kotlin/Swift consumers see)
+//! Exported items get a `///` docstring (it is what Kotlin/Swift consumers see)
 //!
 //! Docs and examples: `rules/uniffi-docstrings/`.
 //!
-//! A diff rule: it looks at the UniFFI items (types, functions, methods,
-//! constructors, callback methods) a change adds, using the `crate::uniffi`
-//! model of the changed UDL and Rust files before and after. Reviewers ask
-//! for docs when an API is added; existing undocumented API is left alone.
+//! Looks at UniFFI items (types, functions, methods, constructors, callback
+//! methods) through the `crate::uniffi` model. On a PR diff it only reports
+//! items the change adds, since reviewers ask for docs when an API is added;
+//! on the code as it is, it reports every undocumented exported item.
 
 use std::collections::{BTreeMap, BTreeSet};
 
@@ -18,16 +18,33 @@ use crate::uniffi::{self, ApiItem, ApiKind, MemberKind};
 pub static RULE: Rule = Rule {
     id: "uniffi-docstrings",
     area: Area::Uniffi,
-    title: "New exported items get a `///` docstring (it is what Kotlin/Swift consumers see)",
-    kind: Kind::Diff,
+    title: "Exported items get a `///` docstring (it is what Kotlin/Swift consumers see)",
+    kind: Kind::Code,
     clippy: &[],
     in_tests: false,
     check,
 };
 
 fn check(cx: &Context, out: &mut Findings) {
-    let Some(diff) = cx.diff else { return };
     let mut crates: BTreeMap<String, Crate> = BTreeMap::new();
+    let Some(diff) = cx.diff else {
+        // The code as it is: every shipped API file, nothing "before".
+        for file in cx.ws.files() {
+            if api::is_shipped_api_file(&file.path) {
+                crates
+                    .entry(api::crate_dir(&file.path).to_string())
+                    .or_default()
+                    .1
+                    .extend(
+                        items(&file.path, &file.text)
+                            .into_iter()
+                            .map(|i| (i, file.text.clone())),
+                    );
+            }
+        }
+        report_missing(&crates, out);
+        return;
+    };
     for change in &diff.files {
         let old_path = change.old_path.as_deref().unwrap_or(&change.path);
         if change.status != Status::Added && api::is_shipped_api_file(old_path) {
@@ -54,6 +71,10 @@ fn check(cx: &Context, out: &mut Findings) {
             }
         }
     }
+    report_missing(&crates, out);
+}
+
+fn report_missing(crates: &BTreeMap<String, Crate>, out: &mut Findings) {
     for (before, after) in crates.values() {
         for (item, text) in after {
             let lines: Vec<&str> = text.lines().collect();
@@ -86,7 +107,7 @@ fn check(cx: &Context, out: &mut Findings) {
                         &item.path,
                         first.line,
                         format!(
-                            "`{}` gains {} exported methods without a `///` docstring ({}); it is the only documentation Kotlin/Swift/JS callers see",
+                            "`{}` has {} exported methods without a `///` docstring ({}); it is the only documentation Kotlin/Swift/JS callers see",
                             item.name,
                             missing.len(),
                             names.join(", ")
