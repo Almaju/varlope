@@ -1,7 +1,7 @@
-fn index_by_pref(enrollments: &[PrefEnrollment]) -> HashMap<String, Vec<String>> {
-    let mut by_pref = HashMap::new();
-    for e in enrollments {
-        by_pref.entry(e.pref_name.clone()).or_default().push(e.slug.clone());
+impl GeckoPrefStore {
+    fn enrolled_slugs(&self, pref: &str) -> Vec<String> {
+        self.states_for(pref)
+            .map(|state| state.enrollment_value.experiment_slug.clone())
+            .collect()
     }
-    by_pref
 }
