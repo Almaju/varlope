@@ -8,6 +8,7 @@ pub mod allowance;
 pub mod clippy;
 pub mod comment;
 pub mod diff;
+pub mod helpers;
 pub mod replay;
 pub mod report;
 pub mod rule;
