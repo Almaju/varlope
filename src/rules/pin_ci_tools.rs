@@ -5,7 +5,7 @@
 use std::collections::BTreeMap;
 
 use crate::helpers::docs_deps::{hash_comment_start, is_out_of_scope, text_of};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 
 pub static RULE: Rule = Rule {
     id: "pin-ci-tools",
@@ -63,8 +63,18 @@ fn check(cx: &Context, out: &mut Findings) {
             if let Some(message) = floating_image(&path, code) {
                 out.add(&path, *line, message);
             }
-            if let Some(message) = old_action(code) {
-                out.add(&path, *line, message);
+            if let Some((message, upgrade)) = old_action(code) {
+                // `actions/checkout@v3` -> `actions/checkout@v4` on its line.
+                let fixed = upgrade.and_then(|(from, to)| {
+                    let raw = text.lines().nth(line - 1)?;
+                    (raw.matches(&from).count() == 1).then(|| raw.replacen(&from, &to, 1))
+                });
+                match fixed {
+                    Some(fixed) => {
+                        out.add_fix(&path, *line, message, Fix::replace_line(*line, fixed))
+                    }
+                    None => out.add(&path, *line, message),
+                }
             }
             for message in unpinned_installs(code) {
                 out.add(&path, *line, message);
@@ -191,14 +201,18 @@ fn floating_image(path: &str, code: &str) -> Option<String> {
     }
 }
 
-/// `uses: actions/checkout@v3`, `uses: actions-rs/toolchain@v1`.
-fn old_action(code: &str) -> Option<String> {
+/// `uses: actions/checkout@v3`, `uses: actions-rs/toolchain@v1`: the
+/// message, and for an old major the `(old, new)` text of the upgrade.
+fn old_action(code: &str) -> Option<(String, Option<(String, String)>)> {
     let code = code.trim_start_matches("- ").trim();
     let spec = code.strip_prefix("uses:")?.trim().trim_matches(['"', '\'']);
     let (action, version) = spec.split_once('@')?;
     if ARCHIVED_OWNERS.iter().any(|o| action.starts_with(o)) {
-        return Some(format!(
-            "`{action}` is archived and unmaintained: use a maintained action (e.g. run `rustup` directly)"
+        return Some((
+            format!(
+                "`{action}` is archived and unmaintained: use a maintained action (e.g. run `rustup` directly)"
+            ),
+            None,
         ));
     }
     let (_, minimum) = ACTION_MINIMUMS.iter().find(|(a, _)| *a == action)?;
@@ -209,7 +223,10 @@ fn old_action(code: &str) -> Option<String> {
         .parse()
         .ok()?;
     (major < *minimum).then(|| {
-        format!("`{action}@{version}` is an old major on a retired Node runtime: move to the current major (at least `@v{minimum}`)")
+        (
+            format!("`{action}@{version}` is an old major on a retired Node runtime: move to the current major (at least `@v{minimum}`)"),
+            Some((format!("{action}@{version}"), format!("{action}@v{minimum}"))),
+        )
     })
 }
 
@@ -407,6 +424,49 @@ mod tests {
         let text = "steps:\n  - uses: actions/checkout@v3\n  - uses: actions/checkout@v4\n  - uses: actions-rs/toolchain@v1\n  - uses: mozilla/probe-scraper/.github/workflows/glean.yaml@main\n  - uses: ruby/setup-ruby@v1\n";
         let found = check(&RULE, &[(".github/workflows/a.yml", text)]);
         assert_eq!(found.len(), 2, "{found:#?}");
+    }
+
+    /// `(line, remove, insert)` of each edit of a finding's fix.
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        let fix = f.fix.as_ref().expect("a fix");
+        fix.edits
+            .iter()
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn fix_moves_old_actions_to_the_minimum_major() {
+        let text = "steps:\n  - uses: actions/checkout@v3 # a comment\n  - uses: actions-rs/toolchain@v1\n  - uses: \"actions/setup-python@v4.7.1\"\n";
+        let found = check(&RULE, &[(".github/workflows/a.yml", text)]);
+        assert_eq!(found.len(), 3, "{found:#?}");
+        assert_eq!(
+            edits(&found[0]),
+            vec![(
+                2,
+                1,
+                vec!["  - uses: actions/checkout@v4 # a comment".to_string()]
+            )]
+        );
+        // Which action replaces an archived one is a human's call.
+        assert!(found[1].fix.is_none());
+        assert_eq!(
+            edits(&found[2]),
+            vec![(
+                4,
+                1,
+                vec!["  - uses: \"actions/setup-python@v5\"".to_string()]
+            )]
+        );
+        // Versions to pin to are not something to guess.
+        let dont = check(
+            &RULE,
+            &[(
+                ".circleci/config.yml",
+                include_str!("../../rules/pin-ci-tools/dont.yaml"),
+            )],
+        );
+        assert!(dont.iter().all(|f| f.fix.is_none()));
     }
 
     #[test]

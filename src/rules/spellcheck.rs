@@ -8,7 +8,7 @@ use proc_macro2::{TokenStream, TokenTree};
 use quote::ToTokens;
 
 use crate::helpers::docs_deps::{comment_lines, is_out_of_scope};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::source::{RustFile, TextFile};
 use crate::workspace::is_test_path;
 
@@ -317,8 +317,15 @@ fn fix_for(word: &str) -> Option<&'static str> {
 /// The words of a token: `num_recieved` → `num`, `recieved`;
 /// `SeperatorKind` → `Seperator`, `Kind`.
 fn words(token: &str) -> Vec<&str> {
+    word_spans(token).into_iter().map(|(_, w)| w).collect()
+}
+
+/// [`words`] with the byte offset of each word in `text`.
+fn word_spans(text: &str) -> Vec<(usize, &str)> {
     let mut out = Vec::new();
-    for part in token.split(|c: char| !c.is_ascii_alphabetic()) {
+    for part in text.split(|c: char| !c.is_ascii_alphabetic()) {
+        // `split` yields slices of `text`.
+        let base = part.as_ptr() as usize - text.as_ptr() as usize;
         let mut start = 0;
         let chars: Vec<(usize, char)> = part.char_indices().collect();
         for w in 1..chars.len() {
@@ -330,15 +337,15 @@ fn words(token: &str) -> Vec<&str> {
             if c.is_ascii_uppercase()
                 && (prev.is_ascii_lowercase() || next_lower && prev.is_ascii_uppercase())
             {
-                out.push(&part[start..i]);
+                out.push((base + start, &part[start..i]));
                 start = i;
             }
         }
         if start < part.len() {
-            out.push(&part[start..]);
+            out.push((base + start, &part[start..]));
         }
     }
-    out.retain(|w| w.len() >= 4);
+    out.retain(|(_, w)| w.len() >= 4);
     out
 }
 
@@ -348,6 +355,18 @@ fn words(token: &str) -> Vec<&str> {
 struct Typos {
     /// lowercase word -> (line, word as written, token, kind of token, lines)
     found: BTreeMap<String, (usize, String, String, &'static str, BTreeSet<usize>)>,
+    /// (lowercase word, line) -> how the word was seen on that line.
+    seen: BTreeMap<(String, usize), Seen>,
+    /// Lowercase identifiers holding a misspelled word.
+    identifiers: BTreeSet<String>,
+}
+
+/// How a misspelled word was seen on one line.
+#[derive(Default, Clone, Copy)]
+struct Seen {
+    /// Times in prose: comments, docs, string literals, Markdown.
+    prose: usize,
+    identifier: bool,
 }
 
 impl Typos {
@@ -357,18 +376,23 @@ impl Typos {
                 if fix_for(word).is_none() {
                     continue;
                 }
-                let entry = self
-                    .found
-                    .entry(word.to_ascii_lowercase())
-                    .or_insert_with(|| {
-                        (
-                            line,
-                            word.to_string(),
-                            token.to_string(),
-                            what,
-                            BTreeSet::new(),
-                        )
-                    });
+                let lower = word.to_ascii_lowercase();
+                let seen = self.seen.entry((lower.clone(), line)).or_default();
+                if what.is_empty() {
+                    seen.prose += 1;
+                } else {
+                    seen.identifier = true;
+                    self.identifiers.insert(token.to_ascii_lowercase());
+                }
+                let entry = self.found.entry(lower).or_insert_with(|| {
+                    (
+                        line,
+                        word.to_string(),
+                        token.to_string(),
+                        what,
+                        BTreeSet::new(),
+                    )
+                });
                 // Keep the first line; on that line prefer the identifier.
                 if line < entry.0 || line == entry.0 && !what.is_empty() && entry.3.is_empty() {
                     entry.0 = line;
@@ -381,19 +405,15 @@ impl Typos {
         }
     }
 
-    fn report(self, path: &str, out: &mut Findings) {
-        for (lower, (line, word, token, what, lines)) in self.found {
+    /// Report each word at its first line. `text` is the file's text;
+    /// `identifiers` are the misspelled identifiers of the whole workspace.
+    fn report(self, path: &str, text: &str, identifiers: &BTreeSet<String>, out: &mut Findings) {
+        for (lower, (line, word, token, what, lines)) in &self.found {
             let count = lines.len();
-            let fix = fix_for(&lower).unwrap_or_default();
+            let fix = fix_for(lower).unwrap_or_default();
             // Keep the word's capitalization: `Componentes` -> `Components`.
             let fix = match word.chars().next() {
-                Some(c) if c.is_ascii_uppercase() => {
-                    let mut chars = fix.chars();
-                    chars
-                        .next()
-                        .map(|f| f.to_ascii_uppercase().to_string() + chars.as_str())
-                        .unwrap_or_default()
-                }
+                Some(c) if c.is_ascii_uppercase() => capitalized(fix),
                 _ => fix.to_string(),
             };
             let context = if what.is_empty() || token == word {
@@ -406,13 +426,146 @@ impl Typos {
             } else {
                 String::new()
             };
-            out.add(
-                path,
-                line,
-                format!("`{word}` is misspelled{context}{more}: write `{fix}`"),
-            );
+            let message = format!("`{word}` is misspelled{context}{more}: write `{fix}`");
+            match self.line_fix(path, text, lower, *line, identifiers) {
+                Some(edit) => out.add_fix(path, *line, message, edit),
+                None => out.add(path, *line, message),
+            }
         }
     }
+
+    /// The line with the word corrected, when that is safe: the word is never
+    /// an identifier in this file, and every place it takes on the line is
+    /// prose (not code, a quoted value or a URL).
+    fn line_fix(
+        &self,
+        path: &str,
+        text: &str,
+        lower: &str,
+        line: usize,
+        identifiers: &BTreeSet<String>,
+    ) -> Option<Fix> {
+        let in_code = self
+            .seen
+            .range((lower.to_string(), 0)..=(lower.to_string(), usize::MAX))
+            .any(|(_, s)| s.identifier);
+        let seen = self.seen.get(&(lower.to_string(), line))?;
+        if in_code || seen.identifier {
+            return None;
+        }
+        let raw = text.lines().nth(line.checked_sub(1)?)?;
+        let spans = occurrences(raw, lower);
+        // Every place on the line was seen as prose: none sits in code the
+        // scan skipped (Kotlin, Python, UDL declarations, ...).
+        if spans.is_empty() || spans.len() != seen.prose {
+            return None;
+        }
+        let udl_comment = raw.find("//");
+        let mut fixed = raw.to_string();
+        for &(start, end) in spans.iter().rev() {
+            if path.ends_with(".udl") && udl_comment.is_none_or(|c| start < c) {
+                return None;
+            }
+            if in_backticks(raw, start) || in_quoted_value(raw, start) {
+                return None;
+            }
+            let (token_start, token_end) = token_bounds(raw, start, end);
+            if (token_start, token_end) != (start, end) {
+                // Part of a compound name: it must not name code.
+                let token = &raw[token_start..token_end];
+                if identifiers.contains(&token.to_ascii_lowercase())
+                    || text.matches(token).count() != 1
+                {
+                    return None;
+                }
+            }
+            let written = &raw[start..end];
+            fixed.replace_range(start..end, &cased(fix_for(lower)?, written));
+        }
+        Some(Fix::replace_line(line, fixed))
+    }
+}
+
+/// `fix` capitalized.
+fn capitalized(fix: &str) -> String {
+    let mut chars = fix.chars();
+    chars
+        .next()
+        .map(|f| f.to_ascii_uppercase().to_string() + chars.as_str())
+        .unwrap_or_default()
+}
+
+/// `fix` with the case of `written`: `RECIEVED` -> `RECEIVED`,
+/// `Recieved` -> `Received`.
+fn cased(fix: &str, written: &str) -> String {
+    if written.len() > 1 && written.chars().all(|c| c.is_ascii_uppercase()) {
+        fix.to_ascii_uppercase()
+    } else if written.starts_with(|c: char| c.is_ascii_uppercase()) {
+        capitalized(fix)
+    } else {
+        fix.to_string()
+    }
+}
+
+/// Byte ranges of the misspelled word `lower` on `line`, as the scan splits
+/// words, outside URLs.
+fn occurrences(line: &str, lower: &str) -> Vec<(usize, usize)> {
+    let mut out = Vec::new();
+    for chunk in line.split_whitespace() {
+        if chunk.contains("://") {
+            continue;
+        }
+        let base = chunk.as_ptr() as usize - line.as_ptr() as usize;
+        for (offset, word) in word_spans(chunk) {
+            if word.eq_ignore_ascii_case(lower) {
+                out.push((base + offset, base + offset + word.len()));
+            }
+        }
+    }
+    out
+}
+
+/// Whether byte `at` of `line` is inside a `` `code` `` span.
+fn in_backticks(line: &str, at: usize) -> bool {
+    line[..at].matches('`').count() % 2 == 1
+}
+
+/// Whether byte `at` of `line` is inside a double-quoted value rather than a
+/// quoted sentence: `"recieved"`, a SQL string, or a string that goes on
+/// past the line.
+fn in_quoted_value(line: &str, at: usize) -> bool {
+    let quotes: Vec<usize> = line
+        .match_indices('"')
+        .map(|(i, _)| i)
+        .filter(|&i| !line[..i].ends_with('\\'))
+        .collect();
+    let before = quotes.iter().filter(|&&i| i < at).count();
+    if before % 2 == 0 {
+        return false;
+    }
+    let open = quotes[before - 1];
+    let Some(&close) = quotes.get(before) else {
+        return true;
+    };
+    let quoted = &line[open + 1..close];
+    const SQL: &[&str] = &[
+        "SELECT ", "INSERT ", "UPDATE ", "DELETE ", "CREATE ", " FROM ", " WHERE ",
+    ];
+    !quoted.contains(char::is_whitespace) || SQL.iter().any(|k| quoted.contains(k))
+}
+
+/// The identifier-like token (`[A-Za-z0-9_]+`) around `start..end`.
+fn token_bounds(line: &str, start: usize, end: usize) -> (usize, usize) {
+    let word_char = |c: char| c.is_ascii_alphanumeric() || c == '_';
+    let token_start = line[..start]
+        .rfind(|c: char| !word_char(c))
+        .map(|i| i + line[i..].chars().next().map_or(1, char::len_utf8))
+        .unwrap_or(0);
+    let token_end = line[end..]
+        .find(|c: char| !word_char(c))
+        .map(|i| end + i)
+        .unwrap_or(line.len());
+    (token_start, token_end)
 }
 
 /// Text with URLs blanked out: a typo in someone else's URL is not ours.
@@ -424,6 +577,7 @@ fn without_urls(text: &str) -> String {
 }
 
 fn check(cx: &Context, out: &mut Findings) {
+    let mut scanned = Vec::new();
     for file in cx.ws.files() {
         let p = file.path.as_str();
         if is_out_of_scope(p) || is_test_like(p) || p.contains("/dumps/") {
@@ -449,7 +603,15 @@ fn check(cx: &Context, out: &mut Findings) {
             }
             _ => {}
         }
-        typos.report(p, out);
+        scanned.push((file, typos));
+    }
+    // A fix must not rename, in prose, an identifier some other file uses.
+    let identifiers: BTreeSet<String> = scanned
+        .iter()
+        .flat_map(|(_, t)| t.identifiers.iter().cloned())
+        .collect();
+    for (file, typos) in scanned {
+        typos.report(&file.path, &file.text, &identifiers, out);
     }
 }
 
@@ -563,6 +725,67 @@ mod tests {
         let found = check(&RULE, &[(PATH, text)]);
         let lines: Vec<usize> = found.iter().map(|f| f.line).collect();
         assert_eq!(lines, vec![1, 2], "{found:#?}");
+    }
+
+    /// The single edit of a finding's fix: `(line, remove, insert)`.
+    fn edit(f: &crate::rule::Finding) -> (usize, usize, Vec<String>) {
+        let fix = f.fix.as_ref().expect("a fix");
+        assert_eq!(fix.edits.len(), 1, "{fix:#?}");
+        let e = &fix.edits[0];
+        (e.line, e.remove, e.insert.clone())
+    }
+
+    #[test]
+    fn fixes_prose_but_not_identifiers() {
+        let found = check(
+            &RULE,
+            &[(PATH, include_str!("../../rules/spellcheck/dont.rs"))],
+        );
+        assert_eq!(
+            edit(&found[0]),
+            (
+                1,
+                1,
+                vec![
+                    "/// Parses a comma-separated list of record ids. // flagged: separated".into()
+                ]
+            )
+        );
+        // Renaming `num_recieved` on one line would break the code.
+        assert!(found[1].fix.is_none(), "{found:#?}");
+    }
+
+    #[test]
+    fn fixes_keep_case_and_skip_code_quotes_and_values() {
+        let text = "// RECIEVED and Recieved here.\n\
+            // `recieve()` is the call\n\
+            fn f() { log(\"occured twice\"); }\n\
+            // \"L'Assomption\" => \"LAssomption\"\n\
+            fn g() { m(\"seperate\"); }\n";
+        let found = check(&RULE, &[(PATH, text)]);
+        let fixes: Vec<(usize, bool)> = found.iter().map(|f| (f.line, f.fix.is_some())).collect();
+        assert_eq!(
+            fixes,
+            vec![(1, true), (2, false), (3, true), (4, false), (5, false)],
+            "{found:#?}"
+        );
+        assert_eq!(edit(&found[0]).2, vec!["// RECEIVED and Received here."]);
+        assert_eq!(
+            edit(&found[2]).2,
+            vec!["fn f() { log(\"occurred twice\"); }"]
+        );
+    }
+
+    #[test]
+    fn code_the_scan_skips_is_left_alone() {
+        // In Python only comments are read: `recieve()` is code.
+        let py = "x = recieve()  # recieve the data\ny = 1  # perserve_order is a serde feature\n";
+        let found = check(&RULE, &[("automation/a.py", py)]);
+        assert!(found[0].fix.is_none(), "{found:#?}");
+        assert_eq!(
+            edit(&found[1]).2,
+            vec!["y = 1  # preserve_order is a serde feature"]
+        );
     }
 
     #[test]

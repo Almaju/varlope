@@ -7,7 +7,7 @@ use std::sync::LazyLock;
 use regex::Regex;
 
 use crate::helpers::docs_deps::{hash_comment_start, is_out_of_scope};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::source::TextFile;
 use crate::workspace::is_test_path;
 
@@ -34,19 +34,36 @@ fn check(cx: &Context, out: &mut Findings) {
         main_exit_status(file, &code, out);
         unchecked_subprocess(file, &code, out);
         for (line, text) in &code {
+            // The comment after the code, kept as it is.
+            let comment = &file.line(*line)[text.len()..];
             if KEYS_MEMBERSHIP.is_match(text) {
-                out.add(
+                let fixed = KEYS_MEMBERSHIP.replace_all(text, |c: &regex::Captures| {
+                    c[0].trim_end_matches(".keys()").to_string()
+                });
+                out.add_fix(
                     &file.path,
                     *line,
                     "`in d.keys()` builds a view for nothing: write `in d` (ruff SIM118)",
+                    Fix::replace_line(*line, format!("{fixed}{comment}")),
                 );
             }
             if text.contains("lru_cache(maxsize=None)") {
-                out.add(
-                    &file.path,
-                    *line,
-                    "`lru_cache(maxsize=None)` is `functools.cache` (ruff UP033)",
-                );
+                let message = "`lru_cache(maxsize=None)` is `functools.cache` (ruff UP033)";
+                // A bare `lru_cache` would need its import changed too.
+                if text.matches("lru_cache(maxsize=None)").count()
+                    == text.matches("functools.lru_cache(maxsize=None)").count()
+                {
+                    let fixed =
+                        text.replace("functools.lru_cache(maxsize=None)", "functools.cache");
+                    out.add_fix(
+                        &file.path,
+                        *line,
+                        message,
+                        Fix::replace_line(*line, format!("{fixed}{comment}")),
+                    );
+                } else {
+                    out.add(&file.path, *line, message);
+                }
             }
         }
     }
@@ -111,13 +128,30 @@ fn main_exit_status(file: &TextFile, code: &[(usize, String)], out: &mut Finding
         }
         let t = text.trim();
         if t.starts_with("main(") && t.ends_with(')') {
-            out.add(
-                &file.path,
-                *line,
-                "`main()` returns an exit status that is dropped, so the script exits 0 on failure: call `sys.exit(main())`",
-            );
+            let message = "`main()` returns an exit status that is dropped, so the script exits 0 on failure: call `sys.exit(main())`";
+            // Only when `sys` is imported: adding an import is not this line's job.
+            if imports_sys(code) {
+                let indent = &text[..indent(text)];
+                let comment = &file.line(*line)[text.len()..];
+                out.add_fix(
+                    &file.path,
+                    *line,
+                    message,
+                    Fix::replace_line(*line, format!("{indent}sys.exit({t}){comment}")),
+                );
+            } else {
+                out.add(&file.path, *line, message);
+            }
         }
     }
+}
+
+/// A top-level `import sys` (or `import os, sys`).
+fn imports_sys(code: &[(usize, String)]) -> bool {
+    code.iter().any(|(_, l)| {
+        l.strip_prefix("import ")
+            .is_some_and(|m| m.split(',').any(|m| m.trim() == "sys"))
+    })
 }
 
 /// `subprocess.run(...)` with no `check=` whose result is thrown away, so a
@@ -206,6 +240,58 @@ mod tests {
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 13);
+    }
+
+    /// `(line, remove, insert)` of each edit of a finding's fix.
+    fn edits(f: &crate::rule::Finding) -> Vec<(usize, usize, Vec<String>)> {
+        let fix = f.fix.as_ref().expect("a fix");
+        fix.edits
+            .iter()
+            .map(|e| (e.line, e.remove, e.insert.clone()))
+            .collect()
+    }
+
+    #[test]
+    fn fixes_dont() {
+        let found = check(
+            &RULE,
+            &[(PATH, include_str!("../../rules/python-ruff/dont.py"))],
+        );
+        assert_eq!(
+            edits(&found[0]),
+            vec![(
+                13,
+                1,
+                vec![
+                    "    sys.exit(main())  # flagged: the status is dropped, so the task passes anyway"
+                        .to_string()
+                ]
+            )]
+        );
+        // Without `import sys`, the call alone would not run.
+        let text = include_str!("../../rules/python-ruff/dont.py").replace("import sys\n", "");
+        assert!(check(&RULE, &[(PATH, &text)])[0].fix.is_none());
+    }
+
+    #[test]
+    fn fix_keys_and_cache() {
+        let text = "import functools\n\n@functools.lru_cache(maxsize=None)\ndef f(d, k):\n    return k in d.keys() or k in e[\"x\"].keys()  # in d.keys()\n\n@lru_cache(maxsize=None)\ndef g():\n    pass\n";
+        let found = check(&RULE, &[("taskcluster/a.py", text)]);
+        assert_eq!(found.len(), 3, "{found:#?}");
+        assert_eq!(
+            edits(&found[0]),
+            vec![(3, 1, vec!["@functools.cache".to_string()])]
+        );
+        assert_eq!(
+            edits(&found[1]),
+            vec![(
+                5,
+                1,
+                vec!["    return k in d or k in e[\"x\"]  # in d.keys()".to_string()]
+            )]
+        );
+        // A bare `lru_cache` also needs its import changed.
+        assert!(found[2].fix.is_none());
     }
 
     #[test]

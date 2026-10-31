@@ -9,7 +9,7 @@ use regex::Regex;
 
 use crate::diff::{FileChange, Status};
 use crate::helpers::docs_deps::{comment_lines, is_out_of_scope};
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 
 pub static RULE: Rule = Rule {
     id: "todo-needs-bug",
@@ -71,18 +71,26 @@ fn check(cx: &Context, out: &mut Findings) {
 }
 
 fn report(change: &FileChange, out: &mut Findings) {
-    for (line, marker) in untracked_markers(change) {
-        out.add(
-            &change.path,
-            line,
-            format!("`{marker}` without a bug reference: file a bug and write `{marker}(bug NNNNNNN): …`"),
+    for (line, marker, tail) in untracked_markers(change) {
+        let message = format!(
+            "`{marker}` without a bug reference: file a bug and write `{marker}(bug NNNNNNN): …`"
         );
+        let fixed = change
+            .added
+            .iter()
+            .find(|(n, _)| *n == line)
+            .and_then(|(_, text)| with_placeholder(text, &tail));
+        match fixed {
+            Some(text) => out.add_fix(&change.path, line, message, Fix::replace_line(line, text)),
+            None => out.add(&change.path, line, message),
+        }
     }
 }
 
 /// Added lines whose comment holds a TODO marker with no reference on it or
-/// on the rest of the same comment block.
-fn untracked_markers(change: &FileChange) -> Vec<(usize, String)> {
+/// on the rest of the same comment block: `(line, marker, the comment from
+/// the marker on)`.
+fn untracked_markers(change: &FileChange) -> Vec<(usize, String, String)> {
     // The comments of the whole new file when known, else of each added line.
     let comments: BTreeMap<usize, String> = match &change.new_text {
         Some(text) => comment_lines(&change.path, text),
@@ -112,10 +120,97 @@ fn untracked_markers(change: &FileChange) -> Vec<(usize, String)> {
             .map_while(|l| comments.get(&l))
             .any(|c| BUG_REF.is_match(c));
         if !tracked {
-            out.push((*line, marker.as_str().to_string()));
+            let tail = if comment[..marker.start()]
+                .trim_matches(|c: char| c.is_whitespace() || "(>*!/-".contains(c))
+                .is_empty()
+            {
+                comment[marker.start()..].to_string()
+            } else if explicit_separator(&comment[marker.end()..]) {
+                // `We are in m-c - XXX - this is temporary`.
+                comment[marker.start()..].to_string()
+            } else {
+                String::new() // `this is TODO.`: prose, no obvious rewrite
+            };
+            out.push((*line, marker.as_str().to_string(), tail));
         }
     }
     out
+}
+
+/// `line` with `(bug NNNNNNN)` after the marker that starts `tail` (the
+/// comment from the marker on): `// TODO: x` -> `// TODO(bug NNNNNNN): x`,
+/// `# XXX - x` -> `# XXX(bug NNNNNNN): x`, `// TODO(lina): x` ->
+/// `// TODO(bug NNNNNNN, lina): x`. `None` when the marker is not found.
+fn with_placeholder(line: &str, tail: &str) -> Option<String> {
+    if tail.is_empty() {
+        return None;
+    }
+    // The comment is the end of the line (bar a `*/` or `-->`): the last
+    // place the start of `tail` appears.
+    let mut cut = tail.len().min(24);
+    while !tail.is_char_boundary(cut) {
+        cut -= 1;
+    }
+    let mut at = line.rfind(&tail[..cut])?;
+    let mut len = MARKER.find(&line[at..]).filter(|m| m.start() == 0)?.end();
+    // `XXX TODO: x`, `XXX - FIXME - x`: the reference goes on the last marker.
+    while let Some(rest) = separator(&line[at + len..]) {
+        match MARKER.find(rest) {
+            Some(next) if next.start() == 0 => {
+                at = line.len() - rest.len();
+                len = next.end();
+            }
+            _ => break,
+        }
+    }
+    let marker = &line[at..at + len];
+    let mut after = &line[at + len..];
+    let mut reference = "(bug NNNNNNN)".to_string();
+    if let Some(inner) = after.strip_prefix('(') {
+        let close = inner.find(')')?;
+        reference = format!("(bug NNNNNNN, {})", &inner[..close]);
+        after = &inner[close + 1..];
+    }
+    let text = separator(after)?;
+    let rest = if after.starts_with(':') {
+        after.to_string() // as written: `TODO: x`, `**TODO:**`
+    } else if text.is_empty() {
+        String::new()
+    } else if text.starts_with("*/") || text.starts_with("-->") {
+        format!(" {text}")
+    } else {
+        format!(": {text}")
+    };
+    Some(format!("{}{marker}{reference}{rest}", &line[..at]))
+}
+
+/// What follows a marker once its separator is dropped (`: x`, ` - x`, ` x`
+/// -> `x`), or `None` when the marker runs into other text (`TODO.`).
+fn separator(after: &str) -> Option<&str> {
+    if after.is_empty() {
+        return Some(after);
+    }
+    if let Some(rest) = after.strip_prefix(':') {
+        return Some(rest.trim_start());
+    }
+    if !after.starts_with(char::is_whitespace) {
+        return None;
+    }
+    let text = after.trim_start();
+    if let Some(rest) = text.strip_prefix(':') {
+        return Some(rest.trim_start());
+    }
+    let dashes = text.trim_start_matches(['-', '–']);
+    if dashes.len() < text.len() && (dashes.is_empty() || dashes.starts_with(char::is_whitespace)) {
+        return Some(dashes.trim_start());
+    }
+    Some(text)
+}
+
+/// A marker followed by `:` or ` - `, as in `… - XXX - this is temporary`.
+fn explicit_separator(after: &str) -> bool {
+    after.starts_with(':')
+        || after.starts_with(char::is_whitespace) && after.trim_start().starts_with(['-', '–', ':'])
 }
 
 /// Not a marker: `XXX` as a placeholder (`XXX-XXXX`, `0xXXX`, `vXXX.0`), or
@@ -155,6 +250,71 @@ mod tests {
         );
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 41);
+    }
+
+    /// The line a finding's fix writes in place of its own.
+    fn fixed(f: &crate::rule::Finding) -> Option<&str> {
+        let fix = f.fix.as_ref()?;
+        assert_eq!(fix.edits.len(), 1, "{fix:#?}");
+        let e = &fix.edits[0];
+        assert_eq!(
+            (e.line, e.remove, e.insert.len()),
+            (f.line, 1, 1),
+            "{fix:#?}"
+        );
+        Some(&e.insert[0])
+    }
+
+    #[test]
+    fn fix_adds_a_bug_placeholder_to_dont() {
+        let found = check_unified(
+            &RULE,
+            &[],
+            include_str!("../../rules/todo-needs-bug/dont.diff"),
+        );
+        assert_eq!(
+            fixed(&found[0]),
+            Some(
+                "    // TODO(bug NNNNNNN): switch to the icu4x collator. // flagged: no bug to track it"
+            )
+        );
+    }
+
+    #[test]
+    fn fix_placeholders_in_each_marker_style() {
+        let text = "// XXX - check more.\n\
+            # comment-free line\n\
+            // TODO(lina): Same as above.\n\
+            //!   **XXX TODO:**\n\
+            // XXX - FIXME - searching fails?\n\
+            #[allow(clippy::x)] // FIXME\n\
+            /* TODO */\n\
+            // so this is TODO.\n\
+            // We are in m-c - XXX - this is temporary\n";
+        let found = added(PATH, text);
+        let fixes: Vec<Option<&str>> = found.iter().map(fixed).collect();
+        assert_eq!(
+            fixes,
+            vec![
+                Some("// XXX(bug NNNNNNN): check more."),
+                Some("// TODO(bug NNNNNNN, lina): Same as above."),
+                Some("//!   **XXX TODO(bug NNNNNNN):**"),
+                Some("// XXX - FIXME(bug NNNNNNN): searching fails?"),
+                Some("#[allow(clippy::x)] // FIXME(bug NNNNNNN)"),
+                Some("/* TODO(bug NNNNNNN) */"),
+                None,
+                Some("// We are in m-c - XXX(bug NNNNNNN): this is temporary"),
+            ],
+            "{found:#?}"
+        );
+        let py = added(
+            "tools/a.py",
+            "x = {\"a\": \"\"}  # XXX beetmover wants it\n",
+        );
+        assert_eq!(
+            fixed(&py[0]),
+            Some("x = {\"a\": \"\"}  # XXX(bug NNNNNNN): beetmover wants it")
+        );
     }
 
     #[test]

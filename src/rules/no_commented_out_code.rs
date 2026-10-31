@@ -4,7 +4,7 @@
 
 use crate::comment::Comment;
 use crate::helpers::idioms;
-use crate::rule::{Area, Context, Findings, Kind, Rule};
+use crate::rule::{Area, Context, Findings, Fix, Kind, Rule};
 use crate::source::RustFile;
 
 pub static RULE: Rule = Rule {
@@ -19,23 +19,56 @@ pub static RULE: Rule = Rule {
 
 fn check(cx: &Context, out: &mut Findings) {
     for file in idioms::rust_files(cx.ws) {
-        for (line, count) in commented_out_blocks(file) {
-            let what = if count == 1 {
+        for block in commented_out_blocks(file) {
+            let what = if block.code == 1 {
                 "a line of commented-out code".to_string()
             } else {
-                format!("{count} lines of commented-out code")
+                format!("{} lines of commented-out code", block.code)
             };
-            out.add(
+            out.add_fix(
                 &file.path,
-                line,
+                block.line,
                 format!("{what}; delete it (git keeps the history) or say in prose why it matters"),
+                deletion(file, block.delete.0, block.delete.1),
             );
         }
     }
 }
 
-/// `(first line, number of code lines)` of each block of commented-out code.
-fn commented_out_blocks(file: &RustFile) -> Vec<(usize, usize)> {
+/// A block of commented-out code.
+struct Block {
+    /// The first line of code.
+    line: usize,
+    /// How many of its lines are code.
+    code: usize,
+    /// The comment lines to delete with it, `(first, count)`: the block and
+    /// the empty `//` lines that would be left dangling.
+    delete: (usize, usize),
+}
+
+/// Delete `count` lines from `first`, and a blank line that would then be
+/// doubled or sit at the start or end of a block (rustfmt removes those).
+fn deletion(file: &RustFile, first: usize, count: usize) -> Fix {
+    let lines: Vec<&str> = file.text.lines().collect();
+    let blank = |n: usize| n >= 1 && lines.get(n - 1).is_some_and(|l: &&str| l.trim().is_empty());
+    let before = first
+        .checked_sub(1)
+        .and_then(|n| n.checked_sub(1))
+        .and_then(|i| lines.get(i));
+    let after = lines.get(first + count - 1);
+    let opens = before.is_none_or(|l| l.trim_end().ends_with(['{', '(', '[']));
+    let closes = after.is_none_or(|l| l.trim_start().starts_with(['}', ')', ']']));
+    if blank(first + count) && (blank(first - 1) || opens) {
+        Fix::delete(first, count + 1)
+    } else if blank(first - 1) && closes {
+        Fix::delete(first - 1, count + 1)
+    } else {
+        Fix::delete(first, count)
+    }
+}
+
+/// Each block of commented-out code.
+fn commented_out_blocks(file: &RustFile) -> Vec<Block> {
     let mut out = Vec::new();
     for run in comment_runs(file) {
         let texts: Vec<&str> = run
@@ -55,7 +88,18 @@ fn commented_out_blocks(file: &RustFile) -> Vec<(usize, usize)> {
             }
             let count = (start..i).filter(|&k| code[k]).count();
             if !explained(file, &run, &texts, start) {
-                out.push((run[start].line, count));
+                // At the end of the run, empty `//` lines above would dangle.
+                let mut first = start;
+                if i == run.len() {
+                    while first > 0 && texts[first - 1].is_empty() {
+                        first -= 1;
+                    }
+                }
+                out.push(Block {
+                    line: run[start].line,
+                    code: count,
+                    delete: (run[first].line, i - first),
+                });
             }
         }
     }
@@ -261,6 +305,39 @@ mod tests {
         assert_eq!(found.len(), 1, "{found:#?}");
         assert_eq!(found[0].line, 4);
         assert!(found[0].message.starts_with("2 lines"));
+    }
+
+    /// `(line, remove)` of a finding's fix, which only deletes.
+    fn deleted(f: &crate::rule::Finding) -> (usize, usize) {
+        let fix = f.fix.as_ref().expect("a fix");
+        assert_eq!(fix.edits.len(), 1, "{fix:#?}");
+        assert!(fix.edits[0].insert.is_empty());
+        (fix.edits[0].line, fix.edits[0].remove)
+    }
+
+    #[test]
+    fn fix_deletes_dont() {
+        let found = check(
+            &RULE,
+            &[(
+                PATH,
+                include_str!("../../rules/no-commented-out-code/dont.rs"),
+            )],
+        );
+        assert_eq!(deleted(&found[0]), (4, 2));
+    }
+
+    #[test]
+    fn fix_leaves_no_doubled_or_dangling_blank_lines() {
+        // Between blank lines: one of them goes too.
+        let src = "fn f() {\n    a();\n\n    // b();\n\n    c();\n}\n";
+        assert_eq!(deleted(&check(&RULE, &[(PATH, src)])[0]), (4, 2));
+        // Right before the closing brace: the blank line above goes.
+        let src = "fn f() {\n    a();\n\n    // b();\n}\n";
+        assert_eq!(deleted(&check(&RULE, &[(PATH, src)])[0]), (3, 2));
+        // At the end of a comment, with the empty `//` line above it.
+        let src = "fn f() {\n    // Why this is slow.\n    //\n    // b();\n    a();\n}\n";
+        assert_eq!(deleted(&check(&RULE, &[(PATH, src)])[0]), (3, 2));
     }
 
     #[test]
