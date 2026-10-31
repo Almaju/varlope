@@ -764,7 +764,7 @@ pub fn words(ident: &str) -> Vec<String> {
     let chars: Vec<char> = ident.chars().collect();
     let mut current = String::new();
     for (i, &c) in chars.iter().enumerate() {
-        if c == '_' || c == '-' || c == ' ' {
+        if !c.is_alphanumeric() {
             if !current.is_empty() {
                 out.push(std::mem::take(&mut current));
             }
