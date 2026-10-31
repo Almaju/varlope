@@ -9,11 +9,13 @@ use crate::syntax;
 use crate::workspace::{DepKind, Package, Workspace};
 
 /// Generated or vendored code: nobody reviews it line by line.
+/// (`monorepo-hacks/` holds copies of mozilla-central crates.)
 pub fn is_generated(path: &str) -> bool {
     path.starts_with("components/external/")
         || path.contains("/generated/")
         || path.contains("/vendor/")
         || path.contains("third_party/")
+        || path.starts_with("monorepo-hacks/")
         || path.ends_with(".uniffi.rs")
 }
 
