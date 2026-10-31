@@ -1,4 +1,0 @@
-pub fn sort_titles(titles: &mut [String]) {
-    // TODO(bug 1234567): switch to the icu4x collator.
-    titles.sort_by_key(|t| t.to_lowercase());
-}
