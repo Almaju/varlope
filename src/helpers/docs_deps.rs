@@ -62,11 +62,14 @@ pub fn files_from_diff(diff: &str) -> Vec<(String, String)> {
     files
 }
 
+/// In-memory files: `(path, text)`.
+pub type Files = Vec<(String, String)>;
+
 /// The old side (context and removed lines) and the new side (context and
 /// added lines) of every file in a hand-written diff that starts at line 1.
 /// A file only on one side (`--- /dev/null`, `+++ /dev/null`) is left out of
 /// the other.
-pub fn old_and_new_from_diff(diff: &str) -> (Vec<(String, String)>, Vec<(String, String)>) {
+pub fn old_and_new_from_diff(diff: &str) -> (Files, Files) {
     // (path, old text, new text, exists before, exists after)
     let mut files: Vec<(String, String, String, bool, bool)> = Vec::new();
     let lines: Vec<&str> = diff.lines().collect();
