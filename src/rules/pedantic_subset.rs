@@ -10,6 +10,8 @@ pub static RULE: Rule = Rule {
     title: "A small curated pedantic subset (derives, unit structs, `Default` use)",
     kind: Kind::Clippy,
     clippy: &[
+        "clippy::derivable_impls",
+        "clippy::new_without_default",
         "clippy::uninlined_format_args",
         "clippy::semicolon_if_nothing_returned",
         "clippy::default_trait_access",
@@ -20,6 +22,6 @@ pub static RULE: Rule = Rule {
     check,
 };
 
-fn check(cx: &Context, out: &mut Findings) {
-    let _ = (cx, out); // TODO: not implemented yet
+fn check(_cx: &Context, _out: &mut Findings) {
+    // Implemented by the clippy lints above (`varlope check --clippy`).
 }

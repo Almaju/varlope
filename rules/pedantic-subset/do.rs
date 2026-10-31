@@ -4,6 +4,7 @@ pub struct CacheConfig {
     pub max_entries: usize,
 }
 
-fn ttl_label(ttl_seconds: u64) -> String {
-    format!("ttl={ttl_seconds}s")
+fn ttl_label(config: &CacheConfig) -> String {
+    let ttl = config.ttl_seconds;
+    format!("ttl={ttl}s")
 }
