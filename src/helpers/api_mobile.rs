@@ -2,8 +2,6 @@
 //! scope of hand-written mobile code, and a detailed view of the UniFFI
 //! surface of Rust files (fields, arguments and variants with their types).
 
-use std::collections::BTreeSet;
-
 use syn::spanned::Spanned;
 
 use crate::source::RustFile;
@@ -182,14 +180,6 @@ impl Code {
     /// `(line number, code line)` pairs, 1-based.
     pub fn lines(&self) -> impl Iterator<Item = (usize, &str)> {
         self.code.lines().enumerate().map(|(i, l)| (i + 1, l))
-    }
-
-    /// Byte offset where 1-based `line` starts.
-    pub fn line_start(&self, line: usize) -> usize {
-        self.line_starts
-            .get(line.saturating_sub(1))
-            .copied()
-            .unwrap_or(self.code.len())
     }
 }
 
@@ -393,14 +383,6 @@ impl Slot {
             udl_base_type(&self.ty)
         } else {
             rust_base_type(&self.ty)
-        }
-    }
-
-    pub fn is_optional(&self) -> bool {
-        if self.from_udl {
-            self.ty.trim_end().ends_with('?')
-        } else {
-            self.ty.starts_with("Option<")
         }
     }
 }
@@ -788,14 +770,6 @@ pub fn words(ident: &str) -> Vec<String> {
         out.push(current);
     }
     out
-}
-
-/// Names of crates (with `_`) that some megazord links: their API ships.
-pub fn megazord_crates(ws: &Workspace) -> BTreeSet<String> {
-    ws.ios_megazord_crates()
-        .into_iter()
-        .chain(ws.android_megazord_crates())
-        .collect()
 }
 
 #[cfg(test)]
