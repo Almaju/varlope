@@ -1,1 +1,1 @@
-Reviewers found unused `#[cfg(test)] pub fn` helpers, commented-out consts (`//const WRITE_CHUNK_SIZE`), a `_top_urls_by_frecency` param that became used, redundant `#[cfg(feature = "stateful")]` inside an already-gated module, and an obsolete SDK manifest entry.
+rustc warns about unused private code but not about the variants of a `pub` enum, so error variants that nothing raises any more survive every refactor, along with the `match` arms and docs that handle them ("Is this ever raised?"). Removing them keeps error handling honest about what can actually fail.
